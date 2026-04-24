@@ -1,0 +1,26 @@
+# Based
+venv/
+__pycache__/
+
+# Large datasets and outputs
+*.pyc
+*.pyo
+*.pyd
+*.csv
+*.png
+*.jpeg
+*.parquet
+dataset/get_data/output/
+target/form_target/output/
+strategy/output/
+feature_selection/output/
+transformer/output/
+z_dialog/
+target/output/
+feature_selection/output_smoke/
+
+# Other
+.cursor
+catboost_info
+~deep_lom/
+

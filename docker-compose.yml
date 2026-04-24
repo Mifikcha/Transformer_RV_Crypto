@@ -1,0 +1,38 @@
+services:
+  db:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: rv_bot
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  ingestion:
+    build: .
+    command: python -m view.ingestion_worker
+    env_file: .env
+    depends_on: [db]
+
+  predictor:
+    build: .
+    command: python -m view.prediction_worker
+    env_file: .env
+    depends_on: [db]
+
+  notifier:
+    build: .
+    command: python -m view.notification_worker
+    env_file: .env
+    depends_on: [db]
+
+  bot:
+    build: .
+    command: python -m view.bot
+    env_file: .env
+    depends_on: [db]
+
+volumes:
+  pgdata:

@@ -1,0 +1,11 @@
+aiohttp>=3.9
+asyncpg>=0.29
+sqlalchemy[asyncio]>=2.0
+apscheduler>=3.10
+aiogram>=3.4
+pandas>=2.0
+numpy>=1.26
+torch>=2.1
+pydantic-settings>=2.0
+python-dotenv>=1.0
+scikit-learn>=1.3
