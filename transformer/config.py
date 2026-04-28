@@ -45,9 +45,12 @@ class ModelConfig:
 class TrainConfig:
     # task
     task: str = "rv"
+    # long-horizon plan step 1: train on all 4 forward RV horizons.
     target_columns: tuple[str, ...] = (
         "rv_3bar_fwd",
         "rv_12bar_fwd",
+        "rv_48bar_fwd",
+        "rv_288bar_fwd",
     )
 
     # optimization (plan v4 step 2: conservative training + warmup)
@@ -59,7 +62,8 @@ class TrainConfig:
     weight_decay: float = 1e-4
     gradient_clip_norm: float = 1.0
     loss_type: str = "rv_log_aware"  # rv_log_aware|mse
-    loss_alpha: float = 0.7
+    # long-horizon plan step 1: switch to pure QLIKE per ablation study (B1.4).
+    loss_alpha: float = 0.0
 
     # cv and reproducibility
     n_splits: int = 5
