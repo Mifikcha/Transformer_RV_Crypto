@@ -4,7 +4,7 @@ Full project orchestrator.
 Sequentially runs:
 1) dataset/get_data/_get_data.py
 2) target/form_target.py
-3) scripts/run_rv_pipeline.py — add RV targets, feature selection, train-rv, baselines, arch
+3) scripts/run_rv_pipeline.py — add RV targets, feature selection, train-rv, baselines
 
 Feature selection and training are part of the RV pipeline (see scripts/run_rv_pipeline.py).
 """
@@ -61,7 +61,6 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Pass to RV pipeline: skip baselines step.",
     )
-    parser.add_argument("--skip-arch", action="store_true", help="Pass to RV pipeline: skip architecture comparison.")
     return parser.parse_args()
 
 
@@ -105,8 +104,8 @@ def main() -> None:
             cmd.append("--skip-feature-selection")
         if args.skip_baselines:
             cmd.append("--skip-baselines")
-        if args.skip_arch:
-            cmd.append("--skip-arch")
+        # Always skip architecture comparison in full orchestrator.
+        cmd.append("--skip-arch")
         _run(cmd, dry_run=args.dry_run)
 
     print(f"[DONE] Full orchestrator finished in {time.time() - started_total:.1f}s.")

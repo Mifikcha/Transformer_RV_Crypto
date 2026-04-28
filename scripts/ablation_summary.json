@@ -1,0 +1,76 @@
+{
+  "baseline": {
+    "model_type": "patch_encoder",
+    "config": {
+      "seq_len": 240,
+      "patch_size": 12,
+      "d_model": 64,
+      "n_layers": 3,
+      "d_ff": 256,
+      "dropout": 0.2,
+      "har_mode": "full",
+      "loss": "rv_log_aware_0.7",
+      "n_folds": 5,
+      "seed": 42
+    },
+    "metrics": {
+      "qlike_mean": -5.0809,
+      "r2_mean": 0.633,
+      "bias_rv_3bar_fwd": -0.000135,
+      "bias_rv_12bar_fwd": -0.000381
+    }
+  },
+  "key_findings": [
+    {
+      "experiment": "B1",
+      "finding": "Pure QLIKE loss (alpha=0.0) is the only factor that yields a meaningful improvement: QLIKE improves from -5.0809 to -5.0837, R² increases from 0.633 to 0.643, and systematic negative bias is essentially eliminated.",
+      "recommendation": "Switch production loss to pure QLIKE (alpha=0.0). Do not use MSE loss with log-domain targets."
+    },
+    {
+      "experiment": "A2",
+      "finding": "HAR context does not improve quality: patch_encoder with and without HAR is statistically indistinguishable; decoder_only (no HAR by design) slightly improves R² and reduces bias.",
+      "recommendation": "Remove HAR context from the production pipeline; prefer simpler models without HAR."
+    },
+    {
+      "experiment": "A1",
+      "finding": "Transformer architecture choice is not a bottleneck: patch_encoder/decoder_only/patch_decoder/vanilla_enc_dec are statistically similar on QLIKE (spread ~0.0068).",
+      "recommendation": "For production, prefer decoder_only as the simplest/most compact architecture with comparable QLIKE."
+    },
+    {
+      "experiment": "A3/A4/A5",
+      "finding": "Seq_len, patch_size and model capacity changes stay within noise: increasing context up to 48h, patch_size across 1..48, and parameters up to 1.26M does not improve QLIKE meaningfully.",
+      "recommendation": "Keep seq_len=240; avoid scaling model size for this dataset; patch_size can stay at 12 (or 6 as a near-tie)."
+    },
+    {
+      "experiment": "D1",
+      "finding": "Feature composition matters: dropping volatility estimator features severely hurts (ΔQLIKE=+0.049, R² drops to ~0.41). Other feature groups are marginal; some (price_sma, volume) slightly improve QLIKE when removed.",
+      "recommendation": "Keep volatility estimator features. Consider removing price_sma and volume features for simplification."
+    },
+    {
+      "experiment": "C1",
+      "finding": "Ensemble ablation results are not valid due to methodology: early walk-forward folds were evaluated far beyond their training window, causing distribution shift and degraded ensemble performance.",
+      "recommendation": "Redesign ensemble evaluation: train multiple models on the same window with different seeds and ensemble on a shared validation segment."
+    }
+  ],
+  "best_config": {
+    "model_type": "patch_encoder",
+    "har_mode": "full",
+    "loss_alpha": 0.0,
+    "seq_len": 240,
+    "patch_size": 12,
+    "d_model": 64,
+    "metrics": {
+      "qlike_mean": -5.0837,
+      "r2_mean": 0.643,
+      "bias_rv_3bar_fwd": -0.000006,
+      "bias_rv_12bar_fwd": -0.000023,
+      "overpredict_ratio_mean": 0.644,
+      "p95_abs_err_mean": 0.002212
+    }
+  },
+  "timestamp": "2026-04-28",
+  "gpu": "NVIDIA GeForce RTX 5080 (16 GB)",
+  "total_elapsed_sec": 194936,
+  "source_report": "z_dialog/ablation_study_report.md"
+}
+
