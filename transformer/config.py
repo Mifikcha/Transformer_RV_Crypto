@@ -64,6 +64,11 @@ class TrainConfig:
     loss_type: str = "rv_log_aware"  # rv_log_aware|mse
     # long-horizon plan step 1: switch to pure QLIKE per ablation study (B1.4).
     loss_alpha: float = 0.0
+    # long-horizon plan step 2: per-horizon weights for the RV loss.
+    # Empty tuple = equal weighting (legacy / backward-compatible behavior).
+    # When non-empty, length must match len(target_columns) and the values are
+    # normalized to sum to 1 inside RVLogAwareLoss.
+    horizon_weights: tuple[float, ...] = ()
 
     # cv and reproducibility
     n_splits: int = 5

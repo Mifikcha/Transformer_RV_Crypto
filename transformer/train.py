@@ -8,6 +8,7 @@ import json
 import math
 import os
 import random
+import time
 from dataclasses import asdict
 from typing import Any
 
@@ -160,6 +161,7 @@ def train_walk_forward_regression(
     run_name: str = "train_regression",
     val_frac: float = 0.0,
     feature_columns: list[str] | None = None,
+    verbose: bool = True,
 ) -> dict[str, Any]:
     """Train transformer in walk-forward fashion.
 
@@ -216,6 +218,19 @@ def train_walk_forward_regression(
     pred_parts: list[pd.DataFrame] = []
     saved_model_paths: list[str] = []
 
+    if verbose:
+        hw_cfg = tuple(getattr(train_cfg, "horizon_weights", ()) or ())
+        hw_str = "/".join(f"{w:.2f}" for w in hw_cfg) if hw_cfg else "equal"
+        print(
+            f"[{run_name}] start | model={model_cfg.model_type} "
+            f"seq_len={model_cfg.seq_len} patch={model_cfg.patch_size} "
+            f"d_model={model_cfg.d_model} har={har_mode} "
+            f"loss={train_cfg.loss_type}(alpha={float(getattr(train_cfg, 'loss_alpha', 0.7)):.2f}) "
+            f"hw={hw_str} | features={len(feature_cols)} "
+            f"horizons={len(target_cols)} folds={len(folds)} device={device}",
+            flush=True,
+        )
+
     for fold in folds:
         n_har_context = int(fold.har_train.shape[1]) if use_har_context else 0
         if val_frac and val_frac > 0.0:
@@ -259,15 +274,35 @@ def train_walk_forward_regression(
         elif loss_type == "rv_log_aware":
             if not is_rv_task:
                 raise ValueError("loss_type='rv_log_aware' requires task='rv'.")
-            criterion = RVLogAwareLoss(alpha=float(getattr(train_cfg, "loss_alpha", 0.7)))
+            hw_cfg = tuple(getattr(train_cfg, "horizon_weights", ()) or ())
+            if hw_cfg and len(hw_cfg) != len(target_cols):
+                raise ValueError(
+                    f"train_cfg.horizon_weights length ({len(hw_cfg)}) must match "
+                    f"len(target_columns) ({len(target_cols)})."
+                )
+            criterion = RVLogAwareLoss(
+                alpha=float(getattr(train_cfg, "loss_alpha", 0.7)),
+                horizon_weights=hw_cfg if hw_cfg else None,
+            )
         else:
             raise ValueError(f"Unsupported loss_type: {loss_type!r}")
 
         best_state: dict[str, torch.Tensor] | None = None
         best_val_loss = float("inf")
+        best_epoch = -1
         wait = 0
+        fold_started = time.time()
+
+        if verbose:
+            print(
+                f"[{run_name}] fold {fold.fold_id + 1}/{len(folds)} starting | "
+                f"N_train={len(fold.X_train)} N_val={len(fold.X_val)} "
+                f"batches/epoch={len(train_loader)}",
+                flush=True,
+            )
 
         for epoch in range(train_cfg.max_epochs):
+            epoch_started = time.time()
             lr = _rv_warmup_cosine_lr(
                 epoch,
                 train_cfg.warmup_epochs,
@@ -278,6 +313,7 @@ def train_walk_forward_regression(
                 pg["lr"] = lr
 
             model.train()
+            train_losses: list[float] = []
             for batch in train_loader:
                 x = batch["x"].to(device)
                 y = batch["y"].to(device)
@@ -294,6 +330,8 @@ def train_walk_forward_regression(
                         model.parameters(), max_norm=train_cfg.gradient_clip_norm
                     )
                 optimizer.step()
+                train_losses.append(float(loss.detach().cpu().item()))
+            train_loss = float(np.mean(train_losses)) if train_losses else float("nan")
 
             model.eval()
             val_losses: list[float] = []
@@ -309,8 +347,10 @@ def train_walk_forward_regression(
                     val_losses.append(float(criterion(pred, y).detach().cpu().item()))
             val_loss = float(np.mean(val_losses)) if val_losses else float("inf")
 
-            if val_loss < best_val_loss:
+            improved = val_loss < best_val_loss
+            if improved:
                 best_val_loss = val_loss
+                best_epoch = epoch
                 best_state = {
                     key: value.detach().cpu().clone()
                     for key, value in model.state_dict().items()
@@ -318,8 +358,34 @@ def train_walk_forward_regression(
                 wait = 0
             else:
                 wait += 1
-                if wait >= train_cfg.patience:
-                    break
+
+            if verbose:
+                tag = " *" if improved else "  "
+                print(
+                    f"[{run_name}] f{fold.fold_id + 1} ep{epoch + 1:>3d}/{train_cfg.max_epochs} "
+                    f"lr={lr:.1e} train={train_loss:+.4f} val={val_loss:+.4f} "
+                    f"best={best_val_loss:+.4f}@{best_epoch + 1:>3d} "
+                    f"wait={wait}/{train_cfg.patience} "
+                    f"({time.time() - epoch_started:.1f}s){tag}",
+                    flush=True,
+                )
+
+            if not improved and wait >= train_cfg.patience:
+                if verbose:
+                    print(
+                        f"[{run_name}] f{fold.fold_id + 1} early-stop at "
+                        f"ep{epoch + 1} (best={best_val_loss:+.4f} @ ep{best_epoch + 1})",
+                        flush=True,
+                    )
+                break
+
+        if verbose:
+            print(
+                f"[{run_name}] fold {fold.fold_id + 1} done | "
+                f"best_val={best_val_loss:+.4f} @ ep{best_epoch + 1} "
+                f"elapsed={time.time() - fold_started:.1f}s",
+                flush=True,
+            )
 
         if best_state is not None:
             model.load_state_dict(best_state)
