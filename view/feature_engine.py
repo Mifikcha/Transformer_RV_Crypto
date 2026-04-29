@@ -28,9 +28,29 @@ FEATURE_COLS: list[str] = [
     "cum_log_return_15min", "cum_log_return_60min", "delta_sma_15min", "delta_sma_60min",
 ]
 
+# Long-horizon plan, Step 4: optional long-range features (1 day / 1 week
+# windows). Not part of FEATURE_COLS by default to preserve backward
+# compatibility for inference pipelines that pre-date Step 4. Live workers
+# that want to use them should:
+#   1) Construct ``FeatureEngine(min_bars=2200, buffer_size=>=2200)`` to cover
+#      the weekly window (2016 bars + small warmup).
+#   2) Pass these names via ``feature_cols`` to ``get_window``.
+LONG_RANGE_FEATURE_COLS: list[str] = [
+    "rv_gk_1440min",
+    "rv_parkinson_1440min",
+    "rv_gk_weekly",
+    "funding_rate_std_24h",
+    "oi_change_rate_24h",
+    "rv_ratio_15min_to_daily",
+]
+
 HAR_RV_BASE = ("rv_gk_15min", "rv_gk_60min", "rv_gk_240min")
 WEEK_BARS = 5 * 288   # 1440
 MONTH_BARS = 22 * 288  # 6336
+
+# Long-range windows for Step 4 features.
+DAY_BARS = 288               # 1440 min  / 5 min per bar
+LONG_WEEK_BARS = 7 * 288     # 2016 bars (true 7-day calendar week)
 
 _RV_WINDOWS = [(15, 3), (60, 12), (240, 48)]
 _OHLC_WINDOWS = [(3, "15min"), (12, "60min"), (48, "240min")]
@@ -248,3 +268,49 @@ class FeatureEngine:
         if sma240 is not None:
             df["sma_240min_ratio"] = c / sma240.clip(lower=1e-12)
         df["atr_14_norm"] = df.get("atr_14", 0) / c.clip(lower=1e-12)
+
+        # --- Long-range features (plan Step 4) -------------------------
+        # Daily / weekly aggregations of the existing per-bar GK and Parkinson
+        # point estimators above. Same causal-rolling convention as the OHLC
+        # rolling RVs; bfill/ffill applied at the end.
+        df["rv_gk_1440min"] = np.sqrt(
+            (vol_gk ** 2).rolling(DAY_BARS, min_periods=DAY_BARS).sum()
+        )
+        df["rv_parkinson_1440min"] = np.sqrt(
+            (vol_park ** 2).rolling(DAY_BARS, min_periods=DAY_BARS).sum()
+        )
+        df["rv_gk_weekly"] = np.sqrt(
+            (vol_gk ** 2).rolling(LONG_WEEK_BARS, min_periods=LONG_WEEK_BARS).sum()
+        )
+
+        funding = df.get("fundingRate")
+        if funding is not None:
+            df["funding_rate_std_24h"] = funding.rolling(DAY_BARS).std()
+        else:
+            df["funding_rate_std_24h"] = np.nan
+
+        oi = df.get("openInterest")
+        if oi is not None:
+            prev_oi = oi.shift(DAY_BARS).replace(0.0, np.nan)
+            df["oi_change_rate_24h"] = (oi / prev_oi) - 1.0
+        else:
+            df["oi_change_rate_24h"] = np.nan
+
+        if "rv_gk_15min" in df.columns:
+            df["rv_ratio_15min_to_daily"] = (
+                df["rv_gk_15min"] / df["rv_gk_1440min"].clip(lower=1e-12)
+            )
+        else:
+            df["rv_ratio_15min_to_daily"] = np.nan
+
+        long_range_cols = [
+            "rv_gk_1440min",
+            "rv_parkinson_1440min",
+            "rv_gk_weekly",
+            "funding_rate_std_24h",
+            "oi_change_rate_24h",
+            "rv_ratio_15min_to_daily",
+        ]
+        df[long_range_cols] = (
+            df[long_range_cols].replace([np.inf, -np.inf], np.nan).bfill().ffill()
+        )
