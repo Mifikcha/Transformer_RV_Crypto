@@ -1,10 +1,15 @@
+import sys
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 from datetime import datetime, time
 
-# Пути (подставь свои)
-INPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_combined_2020-2026.parquet"
-OUTPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_combined_with_time_features.parquet"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _paths as paths  # noqa: E402
+
+INPUT_PATH = paths.COMBINED
+OUTPUT_PATH = paths.WITH_TIME_FEATURES
 
 print("=== Добавление временных признаков ===")
 

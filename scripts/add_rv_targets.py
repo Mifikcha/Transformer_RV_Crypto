@@ -52,10 +52,11 @@ def _forward_rv_close(log_ret: pd.Series, horizon: int) -> pd.Series:
     return rv.shift(-horizon + 1)
 
 
+_SYMBOL_LOWER = os.environ.get("SYMBOL", "BTCUSDT").strip().lower() or "btcusdt"
 DEFAULT_INPUT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "target",
-    "btcusdt_5m_final_with_targets.csv",
+    f"{_SYMBOL_LOWER}_5m_final_with_targets.csv",
 )
 
 

@@ -6,11 +6,19 @@ import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SYMBOL_LOWER = os.environ.get("SYMBOL", "BTCUSDT").strip().lower() or "btcusdt"
+
 INPUT_PATH = os.path.join(
-    PROJECT_ROOT, "dataset", "get_data", "output", "_main", "_final", "btcusdt_5m_final_cleaned.parquet"
+    PROJECT_ROOT,
+    "dataset",
+    "get_data",
+    "output",
+    "_main",
+    "_final",
+    f"{SYMBOL_LOWER}_5m_final_cleaned.parquet",
 )
-OUTPUT_CSV = os.path.join(PROJECT_ROOT, "target", "btcusdt_5m_final_with_targets.csv")
-OUTPUT_PARQUET = os.path.join(PROJECT_ROOT, "target", "btcusdt_5m_final_with_targets.parquet")
+OUTPUT_CSV = os.path.join(PROJECT_ROOT, "target", f"{SYMBOL_LOWER}_5m_final_with_targets.csv")
+OUTPUT_PARQUET = os.path.join(PROJECT_ROOT, "target", f"{SYMBOL_LOWER}_5m_final_with_targets.parquet")
 
 
 def main() -> None:

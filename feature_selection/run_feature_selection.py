@@ -30,7 +30,8 @@ import eda
 import group_ablation
 import permutation_importance
 
-DEFAULT_OUTPUT_DIR = os.path.join(_SCRIPT_DIR, "output")
+_SYMBOL_LOWER = os.environ.get("SYMBOL", "BTCUSDT").strip().lower() or "btcusdt"
+DEFAULT_OUTPUT_DIR = os.path.join(_SCRIPT_DIR, "output", _SYMBOL_LOWER)
 
 
 def _out(msg: str, log_file: io.TextIOWrapper | None) -> None:

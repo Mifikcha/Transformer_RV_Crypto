@@ -9,19 +9,31 @@ from dataclasses import dataclass, field
 
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _symbol_lower() -> str:
+    """Resolve the active trading symbol (lowercase) from the SYMBOL env var.
+
+    Defaults to ``btcusdt`` so existing BTC-only workflows keep working.
+    """
+    return os.environ.get("SYMBOL", "BTCUSDT").strip().lower() or "btcusdt"
+
+
+SYMBOL_LOWER = _symbol_lower()
+
 DEFAULT_DATA_PATH = os.path.join(
-    PROJECT_ROOT, "target", "btcusdt_5m_final_with_targets.csv"
+    PROJECT_ROOT, "target", f"{SYMBOL_LOWER}_5m_final_with_targets.csv"
 )
-DEFAULT_FEATURES_DIR = os.path.join(PROJECT_ROOT, "feature_selection", "output")
+DEFAULT_FEATURES_DIR = os.path.join(PROJECT_ROOT, "feature_selection", "output", SYMBOL_LOWER)
 DEFAULT_FEATURES_PATH = os.path.join(
     DEFAULT_FEATURES_DIR, "recommended_features.csv"
 )
 
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "transformer", "output")
-MODELS_DIR = os.path.join(OUTPUT_DIR, "models")
-PREDICTIONS_DIR = os.path.join(OUTPUT_DIR, "predictions")
-PICTURES_DIR = os.path.join(OUTPUT_DIR, "pictures")
-LOGS_DIR = os.path.join(OUTPUT_DIR, "logs")
+MODELS_DIR = os.path.join(OUTPUT_DIR, "models", SYMBOL_LOWER)
+PREDICTIONS_DIR = os.path.join(OUTPUT_DIR, "predictions", SYMBOL_LOWER)
+PICTURES_DIR = os.path.join(OUTPUT_DIR, "pictures", SYMBOL_LOWER)
+LOGS_DIR = os.path.join(OUTPUT_DIR, "logs", SYMBOL_LOWER)
 
 
 @dataclass(frozen=True)

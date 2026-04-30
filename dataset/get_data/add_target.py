@@ -1,9 +1,14 @@
+import sys
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 
-# Пути (подставь свои)
-INPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_with_derivatives.parquet"
-OUTPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_final_with_targets.parquet"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _paths as paths  # noqa: E402
+
+INPUT_PATH = paths.WITH_DERIVATIVES
+OUTPUT_PATH = paths.INTERMEDIATE_FINAL_WITH_TARGETS
 
 H_MINUTES = 60  # Горизонт предсказания (п.2.1)
 DELTA_T = 5  # Шаг датасета в минутах

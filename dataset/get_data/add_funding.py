@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path
+
 import ccxt
 import pandas as pd
 import numpy as np
@@ -5,11 +8,15 @@ import time
 import requests
 from datetime import datetime
 
-# ─── Настройки ───────────────────────────────────────────────────────────────
-INPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_with_volume_stats.parquet"
-OUTPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_with_derivatives.parquet"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _paths as paths  # noqa: E402
 
-SYMBOL = "BTCUSDT"
+# ─── Настройки ───────────────────────────────────────────────────────────────
+INPUT_PATH = paths.WITH_VOLUME_STATS
+OUTPUT_PATH = paths.WITH_DERIVATIVES
+
+SYMBOL = paths.SYMBOL
+CCXT_SYMBOL = paths.CCXT_SYMBOL
 CATEGORY = "linear"
 
 exchange = ccxt.bybit({'enableRateLimit': True})
@@ -34,7 +41,7 @@ since = min_ts_ms
 while True:
     try:
         data = exchange.fetch_funding_rate_history(
-            'BTC/USDT:USDT',
+            CCXT_SYMBOL,
             since=since,
             limit=200,
             params={'category': 'linear'}

@@ -1,9 +1,14 @@
+import sys
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 
-# Пути (подставь свои)
-INPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_with_price_derivatives.parquet"
-OUTPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_with_volatility.parquet"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _paths as paths  # noqa: E402
+
+INPUT_PATH = paths.WITH_PRICE_DERIVATIVES
+OUTPUT_PATH = paths.WITH_VOLATILITY
 
 
 def parkinson_estimator(high: pd.Series, low: pd.Series) -> pd.Series:

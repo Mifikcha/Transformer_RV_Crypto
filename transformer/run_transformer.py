@@ -29,13 +29,14 @@ from transformer.config import (
     ModelConfig,
     PICTURES_DIR,
     PREDICTIONS_DIR,
+    SYMBOL_LOWER,
     TrainConfig,
     ensure_output_dirs,
 )
 from transformer import train as _train_mod
 from transformer.train import train_walk_forward_regression
 
-LOG_PATH = os.path.join(PROJECT_ROOT, "log_tranformer")
+LOG_PATH = os.path.join(PROJECT_ROOT, f"log_tranformer_{SYMBOL_LOWER}")
 LOGGER = logging.getLogger("run_transformer")
 
 
@@ -305,7 +306,7 @@ def run_train_mode(app_cfg: AppConfig) -> None:
     _emit_json("App config", asdict(app_cfg))
     ensure_output_dirs()
     # Save "last run" weights into project-level /model directory
-    last_run_models_dir = os.path.join(PROJECT_ROOT, "model")
+    last_run_models_dir = os.path.join(PROJECT_ROOT, "model", SYMBOL_LOWER)
     os.makedirs(last_run_models_dir, exist_ok=True)
     result = train_walk_forward_regression(
         data_path=app_cfg.data_path,

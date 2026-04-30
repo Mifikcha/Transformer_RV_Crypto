@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -20,10 +21,13 @@ class Settings(BaseSettings):
     telegram_alert_chat_ids: str = ""
     allowed_chat_ids: str = ""
 
-    # Model
-    model_path: str = "transformer/output/models/fold_rv_4.pt"
+    # Model paths. When left empty, defaults are derived from ``symbol``:
+    #   model_path     -> transformer/output/models/{symbol_lower}/fold_rv_4.pt
+    #   features_path  -> feature_selection/output/{symbol_lower}/recommended_features.csv
+    # Explicit values from .env / env vars always win (backward compatibility).
+    model_path: str = ""
     model_paths: str = ""
-    features_path: str = "feature_selection/output/recommended_features.csv"
+    features_path: str = ""
 
     # Schedule
     fetch_interval_seconds: int = 300
@@ -56,3 +60,14 @@ class Settings(BaseSettings):
         if self.model_paths.strip():
             return [x.strip() for x in self.model_paths.split(",") if x.strip()]
         return [self.model_path]
+
+    @model_validator(mode="after")
+    def _fill_symbol_aware_defaults(self) -> "Settings":
+        sym_lower = (self.symbol or "BTCUSDT").strip().lower() or "btcusdt"
+        if not self.model_path.strip():
+            self.model_path = f"transformer/output/models/{sym_lower}/fold_rv_4.pt"
+        if not self.features_path.strip():
+            self.features_path = (
+                f"feature_selection/output/{sym_lower}/recommended_features.csv"
+            )
+        return self

@@ -54,15 +54,23 @@ def get_default_data_path() -> str:
 
     Resolution order:
     1) env var ``DATA_PATH`` (if points to existing file)
-    2) common modern path(s)
-    3) legacy path(s)
+    2) symbol-aware path derived from env var ``SYMBOL`` (default ``BTCUSDT``)
+    3) legacy BTC-only path(s) for backward compatibility
     """
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     env_path = os.environ.get("DATA_PATH", "").strip()
     if env_path and os.path.isfile(env_path):
         return env_path
 
+    symbol_lower = os.environ.get("SYMBOL", "BTCUSDT").strip().lower() or "btcusdt"
+
     candidates = [
+        # Symbol-aware (priority): target/{symbol}_5m_final_with_targets.csv
+        os.path.join(base, "target", f"{symbol_lower}_5m_final_with_targets.csv"),
+        os.path.join(
+            base, "dataset", "get_data", "output", "_main", f"{symbol_lower}_5m_final_with_targets.csv"
+        ),
+        # Legacy BTC-only fallbacks (only useful when SYMBOL=BTCUSDT and old layout).
         os.path.join(base, "target", "btcusdt_5m_final_with_targets.csv"),
         os.path.join(base, "dataset", "get_data", "output", "_main", "btcusdt_5m_final_with_targets.csv"),
         os.path.join(base, "target", "form_target", "btcusdt_5m_final_with_targets.csv"),
@@ -71,7 +79,7 @@ def get_default_data_path() -> str:
     for p in candidates:
         if os.path.isfile(p):
             return p
-    # Keep deterministic default if nothing exists yet.
+    # Keep deterministic default if nothing exists yet (symbol-aware target path).
     return candidates[0]
 
 

@@ -1,9 +1,14 @@
+import sys
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 
-# Пути (подставь свои)
-INPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_with_volatility.parquet"
-OUTPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_with_volume_stats.parquet"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _paths as paths  # noqa: E402
+
+INPUT_PATH = paths.WITH_VOLATILITY
+OUTPUT_PATH = paths.WITH_VOLUME_STATS
 
 print("=== Добавление объёмных статистик ===")
 

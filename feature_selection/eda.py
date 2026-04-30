@@ -76,7 +76,8 @@ def run(
     n_splits: int = 5,
 ) -> pd.DataFrame:
     path = data_path or get_default_data_path()
-    out_dir = output_dir or os.path.join(_SCRIPT_DIR, "output")
+    symbol_lower = os.environ.get("SYMBOL", "BTCUSDT").strip().lower() or "btcusdt"
+    out_dir = output_dir or os.path.join(_SCRIPT_DIR, "output", symbol_lower)
     os.makedirs(out_dir, exist_ok=True)
     eda_plot_dir = os.path.join(out_dir, "eda")
     os.makedirs(eda_plot_dir, exist_ok=True)

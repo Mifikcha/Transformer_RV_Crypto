@@ -1,11 +1,18 @@
+import os
+import sys
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 from datetime import datetime
 
-# Пути (см. get_data/_get_data.py — полный пайплайн)
-PERP_PATH = "get_data/output/_main/clean/btcusdt_5m_perp_API_clean.parquet"
-SPOT_PATH = "get_data/output/_main/clean/btcusdt_5m_spot_API_clean.parquet"
-OUTPUT_PATH = "get_data/output/_main/intermediate/btcusdt_5m_combined_2020-2026.parquet"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _paths as paths  # noqa: E402
+
+# Пути берутся из _paths.py (SYMBOL → файлы с нужным префиксом).
+PERP_PATH = paths.PERP_CLEAN
+SPOT_PATH = paths.SPOT_CLEAN
+OUTPUT_PATH = paths.COMBINED
 
 print("=== Объединение perp и spot (5m) ===")
 

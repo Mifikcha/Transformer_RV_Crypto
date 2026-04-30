@@ -1,12 +1,20 @@
 """
-Оркестратор полного формирования датасета BTCUSDT 5m (Bybit).
+Оркестратор полного формирования датасета 5m (Bybit).
 
-Рабочая директория при запуске: каталог `dataset/` (родитель этой папки `get_data/`),
-чтобы относительные пути вида `get_data/output/...` в дочерних скриптах совпадали.
+По умолчанию работает с BTCUSDT, но через флаг ``--symbol ETHUSDT`` (или
+любой другой Bybit-символ вида ``XXXUSDT``) перестраивает все промежуточные
+и финальные пути под выбранный актив. Конкретные имена/папки берутся из
+:mod:`dataset.get_data._paths` (SYMBOL читается из окружения, поэтому здесь
+мы ставим ``os.environ["SYMBOL"]`` ДО запуска дочерних шагов).
 
-Usage (из корня репозитория или из `dataset/`):
+Рабочая директория при запуске: каталог ``dataset/`` (родитель ``get_data/``),
+чтобы относительные пути вида ``get_data/output/...`` в дочерних скриптах
+совпадали.
+
+Usage (из корня репозитория или из ``dataset/``):
   python get_data/_get_data.py
-  python get_data/_get_data.py --skip-fetch          # пропустить шаги 1–2 (уже есть raw/clean)
+  python get_data/_get_data.py --symbol ETHUSDT
+  python get_data/_get_data.py --symbol ETHUSDT --skip-fetch
   python get_data/_get_data.py --dry-run
 
 Требования: pybit, pandas, pyarrow, ccxt (для add_funding).
@@ -25,34 +33,26 @@ from pathlib import Path
 _GET_DATA_DIR = Path(__file__).resolve().parent
 DATASET_ROOT = _GET_DATA_DIR.parent
 
-# Относительные пути от DATASET_ROOT (как в merge_dataset, add_time, …)
-MAIN = "get_data/output/_main"
-RAW_API = f"{MAIN}/btcusdt_5m_spot_API.parquet"
-RAW_PERP = f"{MAIN}/btcusdt_5m_perp_API.parquet"
-CLEAN_DIR = f"{MAIN}/clean"
-SPOT_CLEAN = f"{CLEAN_DIR}/btcusdt_5m_spot_API_clean.parquet"
-PERP_CLEAN = f"{CLEAN_DIR}/btcusdt_5m_perp_API_clean.parquet"
-INTERMEDIATE = f"{MAIN}/intermediate"
-FINAL_DIR = f"{MAIN}/_final"
-FINAL_CLEANED_PARQUET = f"{FINAL_DIR}/btcusdt_5m_final_cleaned.parquet"
-FINAL_CLEANED_CSV = f"{FINAL_DIR}/btcusdt_5m_final_cleaned.csv"
 
-
-def _run(cmd: list[str], *, dry_run: bool) -> None:
+def _run(cmd: list[str], *, dry_run: bool, env: dict[str, str] | None = None) -> None:
     print(f"[RUN] {' '.join(cmd)}")
     if dry_run:
         return
-    subprocess.run(cmd, check=True, cwd=DATASET_ROOT)
+    subprocess.run(cmd, check=True, cwd=DATASET_ROOT, env=env)
 
 
-def _ensure_dirs() -> None:
-    for rel in (CLEAN_DIR, INTERMEDIATE, FINAL_DIR, MAIN):
+def _ensure_dirs(paths_mod) -> None:
+    for rel in (paths_mod.CLEAN_DIR, paths_mod.INTERMEDIATE, paths_mod.FINAL_DIR, paths_mod.MAIN):
         Path(DATASET_ROOT / rel).mkdir(parents=True, exist_ok=True)
 
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Full dataset build orchestrator (Bybit 5m OHLCV pipeline).")
-    p.add_argument("--symbol", default="BTCUSDT", help="Bybit symbol")
+    p.add_argument(
+        "--symbol",
+        default=os.environ.get("SYMBOL", "BTCUSDT"),
+        help="Bybit symbol (e.g. BTCUSDT, ETHUSDT, SOLUSDT). Defaults to env SYMBOL or BTCUSDT.",
+    )
     p.add_argument("--start", default="2020-01-01", help="Range start (UTC if no tz)")
     p.add_argument("--end", default="2026-01-01", help="Range end (UTC if no tz)")
     p.add_argument("--interval", default="5", help="Kline interval (5 = 5m)")
@@ -63,10 +63,27 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+
+    symbol = (args.symbol or "BTCUSDT").strip().upper()
+    os.environ["SYMBOL"] = symbol
+
+    # Импорт ПОСЛЕ установки os.environ["SYMBOL"], чтобы _paths использовал
+    # актуальный символ при инициализации модульных констант.
+    # sys.path[0] == директория этого скрипта (dataset/get_data/), поэтому
+    # ``import _paths`` находит соседний модуль независимо от текущего cwd.
+    sys.path.insert(0, str(_GET_DATA_DIR))
+    import _paths as paths  # type: ignore[import-not-found]
+
     py = sys.executable
     dry = args.dry_run
 
-    _ensure_dirs()
+    print(f"[INFO] Active symbol: {paths.SYMBOL} (lower={paths.SYMBOL_LOWER}, ccxt={paths.CCXT_SYMBOL})")
+
+    _ensure_dirs(paths)
+
+    # Окружение для всех дочерних процессов: пробрасываем SYMBOL.
+    child_env = os.environ.copy()
+    child_env["SYMBOL"] = symbol
 
     # --- 1) get_OHLCV: spot и perp ---
     if not args.skip_fetch:
@@ -75,7 +92,7 @@ def main() -> None:
                 py,
                 "get_data/get_OHLCV.py",
                 "--symbol",
-                args.symbol,
+                symbol,
                 "--category",
                 "spot",
                 "--interval",
@@ -85,16 +102,17 @@ def main() -> None:
                 "--end",
                 args.end,
                 "--out",
-                RAW_API,
+                paths.RAW_API,
             ],
             dry_run=dry,
+            env=child_env,
         )
         _run(
             [
                 py,
                 "get_data/get_OHLCV.py",
                 "--symbol",
-                args.symbol,
+                symbol,
                 "--category",
                 "linear",
                 "--interval",
@@ -104,17 +122,26 @@ def main() -> None:
                 "--end",
                 args.end,
                 "--out",
-                RAW_PERP,
+                paths.RAW_PERP,
             ],
             dry_run=dry,
+            env=child_env,
         )
 
         # --- 2) validate_OHLCV: spot и perp → clean ---
-        _run([py, "get_data/validate_OHLCV.py", RAW_API, SPOT_CLEAN], dry_run=dry)
-        _run([py, "get_data/validate_OHLCV.py", RAW_PERP, PERP_CLEAN], dry_run=dry)
+        _run(
+            [py, "get_data/validate_OHLCV.py", paths.RAW_API, paths.SPOT_CLEAN],
+            dry_run=dry,
+            env=child_env,
+        )
+        _run(
+            [py, "get_data/validate_OHLCV.py", paths.RAW_PERP, paths.PERP_CLEAN],
+            dry_run=dry,
+            env=child_env,
+        )
 
     # --- 3) merge ---
-    _run([py, "get_data/merge_dataset.py"], dry_run=dry)
+    _run([py, "get_data/merge_dataset.py"], dry_run=dry, env=child_env)
 
     # --- 4–9) признаки и таргеты ---
     for script in (
@@ -125,24 +152,30 @@ def main() -> None:
         "get_data/add_funding.py",
         "get_data/add_target.py",
     ):
-        _run([py, script], dry_run=dry)
+        _run([py, script], dry_run=dry, env=child_env)
 
     # --- 10) финальная валидация: intermediate → _final cleaned ---
-    intermediate_final = f"{INTERMEDIATE}/btcusdt_5m_final_with_targets.parquet"
     _run(
-        [py, "get_data/validate_OHLCV.py", intermediate_final, FINAL_CLEANED_PARQUET],
+        [
+            py,
+            "get_data/validate_OHLCV.py",
+            paths.INTERMEDIATE_FINAL_WITH_TARGETS,
+            paths.FINAL_CLEANED_PARQUET,
+        ],
         dry_run=dry,
+        env=child_env,
     )
 
     # --- 11) parquet → csv ---
     _run(
-        [py, "get_data/parquet_to_csv.py", FINAL_CLEANED_PARQUET, FINAL_CLEANED_CSV],
+        [py, "get_data/parquet_to_csv.py", paths.FINAL_CLEANED_PARQUET, paths.FINAL_CLEANED_CSV],
         dry_run=dry,
+        env=child_env,
     )
 
     if not dry:
-        print(f"\n[DONE] Final parquet: {DATASET_ROOT / FINAL_CLEANED_PARQUET}")
-        print(f"[DONE] Final CSV:     {DATASET_ROOT / FINAL_CLEANED_CSV}")
+        print(f"\n[DONE] Final parquet: {DATASET_ROOT / paths.FINAL_CLEANED_PARQUET}")
+        print(f"[DONE] Final CSV:     {DATASET_ROOT / paths.FINAL_CLEANED_CSV}")
 
 
 if __name__ == "__main__":
