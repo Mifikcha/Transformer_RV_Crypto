@@ -1,4 +1,4 @@
-pandas
+pandas>=2.0
 numpy
 scikit-learn
 xgboost
@@ -15,3 +15,9 @@ python-dotenv>=1.0
 ccxt
 pybit
 pyarrow
+
+# Dashboard
+streamlit>=1.30
+streamlit-lightweight-charts>=0.7.20
+plotly>=5.18
+psycopg2-binary>=2.9
