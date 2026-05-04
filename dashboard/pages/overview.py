@@ -12,6 +12,7 @@ from components.styles import inject_styles
 from components.term_structure import render_term_structure
 from config import settings
 from db import query_df
+from spike_warning.integrate import get_dashboard_spike_signal
 from queries import (
     QUERY_BARS,
     QUERY_PREDICTIONS,
@@ -176,6 +177,30 @@ def render() -> None:
                 st.caption(f"Версия: {predictions_df['model_ver'].iloc[-1]}")
         else:
             st.info("Нет данных predictions.")
+
+        st.markdown('<div class="section-title" style="margin-top:8px;">Spike Warning</div>', unsafe_allow_html=True)
+        try:
+            spike = get_dashboard_spike_signal()
+            if not spike.get("available"):
+                st.caption("Spike модель недоступна (нужно обучить pipeline).")
+            else:
+                spike_prob = float(spike["probability"])
+                if spike_prob >= 0.50:
+                    color = "#f44336"
+                    label = f"⚠ ВЫСОКАЯ ({spike_prob:.0%})"
+                elif spike_prob >= 0.30:
+                    color = "#ff9800"
+                    label = f"ПОВЫШЕННАЯ ({spike_prob:.0%})"
+                else:
+                    color = "#4caf50"
+                    label = f"НИЗКАЯ ({spike_prob:.0%})"
+                st.markdown(
+                    f'<div style="font-size:20px; color:{color}; font-weight:bold;">{label}</div>',
+                    unsafe_allow_html=True,
+                )
+                st.caption("Вероятность spike в ближайшие 4 часа")
+        except Exception:
+            st.caption("Spike модель временно недоступна.")
 
     st.markdown("---")
     st.markdown('<div class="section-title">Volatility Term Structure</div>', unsafe_allow_html=True)

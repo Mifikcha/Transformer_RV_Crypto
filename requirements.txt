@@ -1,6 +1,8 @@
 pandas>=2.0
 numpy
 scikit-learn
+joblib
+matplotlib
 xgboost
 lightgbm
 catboost

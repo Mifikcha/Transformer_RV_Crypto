@@ -37,6 +37,11 @@ class Settings(BaseSettings):
     # Alerts
     rv_spike_multiplier: float = 2.0
     rv_lookback_hours_for_median: int = 24
+    spike_warning_enabled: bool = True
+    spike_warning_probability_threshold: float = 0.5
+    spike_warning_model_path: str = "spike_warning/output/spike_classifier_bundle.joblib"
+    spike_warning_metrics_path: str = "spike_warning/output/classifier_metrics.json"
+    spike_warning_lookback_bars: int = 12000
 
     # Buffer
     bar_buffer_size: int = 7000

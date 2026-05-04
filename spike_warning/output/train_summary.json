@@ -1,0 +1,33 @@
+{
+  "best_model": "lgb",
+  "scores": {
+    "lr": {
+      "avg_precision": 0.6188322461081368,
+      "roc_auc": 0.7122368130907211
+    },
+    "rf": {
+      "avg_precision": 0.49110823353426236,
+      "roc_auc": 0.6473344840434025
+    },
+    "lgb": {
+      "avg_precision": 0.6221340805318424,
+      "roc_auc": 0.7080991993186986
+    }
+  },
+  "pos_weight": 10.41045751633987,
+  "n_train": 8729,
+  "n_val": 1246,
+  "n_test": 2493,
+  "train_class_counts": {
+    "0": 7964,
+    "1": 765
+  },
+  "val_class_counts": {
+    "0": 703,
+    "1": 543
+  },
+  "test_class_counts": {
+    "0": 1735,
+    "1": 758
+  }
+}

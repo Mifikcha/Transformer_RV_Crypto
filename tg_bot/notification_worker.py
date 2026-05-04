@@ -12,11 +12,13 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 from aiogram import Bot
+import pandas as pd
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from view.config import Settings
 from view.models import Prediction, NotificationLog
+from spike_warning.integrate import get_spike_probability_async
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +74,25 @@ def format_spike_message(
         f"Прогноз RV(1h):    {pred.rv_12bar:.6f}\n"
         f"\n"
         f"Время: {ts_str} UTC"
+    )
+
+
+def format_spike_warning_message(
+    *,
+    pred: Prediction,
+    spike_prob: float,
+    threshold: float,
+    symbol: str = "BTCUSDT",
+) -> str:
+    ts_str = pred.ts.strftime("%Y-%m-%d %H:%M") if pred.ts else "?"
+    return (
+        f"\U0001f6a8 Spike Warning \u00b7 {symbol}\n"
+        f"\n"
+        f"Вероятность spike (4ч): {spike_prob:.0%}\n"
+        f"Порог предупреждения: {threshold:.0%}\n"
+        f"Время бара: {ts_str} UTC\n"
+        f"\n"
+        "Сигнал предварительный: используйте для уменьшения риска, не как гарантированный trigger."
     )
 
 
@@ -134,9 +155,41 @@ async def notify_cycle(
                 except Exception as e:
                     logger.error("Failed to send spike alert to %s: %s", chat_id, e)
 
+        # Early warning classifier alert (if model is available).
+        spike_warn_sent = False
+        if settings.spike_warning_enabled and pred.ts is not None:
+            try:
+                result = await get_spike_probability_async(
+                    session,
+                    ts=pd.Timestamp(pred.ts),
+                    bundle_path=settings.spike_warning_model_path,
+                    metrics_path=settings.spike_warning_metrics_path,
+                    lookback_rows=settings.spike_warning_lookback_bars,
+                )
+                if result.get("available"):
+                    spike_prob = float(result["probability"])
+                    warn_threshold = float(settings.spike_warning_probability_threshold)
+                    if spike_prob >= warn_threshold:
+                        warn_msg = format_spike_warning_message(
+                            pred=pred,
+                            spike_prob=spike_prob,
+                            threshold=warn_threshold,
+                            symbol=settings.symbol,
+                        )
+                        for chat_id in recipients:
+                            try:
+                                await bot.send_message(chat_id=chat_id, text=warn_msg)
+                                spike_warn_sent = True
+                            except Exception as e:
+                                logger.error("Failed to send spike warning to %s: %s", chat_id, e)
+            except Exception as e:
+                logger.debug("Spike warning prediction skipped: %s", e)
+
         alert_type = "spike" if (
             pred.rv_3bar and median_24h > 0 and pred.rv_3bar > median_24h * settings.rv_spike_multiplier
         ) else "regular"
+        if spike_warn_sent:
+            alert_type = f"{alert_type}+spike_warning"
 
         log_entry = NotificationLog(
             id=uuid.uuid4(),

@@ -1,0 +1,2 @@
+"""Spike warning pipeline package."""
+
