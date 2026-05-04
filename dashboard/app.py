@@ -127,7 +127,9 @@ elif page == "Alerts":
 # ---------------------------------------------------------------------------
 # Автообновление
 # ---------------------------------------------------------------------------
-if auto_refresh:
+# В режиме истории auto-refresh замораживаем — иначе слайдер каждые N секунд
+# скакал бы обратно к ts_max при перерасчёте границ из свежих баров.
+if auto_refresh and not st.session_state.get("replay_active", False):
     time.sleep(settings.refresh_interval_sec)
     st.cache_data.clear()
     st.rerun()

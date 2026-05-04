@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
+import pandas as pd
 import streamlit as st
 
 from components.price_chart import compute_rv_sma_and_pct_vs_sma, render_price_rv_chart
@@ -21,6 +22,10 @@ from queries import (
     QUERY_TERM_STRUCTURE_HISTORY,
 )
 
+# rv_actual для бара T становится известен только после ≥12 forward-баров (1 час).
+# Поэтому в режиме истории Actual RV «честно» виден лишь до replay_ts − 60 min.
+_RV_ACTUAL_LAG = pd.Timedelta(minutes=60)
+
 HORIZON_OPTIONS = ["15 мин", "1 час"]
 HORIZON_MAP = {
     "15 мин": "rv_3bar",
@@ -33,6 +38,26 @@ TIMEFRAME_MAP = {
 }
 
 TZ_OPTIONS = ["UTC", "MSK (UTC+3)", "EKB (UTC+5)"]
+
+
+def _to_utc_naive(dt: datetime) -> datetime:
+    """Streamlit's slider не дружит с tz-aware datetime — нормализуем к naive UTC."""
+    if dt.tzinfo is not None:
+        dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
+    return dt
+
+
+def _ts_le(df: pd.DataFrame, replay_ts_aware: pd.Timestamp, col: str = "ts") -> pd.DataFrame:
+    """Срез ``df`` по ``df[col] <= replay_ts``, корректно обрабатывая tz."""
+    if df is None or df.empty or col not in df.columns:
+        return df
+    s = pd.to_datetime(df[col])
+    if s.dt.tz is None:
+        s = s.dt.tz_localize("UTC")
+    else:
+        s = s.dt.tz_convert("UTC")
+    mask = s <= replay_ts_aware
+    return df.loc[mask].copy()
 
 
 def _forecast_block_html(label: str, pred: float | None, sma: float | None, pct: float | None) -> str:
@@ -132,12 +157,98 @@ def render() -> None:
             "она досчитается автоматически после «Догнать прогноз»."
         )
 
+    # ------------------------------------------------------------------
+    # Режим истории (replay): «заморозить» вид на конкретный момент,
+    # чтобы увидеть, что ты видел бы на дэшборде в момент движения, не зная
+    # будущего. Реализуется чисто через срез датафреймов по replay_ts:
+    #   - bars / predictions / regime_history / regime_timeline -> ts <= replay_ts
+    #   - rv_actual -> ts <= replay_ts - 60 мин (за 1 ч ему ещё нечего знать)
+    #   - term_history (нет ts) трогать не пытаемся; он используется только
+    #     как 30-дневная медиана и почти не зависит от точки во времени.
+    # Сигналим в session_state, чтобы app.py приостановил auto-refresh.
+    # ------------------------------------------------------------------
+    replay_ts_aware: pd.Timestamp | None = None
+    st.session_state["replay_active"] = False
+    if not bars_df.empty:
+        ts_min_aware = pd.to_datetime(bars_df["ts"].iloc[0])
+        ts_max_aware = pd.to_datetime(bars_df["ts"].iloc[-1])
+        if ts_min_aware.tzinfo is None:
+            ts_min_aware = ts_min_aware.tz_localize("UTC")
+        if ts_max_aware.tzinfo is None:
+            ts_max_aware = ts_max_aware.tz_localize("UTC")
+
+        ts_min_naive = _to_utc_naive(ts_min_aware.to_pydatetime())
+        ts_max_naive = _to_utc_naive(ts_max_aware.to_pydatetime())
+
+        replay_cols = st.columns([1.2, 5, 0.8, 0.8])
+        with replay_cols[0]:
+            replay_active = st.checkbox(
+                "Режим истории",
+                key="ov_replay_active",
+                help=(
+                    "Заморозить вид на указанной 5-минутной свече: данные обрежутся так, "
+                    "как они были видны в тот момент (без подсматривания в будущее). "
+                    "Auto-refresh в этом режиме приостановлен."
+                ),
+            )
+
+        if replay_active:
+            stored = st.session_state.get("ov_replay_ts_value")
+            if stored is None or not (ts_min_naive <= stored <= ts_max_naive):
+                stored = ts_max_naive
+            # Шаг -/+ 1 бар через сессионное состояние, чтобы кнопка
+            # перекрывала состояние слайдера до его рендера.
+            with replay_cols[2]:
+                if st.button("◀ -1 бар", key="ov_replay_prev", use_container_width=True):
+                    candidate = stored - timedelta(minutes=5)
+                    if candidate >= ts_min_naive:
+                        stored = candidate
+                        st.session_state["ov_replay_ts_value"] = stored
+            with replay_cols[3]:
+                if st.button("+1 бар ▶", key="ov_replay_next", use_container_width=True):
+                    candidate = stored + timedelta(minutes=5)
+                    if candidate <= ts_max_naive:
+                        stored = candidate
+                        st.session_state["ov_replay_ts_value"] = stored
+
+            with replay_cols[1]:
+                replay_naive = st.slider(
+                    "Заморозить на момент (UTC)",
+                    min_value=ts_min_naive,
+                    max_value=ts_max_naive,
+                    value=stored,
+                    step=timedelta(minutes=5),
+                    format="DD MMM HH:mm",
+                    key="ov_replay_slider",
+                )
+            st.session_state["ov_replay_ts_value"] = replay_naive
+            replay_ts_aware = pd.Timestamp(replay_naive).tz_localize("UTC")
+            st.session_state["replay_active"] = True
+
+            actual_cutoff = replay_ts_aware - _RV_ACTUAL_LAG
+            st.info(
+                f"📅 Режим истории: вид заморожен на **{replay_naive:%Y-%m-%d %H:%M}** UTC. "
+                f"Actual RV виден до {actual_cutoff:%H:%M} UTC "
+                "(rv_actual считается с лагом 1 ч)."
+            )
+
+            bars_df = _ts_le(bars_df, replay_ts_aware)
+            predictions_df = _ts_le(predictions_df, replay_ts_aware)
+            rv_actual_df = _ts_le(rv_actual_df, actual_cutoff)
+            regime_history_df = _ts_le(regime_history_df, replay_ts_aware)
+            regime_timeline_df = _ts_le(regime_timeline_df, replay_ts_aware)
+
     st.markdown("---")
     chart_col, right_col = st.columns([3.1, 1])
 
     with chart_col:
         st.markdown('<div class="section-title">Price + RV Overlay</div>', unsafe_allow_html=True)
         _tzk = tz_display.replace(" ", "_").replace("(", "").replace(")", "")
+        # replay_ts -> часть chart_key, чтобы Streamlit пересоздавал компонент
+        # при движении слайдера (иначе lightweight-charts кэширует старое).
+        _replay_key = (
+            int(replay_ts_aware.timestamp()) if replay_ts_aware is not None else 0
+        )
         render_price_rv_chart(
             bars_df=bars_df,
             rv_pred_df=predictions_df,
@@ -146,7 +257,9 @@ def render() -> None:
             n_bars=int(n_bars),
             tz_display=tz_display,
             sma_period=int(sma_period),
-            chart_key=f"ov_{hours}_{selected_horizon}_{int(n_bars)}_{int(sma_period)}_{_tzk}",
+            chart_key=(
+                f"ov_{hours}_{selected_horizon}_{int(n_bars)}_{int(sma_period)}_{_tzk}_{_replay_key}"
+            ),
         )
 
     with right_col:
