@@ -18,16 +18,16 @@ engine = create_engine(_sync_url, pool_pre_ping=True, pool_size=5, max_overflow=
 
 
 @st.cache_data(ttl=settings.refresh_interval_sec, show_spinner=False)
-def query_df(sql: str, **params: object) -> pd.DataFrame:
-    """Выполнить параметризованный SQL, вернуть DataFrame.
-
-    Параметры передаются как keyword-аргументы и подставляются через str.format().
-    Используем format()-подстановку только для строковых частей (имена таблиц,
-    INTERVAL). Числовые данные от пользователя — через SQLAlchemy bindparams.
-    """
-    formatted_sql = sql.format(**params) if params else sql
+def _query_df_cached(formatted_sql: str) -> pd.DataFrame:
+    """Кэш по полному SQL — разные INTERVAL / параметры дают разные ключи."""
     with engine.connect() as conn:
         return pd.read_sql(text(formatted_sql), conn)
+
+
+def query_df(sql: str, **params: object) -> pd.DataFrame:
+    """Выполнить SQL, вернуть DataFrame. Параметры подставляются через str.format()."""
+    formatted_sql = sql.format(**params) if params else sql
+    return _query_df_cached(formatted_sql)
 
 
 def check_connection() -> bool:

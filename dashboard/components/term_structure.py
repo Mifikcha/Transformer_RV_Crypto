@@ -1,4 +1,4 @@
-"""Блок 2 — Volatility Term Structure."""
+"""Блок 2 — Volatility Term Structure (15 мин и 1 час)."""
 
 from __future__ import annotations
 
@@ -8,15 +8,15 @@ import streamlit as st
 
 from components.styles import PLOTLY_TEMPLATE
 
-HORIZONS = ["15 мин", "1 час", "4 часа", "1 день"]
-HORIZON_COLS = ["rv_3bar", "rv_12bar", "rv_48bar", "rv_288bar"]
+HORIZONS = ["15 мин", "1 час"]
+HORIZON_COLS = ["rv_3bar", "rv_12bar"]
 
 
 def render_term_structure(
     latest_pred: dict | pd.Series,
     historical_df: pd.DataFrame,
 ) -> None:
-    """Кривая волатильности по горизонтам + медиана за 30 дней."""
+    """Кривая волатильности по двум горизонтам + медиана за 30 дней."""
     current = []
     median_vals = []
 
@@ -28,7 +28,8 @@ def render_term_structure(
         else:
             median_vals.append(0.0)
 
-    is_inverted = (current[0] > 0 and current[-1] > 0 and current[0] > current[-1])
+    # Инверсия: краткосрочная RV выше часовой
+    is_inverted = len(current) >= 2 and current[0] > 0 and current[1] > 0 and current[0] > current[1]
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(
@@ -51,7 +52,7 @@ def render_term_structure(
     if is_inverted:
         fig.update_layout(plot_bgcolor="rgba(244, 67, 54, 0.06)")
         fig.add_annotation(
-            text="⚠ ИНВЕРСИЯ — краткосрочная vol > долгосрочной",
+            text="⚠ ИНВЕРСИЯ — 15м vol > 1ч",
             xref="paper", yref="paper",
             x=0.5, y=1.10,
             showarrow=False,

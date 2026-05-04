@@ -9,17 +9,29 @@ from __future__ import annotations
 
 import logging
 import uuid
+from datetime import datetime
+from typing import Awaitable, Callable
 
 import numpy as np
-from sqlalchemy import select, text
+import pandas as pd
+from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from view.config import Settings
-from view.feature_engine import FeatureEngine, MONTH_BARS
+from view.feature_engine import (
+    FEATURE_COLS,
+    FeatureEngine,
+    HAR_RV_BASE,
+    MONTH_BARS,
+    WEEK_BARS,
+)
 from view.inference import RVInference
 from view.models import Bar5m, Prediction, RvActual
 
 logger = logging.getLogger(__name__)
+
+# Length of the inference input window (must match training; same as the live cycle).
+_SEQ_LEN = 240
 
 
 # ---------------------------------------------------------------------------
@@ -270,3 +282,281 @@ async def run_prediction(
         result.get("rv_12bar", 0),
         degraded,
     )
+
+
+# ---------------------------------------------------------------------------
+# Batch backfill of predictions over a historical range
+# ---------------------------------------------------------------------------
+
+async def _load_bars_range(
+    session: AsyncSession,
+    start_ts: datetime | None,
+    end_ts: datetime | None,
+) -> list[dict]:
+    """Load all bars in [start_ts, end_ts] (inclusive), sorted ASC."""
+    stmt = select(Bar5m)
+    if start_ts is not None:
+        stmt = stmt.where(Bar5m.ts >= start_ts)
+    if end_ts is not None:
+        stmt = stmt.where(Bar5m.ts <= end_ts)
+    stmt = stmt.order_by(Bar5m.ts.asc())
+    result = await session.execute(stmt)
+    rows = list(result.scalars().all())
+    bars: list[dict] = []
+    for r in rows:
+        bars.append({
+            "ts": r.ts,
+            "open_perp": r.open_perp,
+            "high_perp": r.high_perp,
+            "low_perp": r.low_perp,
+            "close_perp": r.close_perp,
+            "volume_perp": r.volume_perp,
+            "turnover_perp": r.turnover_perp,
+            "volume_spot": r.volume_spot,
+            "funding_rate": r.funding_rate,
+            "open_interest": r.open_interest,
+        })
+    return bars
+
+
+def _continuous_tail_lengths(bars: list[dict]) -> list[int]:
+    """For every bar i, the length of the gap-free run ending at i (1-indexed count).
+
+    Equivalent to running ``_trim_to_continuous_tail`` for the prefix ``bars[:i+1]``
+    at every position, but in a single linear pass. Used to mirror the live cycle's
+    "min_bars_for_inference" / "MONTH_BARS for non-degraded" gating decisions.
+    """
+    n = len(bars)
+    out = [0] * n
+    if n == 0:
+        return out
+    out[0] = 1
+    for i in range(1, n):
+        delta = (bars[i]["ts"] - bars[i - 1]["ts"]).total_seconds()
+        if delta > MAX_GAP_SECONDS:
+            out[i] = 1
+        else:
+            out[i] = out[i - 1] + 1
+    return out
+
+
+async def backfill_predictions(
+    session: AsyncSession,
+    inference: RVInference,
+    settings: Settings,
+    *,
+    start_ts: datetime | None = None,
+    end_ts: datetime | None = None,
+    update_bias: bool = True,
+    fill_actuals: bool = True,
+    commit_every: int = 200,
+    progress_cb: Callable[[int, int], Awaitable[None] | None] | None = None,
+) -> dict:
+    """Run inference for every bar in (start_ts, end_ts] that has no prediction yet.
+
+    Mirrors the live ``run_prediction`` logic exactly (HAR context, log-bias
+    calibration, ``degraded`` flag, idempotent insert) but over a batch of
+    historical bars in a single pass: features and HAR rolling means are
+    computed once on the whole loaded buffer, then sliced per target bar.
+
+    Args:
+        start_ts: lower bound (exclusive). When None, defaults to
+            ``MAX(predictions.ts)`` so we backfill the gap after the last
+            recorded prediction. When the table is empty, we start from the
+            first bar that has enough history (``min_bars_for_inference``).
+        end_ts: upper bound (inclusive). When None, ``MAX(bars_5m.ts)``.
+        update_bias: if True, refresh the multiplicative log-bias from existing
+            (prediction, rv_actual) pairs before running — same behaviour as
+            ``run_prediction``.
+        fill_actuals: if True, run ``backfill_actual_rv`` after inserting new
+            predictions, so the dashboard sees both lines in one shot.
+        commit_every: batch size for intermediate commits (keeps memory and
+            transaction size bounded for multi-day backfills).
+        progress_cb: optional ``(filled, total) -> None`` callback. May be sync
+            or async. Called every ``commit_every`` iterations and at the end.
+
+    Returns:
+        Dict with ``filled``, ``skipped_existing``, ``skipped_features``,
+        ``skipped_har``, ``skipped_short_tail``, ``degraded``, ``total_targets``,
+        ``actuals_filled``.
+    """
+    if update_bias:
+        lb3, lb12, ls3, ls12, bias_n = await _load_log_bias_stats(session)
+        if bias_n >= settings.min_pairs_for_bias_calibration:
+            inference.update_log_bias(lb3=lb3, lb12=lb12, ls3=ls3, ls12=ls12)
+            logger.info(
+                "Bias calibration active: n=%d lb3=%.4f lb12=%.4f",
+                bias_n, float(lb3 or 0), float(lb12 or 0),
+            )
+
+    # Resolve the time window we want to fill.
+    if end_ts is None:
+        end_ts = await session.scalar(select(func.max(Bar5m.ts)))
+    if end_ts is None:
+        return {"filled": 0, "skipped_existing": 0, "total_targets": 0,
+                "msg": "no bars in DB"}
+
+    if start_ts is None:
+        start_ts = await session.scalar(select(func.max(Prediction.ts)))
+
+    # Load enough history BEFORE start_ts to populate the inference window
+    # (240 bars) and HAR rolling means (up to MONTH_BARS = 6336 bars). One
+    # bar = 5 minutes; we add a small safety margin for tail trimming.
+    history_bars = MONTH_BARS + _SEQ_LEN + 32
+    if start_ts is None:
+        bars = await _load_bars_range(session, None, end_ts)
+    else:
+        history_start = start_ts - pd.Timedelta(minutes=5 * history_bars)
+        bars = await _load_bars_range(session, history_start, end_ts)
+
+    if len(bars) < settings.min_bars_for_inference:
+        return {"filled": 0, "skipped_existing": 0, "total_targets": 0,
+                "msg": f"need at least {settings.min_bars_for_inference} bars, "
+                       f"have {len(bars)}"}
+
+    # Existing predictions inside the target window — for idempotency.
+    existing_window_start = bars[0]["ts"]
+    existing_stmt = select(Prediction.ts).where(
+        Prediction.ts >= existing_window_start,
+        Prediction.ts <= end_ts,
+    )
+    existing_ts: set = {row[0] for row in (await session.execute(existing_stmt)).all()}
+
+    # Compute features once on the whole buffer.
+    engine = FeatureEngine(buffer_size=len(bars) + 32, min_bars=settings.min_bars_for_inference)
+    for b in bars:
+        engine.add_bar(b)
+    df = engine._get_feature_df()
+
+    feature_cols = inference.feature_columns
+    missing_cols = [c for c in feature_cols if c not in df.columns]
+    if missing_cols:
+        raise RuntimeError(
+            f"FeatureEngine produced no values for: {missing_cols}. "
+            "Likely a model/feature_engine version mismatch."
+        )
+
+    # Pre-compute HAR rolling weekly/monthly means once for every bar.
+    # Matches FeatureEngine.compute_har_context exactly.
+    har_w_series: list[pd.Series] = []
+    har_m_series: list[pd.Series] = []
+    for col in HAR_RV_BASE:
+        s = df[col].astype(float)
+        w = s.rolling(WEEK_BARS, min_periods=WEEK_BARS // 2).mean().bfill().ffill()
+        m = s.rolling(MONTH_BARS, min_periods=MONTH_BARS // 2).mean().bfill().ffill()
+        har_w_series.append(w)
+        har_m_series.append(m)
+
+    cont_tail = _continuous_tail_lengths(bars)
+    feature_df = df[feature_cols]
+    feature_arr = feature_df.to_numpy(dtype=np.float64, copy=False)
+    feature_nan_mask = feature_df.isna().to_numpy()
+
+    # Build the list of target indices to predict.
+    target_indices: list[int] = []
+    for i, b in enumerate(bars):
+        ts = b["ts"]
+        if start_ts is not None and ts <= start_ts:
+            continue
+        if ts in existing_ts:
+            continue
+        target_indices.append(i)
+
+    stats = {
+        "filled": 0,
+        "skipped_existing": len(existing_ts),
+        "skipped_features": 0,
+        "skipped_har": 0,
+        "skipped_short_tail": 0,
+        "degraded": 0,
+        "total_targets": len(target_indices),
+        "actuals_filled": 0,
+    }
+
+    if not target_indices:
+        if fill_actuals:
+            stats["actuals_filled"] = await backfill_actual_rv(session)
+        return stats
+
+    async def _emit_progress(done: int) -> None:
+        if progress_cb is None:
+            return
+        result = progress_cb(done, len(target_indices))
+        if hasattr(result, "__await__"):
+            await result  # type: ignore[func-returns-value]
+
+    pending = 0
+    for k_idx, target_idx in enumerate(target_indices, start=1):
+        tail_len = cont_tail[target_idx]
+        if tail_len < settings.min_bars_for_inference or tail_len < _SEQ_LEN:
+            stats["skipped_short_tail"] += 1
+            continue
+
+        win_start = target_idx - _SEQ_LEN + 1
+        if feature_nan_mask[win_start:target_idx + 1].any():
+            stats["skipped_features"] += 1
+            continue
+        window = feature_arr[win_start:target_idx + 1]
+
+        har_vec: list[float] = []
+        valid_har = True
+        for k in range(len(HAR_RV_BASE)):
+            w_val = har_w_series[k].iloc[target_idx]
+            m_val = har_m_series[k].iloc[target_idx]
+            if pd.isna(w_val):
+                valid_har = False
+                break
+            if pd.isna(m_val):
+                m_val = w_val
+            har_vec.extend([float(w_val), float(m_val)])
+        if not valid_har:
+            stats["skipped_har"] += 1
+            continue
+        har = np.array(har_vec, dtype=np.float64)
+
+        degraded = False
+        if tail_len < MONTH_BARS:
+            degraded = True
+        for k, val in enumerate(har):
+            if k < len(inference.har_bounds):
+                lo, hi = inference.har_bounds[k]
+                if val < lo or val > hi:
+                    degraded = True
+                    break
+        if degraded:
+            stats["degraded"] += 1
+
+        result = inference.predict(window, har)
+        pred = Prediction(
+            id=uuid.uuid4(),
+            ts=bars[target_idx]["ts"],
+            rv_3bar=result.get("rv_3bar"),
+            rv_12bar=result.get("rv_12bar"),
+            model_ver=inference.model_ver,
+            degraded=degraded,
+        )
+        session.add(pred)
+        stats["filled"] += 1
+        pending += 1
+
+        if pending >= commit_every:
+            await session.commit()
+            pending = 0
+            await _emit_progress(stats["filled"])
+
+    if pending:
+        await session.commit()
+    await _emit_progress(stats["filled"])
+
+    logger.info(
+        "Backfill predictions: filled=%d, skipped_existing=%d, skipped_features=%d, "
+        "skipped_har=%d, skipped_short_tail=%d, degraded=%d (of %d targets)",
+        stats["filled"], stats["skipped_existing"], stats["skipped_features"],
+        stats["skipped_har"], stats["skipped_short_tail"], stats["degraded"],
+        stats["total_targets"],
+    )
+
+    if fill_actuals:
+        stats["actuals_filled"] = await backfill_actual_rv(session)
+
+    return stats

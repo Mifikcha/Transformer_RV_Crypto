@@ -22,6 +22,7 @@ st.set_page_config(
 from config import settings
 from db import check_connection
 from history_loader import pull_history
+from predictions_loader import run_backfill
 
 
 # ---------------------------------------------------------------------------
@@ -70,6 +71,32 @@ with st.sidebar:
     if st.button("Подтянуть историю", use_container_width=True):
         with st.spinner("Подтягиваю историю из Bybit..."):
             ok, msg = pull_history(days=int(bootstrap_days))
+        if ok:
+            st.success(msg)
+            st.cache_data.clear()
+            st.rerun()
+        else:
+            st.error(msg)
+
+    st.markdown("---")
+    st.markdown("### Прогнозы")
+    st.caption(
+        "Прогоняет инференс по всем барам, для которых ещё нет prediction "
+        "(пробел между MAX(predictions.ts) и последним баром). "
+        "После заполнения автоматически досчитывает rv_actual там, где есть ≥12 будущих баров."
+    )
+    if st.button("Догнать прогноз", use_container_width=True, key="btn_backfill_pred"):
+        progress_bar = st.progress(0.0, text="Загружаю модель и бары...")
+
+        def _on_progress(done: int, total: int) -> None:
+            if total <= 0:
+                return
+            pct = min(1.0, done / total)
+            progress_bar.progress(pct, text=f"Прогноз: {done}/{total} ({pct * 100:.1f}%)")
+
+        with st.spinner("Прогоняю инференс по историческим барам..."):
+            ok, msg, _stats = run_backfill(progress_cb=_on_progress)
+        progress_bar.empty()
         if ok:
             st.success(msg)
             st.cache_data.clear()
