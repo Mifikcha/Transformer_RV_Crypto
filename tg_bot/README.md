@@ -97,12 +97,12 @@ docker compose exec db psql -U user -d rv_bot -c "SELECT version();"
 Проверяет что фичи считаются так же, как в историческом датасете:
 
 ```python
-# Сохранить как view/test_features.py и запустить:
-# python -m view.test_features
+# Сохранить как tg_bot/test_features.py и запустить:
+# python -m tg_bot.test_features
 
 import pandas as pd
 import numpy as np
-from view.feature_engine import FeatureEngine, FEATURE_COLS
+from tg_bot.feature_engine import FeatureEngine, FEATURE_COLS
 
 df_hist = pd.read_csv(
     "target/btcusdt_5m_final_with_targets.csv", parse_dates=["ts"]
@@ -149,7 +149,7 @@ else:
 ```
 
 ```bash
-python -m view.test_features
+python -m tg_bot.test_features
 ```
 
 Ожидаемый результат: `OK -- все фичи совпадают`.
@@ -159,7 +159,7 @@ python -m view.test_features
 ```python
 # python -c "..."
 import asyncio
-from view.bybit_client import BybitClient
+from tg_bot.bybit_client import BybitClient
 
 async def test():
     client = BybitClient()
@@ -175,8 +175,8 @@ asyncio.run(test())
 ```python
 import numpy as np
 import pandas as pd
-from view.feature_engine import FeatureEngine
-from view.inference import RVInference
+from tg_bot.feature_engine import FeatureEngine
+from tg_bot.inference import RVInference
 
 df = pd.read_csv("target/btcusdt_5m_final_with_targets.csv",
                   parse_dates=["ts"]).sort_values("ts").tail(7000)
@@ -202,8 +202,8 @@ print("OK")
 
 ```python
 import asyncio
-from view.config import Settings
-from view.db import build_engine, init_db
+from tg_bot.config import Settings
+from tg_bot.db import build_engine, init_db
 
 async def test():
     s = Settings()
@@ -222,7 +222,7 @@ asyncio.run(test())
 ### Вариант A: Всё в одном процессе (рекомендуется для начала)
 
 ```bash
-python -m view.main
+python -m tg_bot
 ```
 
 Что произойдёт:
@@ -233,11 +233,11 @@ python -m view.main
 
 В логах должно появиться:
 ```
-INFO  view.db: Database tables created/verified.
-INFO  view.ingestion_worker: Bootstrap: fetching ~7200 bars...
-INFO  view.inference: Model loaded: patch_encoder, features=32, horizons=2
-INFO  view.main: Scheduler started: ingest=300s, predict=300s, notify=300s
-INFO  view.main: Starting Telegram bot polling...
+INFO  tg_bot.db: Database tables created/verified.
+INFO  tg_bot.ingestion_worker: Bootstrap: fetching ~7200 bars...
+INFO  tg_bot.inference: Model loaded: patch_encoder, features=32, horizons=2
+INFO  tg_bot.main: Scheduler started: ingest=300s, predict=300s, notify=300s
+INFO  tg_bot.main: Starting Telegram bot polling...
 ```
 
 ### Вариант B: Через Docker Compose (продакшен)
@@ -300,7 +300,7 @@ SELECT alert_type, sent_at FROM notification_log ORDER BY sent_at DESC LIMIT 5;
 | Симптом | Что проверить |
 |---------|---------------|
 | `Connection refused` при старте | Docker с БД запущен? `docker compose ps` |
-| `No module named 'view'` | Запускать из корня проекта |
+| `No module named 'tg_bot'` | Запускать из корня проекта |
 | `FileNotFoundError: fold_rv_4.pt` | Модель обучена? Путь в `.env` верный? |
 | Bootstrap висит | Bybit API доступен? Проверить VPN/прокси |
 | Прогнозы = 0 или NaN | Feature Engine расходится -- запустить тест 2.1 |
@@ -317,7 +317,7 @@ project/
 ├── .env.example            ← шаблон
 ├── docker-compose.yml      ← PostgreSQL + сервисы
 ├── requirements_live.txt   ← зависимости
-└── view/
+└── tg_bot/
     ├── __init__.py
     ├── config.py           ← настройки из .env
     ├── db.py               ← подключение к PostgreSQL

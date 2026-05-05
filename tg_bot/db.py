@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy import text
 
-from view.models import Base
+from tg_bot.models import Base
 
 logger = logging.getLogger(__name__)
 

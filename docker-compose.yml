@@ -12,25 +12,25 @@ services:
 
   ingestion:
     build: .
-    command: python -m view.ingestion_worker
+    command: python -m tg_bot.ingestion_worker
     env_file: .env
     depends_on: [db]
 
   predictor:
     build: .
-    command: python -m view.prediction_worker
+    command: python -m tg_bot.prediction_worker
     env_file: .env
     depends_on: [db]
 
   notifier:
     build: .
-    command: python -m view.notification_worker
+    command: python -m tg_bot.notification_worker
     env_file: .env
     depends_on: [db]
 
   bot:
     build: .
-    command: python -m view.bot
+    command: python -m tg_bot.bot
     env_file: .env
     depends_on: [db]
 

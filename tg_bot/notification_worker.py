@@ -16,8 +16,8 @@ import pandas as pd
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from view.config import Settings
-from view.models import Prediction, NotificationLog
+from tg_bot.config import Settings
+from tg_bot.models import Prediction, NotificationLog
 from spike_warning.integrate import get_spike_probability_async
 
 logger = logging.getLogger(__name__)
@@ -109,7 +109,7 @@ async def _get_median_24h(session: AsyncSession) -> float:
 
 
 async def _get_actual_rv(session: AsyncSession, ts: datetime) -> float | None:
-    from view.models import RvActual
+    from tg_bot.models import RvActual
     stmt = select(RvActual.rv_3bar).where(RvActual.ts == ts)
     return await session.scalar(stmt)
 

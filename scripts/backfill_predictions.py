@@ -21,10 +21,10 @@ import logging
 import sys
 from datetime import datetime, timezone
 
-from view.config import Settings
-from view.db import build_engine, build_session_factory
-from view.inference import RVInference
-from view.prediction_worker import backfill_predictions
+from tg_bot.config import Settings
+from tg_bot.db import build_engine, build_session_factory
+from tg_bot.inference import RVInference
+from tg_bot.prediction_worker import backfill_predictions
 
 logger = logging.getLogger("scripts.backfill_predictions")
 

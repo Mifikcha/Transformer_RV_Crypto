@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 
-from view.bybit_client import BybitClient
+from tg_bot.bybit_client import BybitClient
 
 
 async def _main() -> None:

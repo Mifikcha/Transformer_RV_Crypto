@@ -32,7 +32,10 @@ def _feature_columns(df: pd.DataFrame) -> list[str]:
     drop = {
         "ts",
         "spike_in_next_4h",
+        "spike_in_next_4h_raw",
         "spike_event",
+        "spike_now_raw",
+        "spike_now_event",
         "spike_threshold",
         "max_rv_next_4h",
         "time_to_spike",

@@ -15,15 +15,15 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy import select, func
 import numpy as np
 
-from view.bot import create_dispatcher
-from view.bybit_client import BybitClient
-from view.config import Settings
-from view.db import build_engine, build_session_factory, init_db, reset_db
-from view.inference import RVInference
-from view.ingestion_worker import bootstrap_history, heal_gap, heal_funding_oi, ingest_latest_bar
-from view.models import Bar5m
-from view.notification_worker import notify_cycle
-from view.prediction_worker import run_prediction, backfill_actual_rv
+from tg_bot.bot import create_dispatcher
+from tg_bot.bybit_client import BybitClient
+from tg_bot.config import Settings
+from tg_bot.db import build_engine, build_session_factory, init_db, reset_db
+from tg_bot.inference import RVInference
+from tg_bot.ingestion_worker import bootstrap_history, heal_gap, heal_funding_oi, ingest_latest_bar
+from tg_bot.models import Bar5m
+from tg_bot.notification_worker import notify_cycle
+from tg_bot.prediction_worker import run_prediction, backfill_actual_rv
 
 logging.basicConfig(
     level=logging.INFO,
@@ -85,7 +85,7 @@ async def main() -> None:
 
     # Recompute rv_actual with gap-aware forward-GK method.
     async with session_factory() as session:
-        from view.models import RvActual as _RvA
+        from tg_bot.models import RvActual as _RvA
         deleted = await session.execute(_RvA.__table__.delete())
         await session.commit()
         logger.info("Cleared rv_actual table for recomputation (%s rows).", deleted.rowcount)
@@ -148,7 +148,7 @@ async def _send_healthcheck(bot: Bot, session, settings: Settings) -> None:
     max_bar_ts = await session.scalar(select(sqlfunc.max(Bar5m.ts)))
     bar_count = await session.scalar(select(sqlfunc.count(Bar5m.ts)))
 
-    from view.models import Prediction
+    from tg_bot.models import Prediction
     max_pred_ts = await session.scalar(select(sqlfunc.max(Prediction.ts)))
 
     bar_lag_min = (now - max_bar_ts).total_seconds() / 60 if max_bar_ts else 999
@@ -186,7 +186,7 @@ async def _send_healthcheck(bot: Bot, session, settings: Settings) -> None:
         return float(np.mean(y_pred - y_true))
 
     # /rv block
-    from view.models import Prediction, RvActual
+    from tg_bot.models import Prediction, RvActual
     pred_row = await session.execute(
         select(Prediction).order_by(Prediction.created_at.desc()).limit(1)
     )

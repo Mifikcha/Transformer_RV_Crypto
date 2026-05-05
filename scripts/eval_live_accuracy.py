@@ -14,8 +14,8 @@ import asyncio
 import numpy as np
 from sqlalchemy import text
 
-from view.config import Settings
-from view.db import build_engine, build_session_factory
+from tg_bot.config import Settings
+from tg_bot.db import build_engine, build_session_factory
 
 
 def _r2(y_true: np.ndarray, y_pred: np.ndarray) -> float:

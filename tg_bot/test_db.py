@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import asyncio
 
-from view.config import Settings
-from view.db import build_engine, init_db
+from tg_bot.config import Settings
+from tg_bot.db import build_engine, init_db
 
 
 async def _main() -> None:

@@ -19,9 +19,9 @@ from aiogram import BaseMiddleware
 from sqlalchemy import select, func, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from view.config import Settings
-from view.models import Bar5m, Prediction, RvActual
-from view.notification_worker import get_regime_label
+from tg_bot.config import Settings
+from tg_bot.models import Bar5m, Prediction, RvActual
+from tg_bot.notification_worker import get_regime_label
 
 logger = logging.getLogger(__name__)
 

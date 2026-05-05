@@ -15,7 +15,7 @@ if PROJECT_ROOT not in sys.path:
 from baselines.utils import load_dataset
 from scripts.ablation_utils import compute_extended_metrics, save_experiment_csv
 from transformer.dataset import add_rv_har_context_columns
-from view.inference import RVInference
+from tg_bot.inference import RVInference
 
 
 def parse_args() -> argparse.Namespace:

@@ -17,16 +17,16 @@ import pandas as pd
 from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from view.config import Settings
-from view.feature_engine import (
+from tg_bot.config import Settings
+from tg_bot.feature_engine import (
     FEATURE_COLS,
     FeatureEngine,
     HAR_RV_BASE,
     MONTH_BARS,
     WEEK_BARS,
 )
-from view.inference import RVInference
-from view.models import Bar5m, Prediction, RvActual
+from tg_bot.inference import RVInference
+from tg_bot.models import Bar5m, Prediction, RvActual
 
 logger = logging.getLogger(__name__)
 

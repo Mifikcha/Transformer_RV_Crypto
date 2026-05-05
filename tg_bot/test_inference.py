@@ -5,8 +5,8 @@ import os
 import numpy as np
 import pandas as pd
 
-from view.feature_engine import FeatureEngine
-from view.inference import RVInference
+from tg_bot.feature_engine import FeatureEngine
+from tg_bot.inference import RVInference
 
 
 def main() -> int:

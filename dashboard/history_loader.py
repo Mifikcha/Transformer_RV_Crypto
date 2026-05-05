@@ -1,6 +1,6 @@
 """Utilities to bootstrap bar history from Bybit into PostgreSQL.
 
-Reuses the same ingestion logic as Telegram bot workers in `view`.
+Reuses the same ingestion logic as Telegram bot workers in `tg_bot`.
 """
 
 from __future__ import annotations
@@ -14,10 +14,10 @@ _ROOT = Path(__file__).resolve().parent.parent
 if str(_ROOT) not in __import__("sys").path:
     __import__("sys").path.insert(0, str(_ROOT))
 
-from view.bybit_client import BybitClient
-from view.config import Settings
-from view.db import build_engine, build_session_factory, init_db
-from view.ingestion_worker import bootstrap_history, heal_gap, ingest_latest_bar
+from tg_bot.bybit_client import BybitClient
+from tg_bot.config import Settings
+from tg_bot.db import build_engine, build_session_factory, init_db
+from tg_bot.ingestion_worker import bootstrap_history, heal_gap, ingest_latest_bar
 
 
 async def _pull_history_async(days: int) -> tuple[bool, str]:

@@ -18,8 +18,8 @@ from sqlalchemy import select, func, text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from view.bybit_client import BybitClient
-from view.models import Bar5m
+from tg_bot.bybit_client import BybitClient
+from tg_bot.models import Bar5m
 
 logger = logging.getLogger(__name__)
 

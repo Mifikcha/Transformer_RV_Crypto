@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from view.feature_engine import FEATURE_COLS, FeatureEngine
+from tg_bot.feature_engine import FEATURE_COLS, FeatureEngine
 
 
 def main() -> int:

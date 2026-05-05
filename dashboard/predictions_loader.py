@@ -16,10 +16,10 @@ _ROOT = Path(__file__).resolve().parent.parent
 if str(_ROOT) not in __import__("sys").path:
     __import__("sys").path.insert(0, str(_ROOT))
 
-from view.config import Settings
-from view.db import build_engine, build_session_factory
-from view.inference import RVInference
-from view.prediction_worker import backfill_predictions
+from tg_bot.config import Settings
+from tg_bot.db import build_engine, build_session_factory
+from tg_bot.inference import RVInference
+from tg_bot.prediction_worker import backfill_predictions
 
 
 async def _async_backfill(
