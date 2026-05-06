@@ -13,6 +13,8 @@ if __name__ == "__main__":
         sys.path.insert(0, script_dir)
 
 import numpy as np
+from har_rv_baseline import run as run_har_rv
+from har_rv_j_baseline import run as run_har_rv_j
 from historical_mean_baseline import run as run_hist_mean
 from lightgbm_baseline import run as run_lightgbm
 from linear_regression_baseline import run as run_linear
@@ -29,6 +31,8 @@ def run_regression(data_path: str | None = None, n_splits: int = 5) -> None:
     runners = [
         ("Persistence", run_persistence),
         ("Historical Mean", run_hist_mean),
+        ("HAR-RV (Ridge)", run_har_rv),
+        ("HAR-RV-J (Ridge)", run_har_rv_j),
         ("Linear Regression (Ridge)", run_linear),
         ("LightGBM", run_lightgbm),
         ("LSTM (2-layer)", run_lstm),

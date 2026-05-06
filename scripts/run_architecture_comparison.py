@@ -421,6 +421,8 @@ def _run_baselines_block(
         sys.path.insert(0, baselines_dir)
 
     from historical_mean_baseline import run as run_hist  # type: ignore
+    from har_rv_baseline import run as run_har_rv  # type: ignore
+    from har_rv_j_baseline import run as run_har_rv_j  # type: ignore
     from lightgbm_baseline import run as run_lgbm  # type: ignore
     from linear_regression_baseline import run as run_lin  # type: ignore
     from lstm_baseline import run as run_lstm  # type: ignore
@@ -429,6 +431,8 @@ def _run_baselines_block(
     specs = [
         ("baseline:persistence", run_pers),
         ("baseline:historical_mean", run_hist),
+        ("baseline:har_rv", run_har_rv),
+        ("baseline:har_rv_j", run_har_rv_j),
         ("baseline:linear_ridge", run_lin),
         ("baseline:lightgbm", run_lgbm),
         ("baseline:lstm", run_lstm),
