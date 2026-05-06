@@ -49,7 +49,7 @@ def _run(
     _ensure_empty_log(log_path)
 
     started = time.time()
-    print(f"[RUN] {' '.join(cmd)} -> {log_path.as_posix()}")
+    print(f"[RUN] {' '.join(cmd)} -> {log_path.as_posix()}", flush=True)
 
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"[CMD] {' '.join(cmd)}\n")
@@ -68,17 +68,19 @@ def _run(
         assert p.stdout is not None
         for line in p.stdout:
             f.write(line)
+            f.flush()
+            print(line, end="", flush=True)
         rc = p.wait()
         if rc != 0:
             raise subprocess.CalledProcessError(rc, cmd)
 
-    print(f"[OK ] {' '.join(cmd)} (elapsed {time.time() - started:.1f}s)")
+    print(f"[OK ] {' '.join(cmd)} (elapsed {time.time() - started:.1f}s)", flush=True)
 
 
 def _progress(step: int, total: int, message: str) -> None:
     pct = int((step / max(total, 1)) * 100)
     now = time.strftime("%H:%M:%S")
-    print(f"[{now}] [{step}/{total}] ({pct:>3}%) {message}")
+    print(f"[{now}] [{step}/{total}] ({pct:>3}%) {message}", flush=True)
 
 
 def parse_args() -> argparse.Namespace:
@@ -115,6 +117,7 @@ def main() -> None:
 
     child_env = os.environ.copy()
     child_env["SYMBOL"] = symbol
+    child_env["PYTHONUNBUFFERED"] = "1"
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
     total = (

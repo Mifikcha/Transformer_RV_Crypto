@@ -133,9 +133,17 @@ def _run(
         for line in p.stdout:
             f_stage.write(line)
             f_full.write(line)
+            # Mirror to console so failures are visible without opening logs.
+            print(line, end="", flush=True)
+            f_stage.flush()
+            f_full.flush()
         rc = p.wait()
         if rc != 0:
-            raise subprocess.CalledProcessError(rc, cmd)
+            raise subprocess.CalledProcessError(
+                rc,
+                cmd,
+                output=f"Stage log: {log_path.as_posix()}",
+            )
     print(f"[OK ] {' '.join(cmd)} (elapsed {time.time() - started:.1f}s)")
 
 
@@ -220,6 +228,8 @@ def main() -> None:
     os.environ["SYMBOL"] = symbol
     child_env = os.environ.copy()
     child_env["SYMBOL"] = symbol
+    # Make Python subprocess logs appear immediately (avoid empty stage logs).
+    child_env["PYTHONUNBUFFERED"] = "1"
 
     if not args.skip_dataset:
         step += 1

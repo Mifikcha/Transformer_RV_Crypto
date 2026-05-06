@@ -1,0 +1,20 @@
+[CMD] C:\Users\fifik\AppData\Local\Programs\Python\Python310\python.exe feature_selection/run_feature_selection.py
+[CWD] F:\All\Acheba\Hope\_YA_XYEV_SOSYN
+[TS ] 2026-05-06 23:37:17
+
+
+================================================================================
+  FEATURE SELECTION PIPELINE (RV regression)
+================================================================================
+  Output dir: F:\All\Acheba\Hope\_YA_XYEV_SOSYN\feature_selection\output\btcusdt
+  Log file: F:\All\Acheba\Hope\_YA_XYEV_SOSYN\feature_selection\output\btcusdt\feature_selection.log
+
+Step 0: EDA for feature informativeness
+C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
