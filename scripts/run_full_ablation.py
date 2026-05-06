@@ -15,8 +15,11 @@ import os
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOGS_DIR = Path(PROJECT_ROOT) / "logs"
+FULL_ABLATION_LOG = LOGS_DIR / "log_full_ablation.txt"
 PY = sys.executable
 
 
@@ -66,13 +69,54 @@ def _command_file_exists(cmd: list[str]) -> bool:
     return os.path.exists(os.path.join(PROJECT_ROOT, path))
 
 
-def _run(cmd: list[str], *, quick: bool) -> None:
+def _ensure_empty_log(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("", encoding="utf-8")
+
+
+def _group_log_path(group: str) -> Path:
+    return LOGS_DIR / f"ablation_{group}.txt"
+
+
+def _run(cmd: list[str], *, quick: bool, group: str) -> None:
     run_cmd = list(cmd)
     if quick and "--quick" not in run_cmd:
         run_cmd.append("--quick")
+
+    stage_log = _group_log_path(group)
+    _ensure_empty_log(stage_log)
     started = time.time()
-    print(f"[RUN] {' '.join(run_cmd)}")
-    subprocess.run(run_cmd, check=True, cwd=PROJECT_ROOT)
+    print(f"[RUN] {' '.join(run_cmd)} -> {stage_log.as_posix()}")
+
+    with open(stage_log, "a", encoding="utf-8") as f_stage, open(FULL_ABLATION_LOG, "a", encoding="utf-8") as f_full:
+        header = (
+            f"\n{'='*90}\n"
+            f"[GROUP] {group}\n"
+            f"[CMD  ] {' '.join(run_cmd)}\n"
+            f"[CWD  ] {PROJECT_ROOT}\n"
+            f"[TS   ] {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+            f"{'='*90}\n\n"
+        )
+        f_stage.write(header)
+        f_full.write(header)
+        f_stage.flush()
+        f_full.flush()
+
+        p = subprocess.Popen(
+            run_cmd,
+            cwd=PROJECT_ROOT,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+        )
+        assert p.stdout is not None
+        for line in p.stdout:
+            f_stage.write(line)
+            f_full.write(line)
+        rc = p.wait()
+        if rc != 0:
+            raise subprocess.CalledProcessError(rc, run_cmd)
     print(f"[OK ] {' '.join(run_cmd)} (elapsed {time.time() - started:.1f}s)")
 
 
@@ -97,6 +141,8 @@ def main() -> None:
     skip = _normalize_groups(args.skip)
     schedule = _resolve_schedule(only=only, skip=skip)
 
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    _ensure_empty_log(FULL_ABLATION_LOG)
     _progress(1, len(schedule) + 1, f"Initialized runner | groups={schedule} | quick={args.quick}")
 
     for i, group in enumerate(schedule, start=2):
@@ -108,7 +154,7 @@ def main() -> None:
                 continue
             raise FileNotFoundError(msg)
         _progress(i, len(schedule) + 1, f"Running group {group}")
-        _run(cmd, quick=args.quick)
+        _run(cmd, quick=args.quick, group=group)
 
     _progress(len(schedule) + 1, len(schedule) + 1, f"Done in {time.time() - started:.1f}s")
 

@@ -33,6 +33,9 @@ import os
 import sys
 import time
 
+import numpy as np
+import pandas as pd
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -105,9 +108,32 @@ def parse_args() -> argparse.Namespace:
         help="Do not include baseline models in the unified comparison table.",
     )
     parser.add_argument(
+        "--skip-lstm-baseline",
+        action="store_true",
+        help="Skip the slow LSTM baseline (useful for quick sanity checks).",
+    )
+    parser.add_argument(
         "--skip-transformers",
         action="store_true",
         help="Only evaluate baselines (for quick sanity checks).",
+    )
+    parser.add_argument(
+        "--dm-ref",
+        type=str,
+        default="patch_encoder",
+        help="Model type used as reference for DM/bootstraps (default: patch_encoder).",
+    )
+    parser.add_argument(
+        "--dm-block-size",
+        type=int,
+        default=48,
+        help="Block size (bars) for moving-block bootstrap (default: 48).",
+    )
+    parser.add_argument(
+        "--dm-n-boot",
+        type=int,
+        default=2000,
+        help="Number of bootstrap replications for CI (default: 2000; reduced under --quick).",
     )
     parser.add_argument(
         "--cost-batch-size",
@@ -435,8 +461,9 @@ def _run_baselines_block(
         ("baseline:har_rv_j", run_har_rv_j),
         ("baseline:linear_ridge", run_lin),
         ("baseline:lightgbm", run_lgbm),
-        ("baseline:lstm", run_lstm),
     ]
+    if os.environ.get("SKIP_LSTM_BASELINE", "").strip() not in {"1", "true", "True"}:
+        specs.append(("baseline:lstm", run_lstm))
     rows: list[dict] = []
     for name, fn in specs:
         print("\n" + "-" * 90)
@@ -444,10 +471,11 @@ def _run_baselines_block(
         print("-" * 90)
         t0 = time.perf_counter()
         try:
-            fold_metrics = fn(
+            out = fn(
                 data_path=data_path,
                 n_splits=n_splits,
                 target_columns=target_columns,
+                return_predictions=False,
             )
         except Exception as exc:
             elapsed = time.perf_counter() - t0
@@ -466,6 +494,11 @@ def _run_baselines_block(
             row["model_config"] = ""
             rows.append(row)
             continue
+        # Backward-compatible: baselines may return list[dict] or a dict bundle.
+        if isinstance(out, dict) and "metrics_per_fold" in out:
+            fold_metrics = out["metrics_per_fold"]
+        else:
+            fold_metrics = out
         elapsed = time.perf_counter() - t0
         row = {
             "model_type": name, "n_params": float("nan"),
@@ -488,6 +521,84 @@ def _run_baselines_block(
     return rows
 
 
+def _extract_loss_streams(pred_df: pd.DataFrame, target_columns: tuple[str, ...]) -> dict[str, np.ndarray]:
+    """Return per-horizon and aggregate loss streams from a pred_df."""
+    from scripts.stats_tests import qlike_series  # local import to avoid cycles
+
+    out: dict[str, np.ndarray] = {}
+    loss_parts: list[np.ndarray] = []
+    for col in target_columns:
+        a = pred_df[f"actual_{col}"].to_numpy(dtype=float)
+        p = pred_df[f"pred_{col}"].to_numpy(dtype=float)
+        ls = qlike_series(a, p)
+        out[col] = ls
+        loss_parts.append(ls.reshape(-1, 1))
+    if loss_parts:
+        out["agg"] = np.mean(np.concatenate(loss_parts, axis=1), axis=1)
+    else:
+        out["agg"] = np.array([], dtype=float)
+    return out
+
+
+def _compute_dm_and_bootstrap(
+    *,
+    pred_m0: pd.DataFrame,
+    pred_m1: pd.DataFrame,
+    target_columns: tuple[str, ...],
+    block_size: int,
+    n_boot: int,
+    hac_lags: int | None,
+    seed: int = 42,
+) -> dict[str, float]:
+    """Compute DM p-values and bootstrap CI for mean(loss_m0 - loss_m1)."""
+    from scripts.stats_tests import dm_test, moving_block_bootstrap_mean_ci
+
+    # Align on timestamps to be safe.
+    if "ts" in pred_m0.columns and "ts" in pred_m1.columns:
+        a = pred_m0.copy()
+        b = pred_m1.copy()
+        a["ts"] = pd.to_datetime(a["ts"], utc=True, errors="coerce")
+        b["ts"] = pd.to_datetime(b["ts"], utc=True, errors="coerce")
+        merged = a.merge(b, on="ts", how="inner", suffixes=("_m0", "_m1"))
+        # Rebuild aligned frames.
+        pred0 = pd.DataFrame({"ts": merged["ts"]})
+        pred1 = pd.DataFrame({"ts": merged["ts"]})
+        for col in target_columns:
+            pred0[f"actual_{col}"] = merged[f"actual_{col}_m0"]
+            pred0[f"pred_{col}"] = merged[f"pred_{col}_m0"]
+            pred1[f"actual_{col}"] = merged[f"actual_{col}_m1"]
+            pred1[f"pred_{col}"] = merged[f"pred_{col}_m1"]
+    else:
+        pred0 = pred_m0
+        pred1 = pred_m1
+
+    loss0 = _extract_loss_streams(pred0, target_columns)
+    loss1 = _extract_loss_streams(pred1, target_columns)
+
+    rng = np.random.default_rng(int(seed))
+    out: dict[str, float] = {}
+    keys = list(target_columns) + ["agg"]
+    for k in keys:
+        dm = dm_test(loss0[k], loss1[k], hac_lags=hac_lags, alternative="two-sided")
+        d = (loss0[k] - loss1[k]).astype(float)
+        mean_d, lo, hi = moving_block_bootstrap_mean_ci(
+            d,
+            block_size=int(block_size),
+            n_boot=int(n_boot),
+            alpha=0.05,
+            rng=rng,
+        )
+        suffix = "agg" if k == "agg" else k
+        out[f"dm_stat_{suffix}"] = float(dm.dm_stat)
+        out[f"dm_p_{suffix}"] = float(dm.p_value)
+        out[f"diff_mean_{suffix}"] = float(mean_d)
+        out[f"diff_ci_lo_{suffix}"] = float(lo)
+        out[f"diff_ci_hi_{suffix}"] = float(hi)
+        out[f"dm_n_{suffix}"] = float(dm.n)
+        out[f"dm_hac_lags_{suffix}"] = float(dm.hac_lags)
+    return out
+
+
 def _resolve_feature_list(
     feature_set: str,
     data_path: str,
@@ -505,7 +616,13 @@ def _resolve_feature_list(
         return list(get_feature_columns(df))
 
     from transformer.dataset import load_recommended_features, resolve_features
-    rec = load_recommended_features(features_path)
+    # Symbol-specific recommended_features.csv may be missing; fall back to global output.
+    fp = features_path
+    if fp and not os.path.exists(fp):
+        alt = os.path.join(project_root, "feature_selection", "output", "recommended_features.csv")
+        if os.path.exists(alt):
+            fp = alt
+    rec = load_recommended_features(fp)
     return list(resolve_features(df, rec))
 
 
@@ -513,6 +630,7 @@ def main() -> None:  # noqa: C901
     started = time.time()
     args = parse_args()
     _configure_device_env(args.device)
+    os.environ["SKIP_LSTM_BASELINE"] = "1" if args.skip_lstm_baseline else "0"
 
     from dataclasses import asdict, replace
 
@@ -651,8 +769,11 @@ def main() -> None:  # noqa: C901
             return
         print(f"[CACHE] signature mismatch (cached={cached_sig}, current={signature}); retraining...")
 
-    metric_keys = ("mse_mean", "mae_mean", "r2_mean", "da_mean", "qlike_mean")
+    metric_keys = ("mse_mean", "mae_mean", "r2_mean", "hmse_mean", "qlike_mean")
     rows: list[dict] = []
+    # Store a single OOS prediction stream per model_type for DM/bootstraps.
+    # For transformers with multi-seed evaluation, we store the first seed's stream.
+    pred_streams: dict[str, pd.DataFrame] = {}
     hpo_all_logs: list[dict] = []
 
     if not args.skip_transformers:
@@ -766,6 +887,8 @@ def main() -> None:  # noqa: C901
                 )
                 fold_metrics = result["metrics_per_fold"]
                 per_run_metrics.extend(fold_metrics)
+                if seed == seeds[0] and "predictions_df" in result and isinstance(result["predictions_df"], pd.DataFrame):
+                    pred_streams[model_type] = result["predictions_df"].copy()
                 mse_seed = float(np.nanmean([m.get("mse_mean", np.nan) for m in fold_metrics]))
                 qlike_seed = float(np.nanmean([m.get("qlike_mean", np.nan) for m in fold_metrics]))
                 print(
@@ -817,6 +940,7 @@ def main() -> None:  # noqa: C901
             )
 
     if not args.skip_baselines:
+        # Also capture baseline OOS prediction streams for DM/bootstraps.
         baseline_rows = _run_baselines_block(
             data_path=cfg.data_path,
             n_splits=cfg.train.n_splits,
@@ -825,6 +949,42 @@ def main() -> None:  # noqa: C901
             project_root=project_root,
         )
         rows.extend(baseline_rows)
+
+        # Re-run baselines with return_predictions=True for the DM streams
+        # (cheap compared to transformers; required for aligned per-timestamp losses).
+        baselines_dir = os.path.join(project_root, "baselines")
+        if baselines_dir not in sys.path:
+            sys.path.insert(0, baselines_dir)
+        from historical_mean_baseline import run as run_hist  # type: ignore
+        from har_rv_baseline import run as run_har_rv  # type: ignore
+        from har_rv_j_baseline import run as run_har_rv_j  # type: ignore
+        from lightgbm_baseline import run as run_lgbm  # type: ignore
+        from linear_regression_baseline import run as run_lin  # type: ignore
+        from lstm_baseline import run as run_lstm  # type: ignore
+        from persistence_baseline import run as run_pers  # type: ignore
+
+        baseline_specs = [
+            ("baseline:persistence", run_pers),
+            ("baseline:historical_mean", run_hist),
+            ("baseline:har_rv", run_har_rv),
+            ("baseline:har_rv_j", run_har_rv_j),
+            ("baseline:linear_ridge", run_lin),
+            ("baseline:lightgbm", run_lgbm),
+        ]
+        if not args.skip_lstm_baseline:
+            baseline_specs.append(("baseline:lstm", run_lstm))
+        for name, fn in baseline_specs:
+            try:
+                out = fn(
+                    data_path=cfg.data_path,
+                    n_splits=cfg.train.n_splits,
+                    target_columns=cfg.train.target_columns,
+                    return_predictions=True,
+                )
+                if isinstance(out, dict) and isinstance(out.get("predictions_df"), pd.DataFrame):
+                    pred_streams[name] = out["predictions_df"].copy()
+            except Exception:
+                continue
 
     if not rows:
         print("[WARN] No rows produced (everything skipped?).")
@@ -837,6 +997,34 @@ def main() -> None:  # noqa: C901
         .sort_values(["qlike_mean", "mse_mean"], ascending=[True, True])
         .reset_index(drop=True)
     )
+
+    # DM-test + block bootstrap (per-horizon + aggregate) vs reference model.
+    ref = str(args.dm_ref).strip()
+    if ref in pred_streams:
+        n_boot = int(args.dm_n_boot)
+        if args.quick:
+            n_boot = min(n_boot, 200)
+        hac_lags = int(args.dm_block_size) - 1
+        for i in range(len(summary)):
+            mt = str(summary.loc[i, "model_type"])
+            if mt == ref:
+                continue
+            if mt not in pred_streams:
+                continue
+            stats = _compute_dm_and_bootstrap(
+                pred_m0=pred_streams[mt],
+                pred_m1=pred_streams[ref],
+                target_columns=cfg.train.target_columns,
+                block_size=int(args.dm_block_size),
+                n_boot=n_boot,
+                hac_lags=hac_lags,
+                seed=42,
+            )
+            for k, v in stats.items():
+                summary.loc[i, k] = v
+        summary.loc[summary["model_type"] == ref, "dm_ref"] = ref
+    else:
+        print(f"[WARN] DM/bootstraps skipped: reference model '{ref}' has no prediction stream.")
     summary.to_csv(out_csv, index=False)
     with open(sig_path, "w", encoding="utf-8") as f:
         json.dump({"signature": signature, "payload": signature_payload}, f, ensure_ascii=False, indent=2)

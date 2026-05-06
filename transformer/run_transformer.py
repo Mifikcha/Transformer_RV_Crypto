@@ -36,7 +36,9 @@ from transformer.config import (
 from transformer import train as _train_mod
 from transformer.train import train_walk_forward_regression
 
-LOG_PATH = os.path.join(PROJECT_ROOT, f"log_tranformer_{SYMBOL_LOWER}")
+LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
+LOG_PATH = os.path.join(LOGS_DIR, f"log_tranformer_{SYMBOL_LOWER}.txt")
+LEGACY_LOG_PATH = os.path.join(LOGS_DIR, "log_tranformer")
 LOGGER = logging.getLogger("run_transformer")
 
 
@@ -44,9 +46,13 @@ def _setup_logger() -> None:
     if LOGGER.handlers:
         return
     LOGGER.setLevel(logging.INFO)
+    os.makedirs(LOGS_DIR, exist_ok=True)
     file_handler = logging.FileHandler(LOG_PATH, mode="a", encoding="utf-8")
     file_handler.setFormatter(logging.Formatter("%(asctime)s | %(levelname)s | %(message)s"))
     LOGGER.addHandler(file_handler)
+    legacy_handler = logging.FileHandler(LEGACY_LOG_PATH, mode="a", encoding="utf-8")
+    legacy_handler.setFormatter(logging.Formatter("%(asctime)s | %(levelname)s | %(message)s"))
+    LOGGER.addHandler(legacy_handler)
     LOGGER.propagate = False
 
 

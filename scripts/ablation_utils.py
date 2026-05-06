@@ -23,6 +23,78 @@ def _qlike_loss(y_true: np.ndarray, y_pred: np.ndarray, eps: float = 1e-12) -> f
     return float(np.mean(np.log(yp) + yt / yp))
 
 
+def dm_bootstrap_compare_pred_dfs(
+    *,
+    pred_m0: pd.DataFrame,
+    pred_m1: pd.DataFrame,
+    target_columns: list[str],
+    block_size: int = 48,
+    n_boot: int = 2000,
+    hac_lags: int | None = None,
+    seed: int = 42,
+) -> dict[str, float]:
+    """Compute DM-test + block-bootstrap CI between two pred_df streams.
+
+    pred_df format: must contain columns actual_<target>, pred_<target>, and optionally ts.
+    Returns keys dm_p_<target>/dm_stat_<target>/diff_mean_<target>/diff_ci_* and aggregate (suffix 'agg').
+    """
+    from scripts.stats_tests import dm_test, moving_block_bootstrap_mean_ci, qlike_series
+
+    # Align on timestamps if present.
+    if "ts" in pred_m0.columns and "ts" in pred_m1.columns:
+        a = pred_m0.copy()
+        b = pred_m1.copy()
+        a["ts"] = pd.to_datetime(a["ts"], utc=True, errors="coerce")
+        b["ts"] = pd.to_datetime(b["ts"], utc=True, errors="coerce")
+        merged = a.merge(b, on="ts", how="inner", suffixes=("_m0", "_m1"))
+        m0 = pd.DataFrame({"ts": merged["ts"]})
+        m1 = pd.DataFrame({"ts": merged["ts"]})
+        for col in target_columns:
+            m0[f"actual_{col}"] = merged[f"actual_{col}_m0"]
+            m0[f"pred_{col}"] = merged[f"pred_{col}_m0"]
+            m1[f"actual_{col}"] = merged[f"actual_{col}_m1"]
+            m1[f"pred_{col}"] = merged[f"pred_{col}_m1"]
+    else:
+        m0, m1 = pred_m0, pred_m1
+
+    rng = np.random.default_rng(int(seed))
+    out: dict[str, float] = {}
+    losses0 = []
+    losses1 = []
+    for col in target_columns:
+        l0 = qlike_series(m0[f"actual_{col}"].to_numpy(), m0[f"pred_{col}"].to_numpy())
+        l1 = qlike_series(m1[f"actual_{col}"].to_numpy(), m1[f"pred_{col}"].to_numpy())
+        losses0.append(l0.reshape(-1, 1))
+        losses1.append(l1.reshape(-1, 1))
+
+        dm = dm_test(l0, l1, hac_lags=hac_lags, alternative="two-sided")
+        d = l0 - l1
+        mean_d, lo, hi = moving_block_bootstrap_mean_ci(
+            d, block_size=int(block_size), n_boot=int(n_boot), alpha=0.05, rng=rng
+        )
+        out[f"dm_stat_{col}"] = float(dm.dm_stat)
+        out[f"dm_p_{col}"] = float(dm.p_value)
+        out[f"diff_mean_{col}"] = float(mean_d)
+        out[f"diff_ci_lo_{col}"] = float(lo)
+        out[f"diff_ci_hi_{col}"] = float(hi)
+
+    if losses0:
+        agg0 = np.mean(np.concatenate(losses0, axis=1), axis=1)
+        agg1 = np.mean(np.concatenate(losses1, axis=1), axis=1)
+        dm = dm_test(agg0, agg1, hac_lags=hac_lags, alternative="two-sided")
+        d = agg0 - agg1
+        mean_d, lo, hi = moving_block_bootstrap_mean_ci(
+            d, block_size=int(block_size), n_boot=int(n_boot), alpha=0.05, rng=rng
+        )
+        out["dm_stat_agg"] = float(dm.dm_stat)
+        out["dm_p_agg"] = float(dm.p_value)
+        out["diff_mean_agg"] = float(mean_d)
+        out["diff_ci_lo_agg"] = float(lo)
+        out["diff_ci_hi_agg"] = float(hi)
+
+    return out
+
+
 def progress(step: int, total: int, msg: str) -> None:
     pct = int((step / max(total, 1)) * 100)
     now = time.strftime("%H:%M:%S")

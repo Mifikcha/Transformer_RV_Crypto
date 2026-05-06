@@ -38,6 +38,8 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+LOGS_DIR = PROJECT_ROOT / "logs"
+FULL_BASE_LOG = LOGS_DIR / "log_full_base.txt"
 PY = sys.executable
 
 # Matches CLI shorthands like --ETHUSDT, --BTCUSDT, --SOLUSDT, --1000PEPEUSDT, etc.
@@ -74,12 +76,66 @@ def _progress(step: int, total: int, message: str) -> None:
     print(f"[{now}] [{step}/{total}] ({pct:>3}%) {message}")
 
 
-def _run(cmd: list[str], *, dry_run: bool, env: dict[str, str] | None = None) -> None:
-    print(f"[RUN] {' '.join(cmd)}")
+def _log_path(stage: str, symbol: str) -> Path:
+    safe_stage = re.sub(r"[^a-zA-Z0-9_.-]+", "_", str(stage).strip())
+    safe_symbol = re.sub(r"[^A-Z0-9_.-]+", "_", str(symbol).strip().upper())
+    return LOGS_DIR / f"{safe_stage}_{safe_symbol}.txt"
+
+
+def _ensure_empty_log(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("", encoding="utf-8")
+
+
+def _run(
+    cmd: list[str],
+    *,
+    stage: str,
+    symbol: str,
+    dry_run: bool,
+    env: dict[str, str] | None = None,
+) -> None:
+    log_path = _log_path(stage, symbol)
+    _ensure_empty_log(log_path)
+
+    print(f"[RUN] {' '.join(cmd)} -> {log_path.as_posix()}")
     if dry_run:
         return
     started = time.time()
-    subprocess.run(cmd, check=True, cwd=str(PROJECT_ROOT), env=env)
+    with (
+        open(log_path, "a", encoding="utf-8") as f_stage,
+        open(FULL_BASE_LOG, "a", encoding="utf-8") as f_full,
+    ):
+        header = (
+            f"\n{'='*90}\n"
+            f"[STAGE] {stage}\n"
+            f"[SYMB ] {symbol}\n"
+            f"[CMD  ] {' '.join(cmd)}\n"
+            f"[CWD  ] {str(PROJECT_ROOT)}\n"
+            f"[TS   ] {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+            f"{'='*90}\n\n"
+        )
+        f_stage.write(header)
+        f_full.write(header)
+        f_stage.flush()
+        f_full.flush()
+
+        p = subprocess.Popen(
+            cmd,
+            cwd=str(PROJECT_ROOT),
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+        )
+        assert p.stdout is not None
+        for line in p.stdout:
+            f_stage.write(line)
+            f_full.write(line)
+        rc = p.wait()
+        if rc != 0:
+            raise subprocess.CalledProcessError(rc, cmd)
     print(f"[OK ] {' '.join(cmd)} (elapsed {time.time() - started:.1f}s)")
 
 
@@ -157,6 +213,8 @@ def main() -> None:
         return
 
     print(f"[INFO] Active symbol: {symbol}")
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    _ensure_empty_log(FULL_BASE_LOG)
 
     # Single source of truth for downstream subprocesses: SYMBOL env var.
     os.environ["SYMBOL"] = symbol
@@ -168,6 +226,8 @@ def main() -> None:
         _progress(step, total, f"Dataset orchestrator (symbol={symbol})")
         _run(
             [PY, "dataset/get_data/_get_data.py", "--symbol", symbol],
+            stage="get_data",
+            symbol=symbol,
             dry_run=args.dry_run,
             env=child_env,
         )
@@ -175,7 +235,13 @@ def main() -> None:
     if not args.skip_target:
         step += 1
         _progress(step, total, f"Target orchestrator (symbol={symbol})")
-        _run([PY, "target/form_target.py"], dry_run=args.dry_run, env=child_env)
+        _run(
+            [PY, "target/form_target.py"],
+            stage="form_target",
+            symbol=symbol,
+            dry_run=args.dry_run,
+            env=child_env,
+        )
 
     if not args.skip_rv_pipeline:
         step += 1
@@ -191,7 +257,13 @@ def main() -> None:
             cmd.append("--skip-baselines")
         # Always skip architecture comparison in full orchestrator.
         cmd.append("--skip-arch")
-        _run(cmd, dry_run=args.dry_run, env=child_env)
+        _run(
+            cmd,
+            stage="run_rv_pipeline",
+            symbol=symbol,
+            dry_run=args.dry_run,
+            env=child_env,
+        )
 
     print(f"[DONE] Full orchestrator finished in {time.time() - started_total:.1f}s.")
 

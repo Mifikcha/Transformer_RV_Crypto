@@ -72,6 +72,7 @@ def run(
     weight_decay: float = 1e-4,
     patience: int = 15,
     warmup_epochs: int = 5,
+    return_predictions: bool = False,
 ) -> list[dict]:
     path = data_path or get_default_data_path()
     df = load_dataset(path)
@@ -82,6 +83,7 @@ def run(
     splits = walk_forward_split(df, n_splits=n_splits)
     metrics_per_fold: list[dict] = []
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    pred_parts = []
 
     def _warmup_cosine(epoch: int) -> float:
         w = int(warmup_epochs)
@@ -95,7 +97,7 @@ def run(
         # L = y_pred + exp(y_true - y_pred)
         return (pred_log + torch.exp(true_log - pred_log)).mean()
 
-    for train_idx, test_idx in splits:
+    for fold_id, (train_idx, test_idx) in enumerate(splits):
         X_train_raw, X_test_raw = X[train_idx], X[test_idx]
         y_train, y_test = y[train_idx], y[test_idx]
 
@@ -181,9 +183,21 @@ def run(
         metrics_per_fold.append(
             compute_regression_metrics(y_true=y_true, y_pred=y_pred, target_columns=tgt_cols)
         )
+        if return_predictions:
+            part = df.iloc[test_idx][["ts"]].copy() if "ts" in df.columns else df.iloc[test_idx].copy()
+            part = part.reset_index(drop=True)
+            part["fold_id"] = int(fold_id)
+            for i, col in enumerate(tgt_cols):
+                part[f"actual_{col}"] = y_true[:, i]
+                part[f"pred_{col}"] = y_pred[:, i]
+            pred_parts.append(part)
 
     print_regression_metrics(metrics_per_fold, "LSTM (2-layer, hidden=64, log-target, QLIKE)", tgt_cols)
-    return metrics_per_fold
+    if not return_predictions:
+        return metrics_per_fold
+    import pandas as pd
+    pred_df = pd.concat(pred_parts, ignore_index=True) if pred_parts else pd.DataFrame()
+    return {"metrics_per_fold": metrics_per_fold, "predictions_df": pred_df}
 
 
 if __name__ == "__main__":

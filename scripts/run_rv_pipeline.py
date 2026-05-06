@@ -16,18 +16,62 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOGS_DIR = Path(PROJECT_ROOT) / "logs"
 PY = sys.executable
 
 
-def _run(cmd: list[str], env: dict[str, str] | None = None) -> None:
+def _log_path(stage: str, symbol: str) -> Path:
+    safe_stage = re.sub(r"[^a-zA-Z0-9_.-]+", "_", str(stage).strip())
+    safe_symbol = re.sub(r"[^A-Z0-9_.-]+", "_", str(symbol).strip().upper())
+    return LOGS_DIR / f"{safe_stage}_{safe_symbol}.txt"
+
+
+def _ensure_empty_log(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("", encoding="utf-8")
+
+
+def _run(
+    cmd: list[str],
+    *,
+    stage: str,
+    symbol: str,
+    env: dict[str, str] | None = None,
+) -> None:
+    log_path = _log_path(stage, symbol)
+    _ensure_empty_log(log_path)
+
     started = time.time()
-    print(f"[RUN] {' '.join(cmd)}")
-    subprocess.run(cmd, check=True, cwd=PROJECT_ROOT, env=env)
+    print(f"[RUN] {' '.join(cmd)} -> {log_path.as_posix()}")
+
+    with open(log_path, "a", encoding="utf-8") as f:
+        f.write(f"[CMD] {' '.join(cmd)}\n")
+        f.write(f"[CWD] {PROJECT_ROOT}\n")
+        f.write(f"[TS ] {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        f.flush()
+        p = subprocess.Popen(
+            cmd,
+            cwd=PROJECT_ROOT,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+        )
+        assert p.stdout is not None
+        for line in p.stdout:
+            f.write(line)
+        rc = p.wait()
+        if rc != 0:
+            raise subprocess.CalledProcessError(rc, cmd)
+
     print(f"[OK ] {' '.join(cmd)} (elapsed {time.time() - started:.1f}s)")
 
 
@@ -71,6 +115,7 @@ def main() -> None:
 
     child_env = os.environ.copy()
     child_env["SYMBOL"] = symbol
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
     total = (
         1
@@ -90,12 +135,22 @@ def main() -> None:
         targets_input = os.path.join(
             PROJECT_ROOT, "target", f"{symbol_lower}_5m_final_with_targets.csv"
         )
-        _run([PY, "scripts/add_rv_targets.py", "--input", targets_input], env=child_env)
+        _run(
+            [PY, "scripts/add_rv_targets.py", "--input", targets_input],
+            stage="add_rv_targets",
+            symbol=symbol,
+            env=child_env,
+        )
 
     if not args.skip_feature_selection:
         step += 1
         _progress(step, total, "Step: feature selection (recommended_features.csv)")
-        _run([PY, "feature_selection/run_feature_selection.py"], env=child_env)
+        _run(
+            [PY, "feature_selection/run_feature_selection.py"],
+            stage="feature_selection",
+            symbol=symbol,
+            env=child_env,
+        )
 
     if not args.skip_transformer:
         train_cmd = [PY, "transformer/run_transformer.py", "--mode", "train-rv"]
@@ -103,12 +158,22 @@ def main() -> None:
             train_cmd += ["--max-epochs", "3", "--n-splits", "2", "--patience", "2"]
         step += 1
         _progress(step, total, "Step: train Transformer RV model")
-        _run(train_cmd, env=child_env)
+        _run(
+            train_cmd,
+            stage="transformer_train_rv",
+            symbol=symbol,
+            env=child_env,
+        )
 
     if not args.skip_baselines:
         step += 1
         _progress(step, total, "Step: run RV baselines")
-        _run([PY, "baselines/run_baselines.py"], env=child_env)
+        _run(
+            [PY, "baselines/run_baselines.py"],
+            stage="run_baselines",
+            symbol=symbol,
+            env=child_env,
+        )
 
     if not args.skip_arch:
         arch_cmd = [PY, "scripts/run_architecture_comparison.py"]
@@ -116,7 +181,12 @@ def main() -> None:
             arch_cmd += ["--quick"]
         step += 1
         _progress(step, total, "Step: run architecture comparison")
-        _run(arch_cmd, env=child_env)
+        _run(
+            arch_cmd,
+            stage="architecture_comparison",
+            symbol=symbol,
+            env=child_env,
+        )
 
     print(f"[DONE] RV pipeline finished in {time.time() - started:.1f}s.")
 

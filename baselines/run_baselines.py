@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 import time
@@ -27,7 +28,7 @@ def _mean_metric(metrics_per_fold: list[dict], key: str) -> float:
     return sum(vals) / len(vals) if vals else float("nan")
 
 
-def run_regression(data_path: str | None = None, n_splits: int = 5) -> None:
+def run_regression(data_path: str | None = None, n_splits: int = 5, *, skip_lstm: bool = False) -> None:
     runners = [
         ("Persistence", run_persistence),
         ("Historical Mean", run_hist_mean),
@@ -35,8 +36,9 @@ def run_regression(data_path: str | None = None, n_splits: int = 5) -> None:
         ("HAR-RV-J (Ridge)", run_har_rv_j),
         ("Linear Regression (Ridge)", run_linear),
         ("LightGBM", run_lightgbm),
-        ("LSTM (2-layer)", run_lstm),
     ]
+    if not skip_lstm:
+        runners.append(("LSTM (2-layer)", run_lstm))
     results = []
     for name, run_fn in runners:
         start = time.perf_counter()
@@ -48,7 +50,7 @@ def run_regression(data_path: str | None = None, n_splits: int = 5) -> None:
                 "mse_mean": _mean_metric(metrics_per_fold, "mse_mean"),
                 "mae_mean": _mean_metric(metrics_per_fold, "mae_mean"),
                 "r2_mean": _mean_metric(metrics_per_fold, "r2_mean"),
-                "da_mean": _mean_metric(metrics_per_fold, "da_mean"),
+                "hmse_mean": _mean_metric(metrics_per_fold, "hmse_mean"),
                 "qlike_mean": _mean_metric(metrics_per_fold, "qlike_mean"),
                 "time_sec": round(elapsed, 2),
             }
@@ -59,16 +61,21 @@ def run_regression(data_path: str | None = None, n_splits: int = 5) -> None:
     print("=" * 90)
     print(
         f"  {'Model':<28}  {'MSE(mean)':>10}  {'MAE(mean)':>10}  "
-        f"{'R2(mean)':>9}  {'DA(mean)':>9}  {'QLIKE':>10}  {'Time(s)':>8}"
+        f"{'R2(mean)':>9}  {'HMSE':>10}  {'QLIKE':>10}  {'Time(s)':>8}"
     )
     print("-" * 90)
     for row in results:
         print(
             f"  {row['model']:<28}  {row['mse_mean']:>10.6f}  {row['mae_mean']:>10.6f}  "
-            f"{row['r2_mean']:>9.4f}  {row['da_mean']:>9.4f}  {row['qlike_mean']:>10.6f}  {row['time_sec']:>8.2f}"
+            f"{row['r2_mean']:>9.4f}  {row['hmse_mean']:>10.6f}  {row['qlike_mean']:>10.6f}  {row['time_sec']:>8.2f}"
         )
     print("=" * 90 + "\n")
 
 
 if __name__ == "__main__":
-    run_regression(data_path=None, n_splits=5)
+    p = argparse.ArgumentParser()
+    p.add_argument("--n-splits", type=int, default=5)
+    p.add_argument("--data-path", type=str, default=None)
+    p.add_argument("--skip-lstm", action="store_true", help="Skip the slow LSTM baseline.")
+    args = p.parse_args()
+    run_regression(data_path=args.data_path, n_splits=int(args.n_splits), skip_lstm=bool(args.skip_lstm))

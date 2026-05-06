@@ -34,6 +34,7 @@ def compute_regression_metrics(
     r2_vals: list[float] = []
     da_vals: list[float] = []
     qlike_vals: list[float] = []
+    hmse_vals: list[float] = []
 
     for idx, name in enumerate(target_columns):
         yt = y_true[:, idx]
@@ -43,20 +44,26 @@ def compute_regression_metrics(
         r2 = float(r2_score(yt, yp))
         da = float(np.mean(np.sign(yt) == np.sign(yp)))
         qlike = _qlike_loss(yt, yp)
+        eps = 1e-12
+        yt_pos = np.clip(yt.astype(float), eps, None)
+        hmse = float(np.mean(((yp.astype(float) - yt_pos) / yt_pos) ** 2))
         out[f"mse_{name}"] = mse
         out[f"mae_{name}"] = mae
         out[f"r2_{name}"] = r2
         out[f"da_{name}"] = da
         out[f"qlike_{name}"] = qlike
+        out[f"hmse_{name}"] = hmse
         mse_vals.append(mse)
         mae_vals.append(mae)
         r2_vals.append(r2)
         da_vals.append(da)
         qlike_vals.append(qlike)
+        hmse_vals.append(hmse)
 
     out["mse_mean"] = float(np.mean(mse_vals))
     out["mae_mean"] = float(np.mean(mae_vals))
     out["r2_mean"] = float(np.mean(r2_vals))
     out["da_mean"] = float(np.mean(da_vals))
     out["qlike_mean"] = float(np.mean(qlike_vals))
+    out["hmse_mean"] = float(np.mean(hmse_vals))
     return out

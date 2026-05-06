@@ -118,8 +118,49 @@ def rv_to_log(rv: np.ndarray, eps: float = 1e-12) -> np.ndarray:
 
 
 def log_to_rv(y_log: np.ndarray, eps: float = 1e-12) -> np.ndarray:
-    """Convert log-RV predictions back to natural scale RV."""
-    return np.clip(np.exp(y_log.astype(float)), eps, None)
+    """Convert log-RV predictions back to natural scale RV.
+
+    Notes
+    -----
+    We clip the log-values before exp() to avoid numerical overflow and
+    degenerate near-zero predictions that explode QLIKE.
+    """
+    y = np.asarray(y_log, dtype=float)
+    y = np.clip(y, -50.0, 50.0)
+    return np.clip(np.exp(y), eps, None)
+
+
+def clip_log_predictions_to_train(
+    y_pred_log: np.ndarray,
+    y_train_log: np.ndarray,
+    *,
+    n_sigma: float = 5.0,
+    hard_clip: tuple[float, float] = (-50.0, 50.0),
+) -> np.ndarray:
+    """Clip log predictions using train distribution (per horizon).
+
+    This prevents a small number of extreme log-predictions from producing
+    exp() blow-ups (huge MSE) or near-zero RV (huge QLIKE).
+    """
+    yp = np.asarray(y_pred_log, dtype=float)
+    yt = np.asarray(y_train_log, dtype=float)
+    if yt.ndim == 1:
+        mu = float(np.nanmean(yt))
+        sd = float(np.nanstd(yt))
+        lo = mu - float(n_sigma) * sd
+        hi = mu + float(n_sigma) * sd
+        lo = max(lo, float(hard_clip[0]))
+        hi = min(hi, float(hard_clip[1]))
+        return np.clip(yp, lo, hi)
+
+    # 2D: [N, H]
+    mu = np.nanmean(yt, axis=0)
+    sd = np.nanstd(yt, axis=0)
+    lo = mu - float(n_sigma) * sd
+    hi = mu + float(n_sigma) * sd
+    lo = np.maximum(lo, float(hard_clip[0]))
+    hi = np.minimum(hi, float(hard_clip[1]))
+    return np.clip(yp, lo, hi)
 
 
 def qlike_loss_logspace(y_true_log: np.ndarray, y_pred_log: np.ndarray) -> float:
@@ -247,34 +288,38 @@ def compute_regression_metrics(
     r2_list: list[float] = []
     da_list: list[float] = []
     qlike_list: list[float] = []
+    hmse_list: list[float] = []
 
     for idx, col in enumerate(target_columns):
         y_t = y_true[:, idx]
         y_p = y_pred[:, idx]
         mse_v = float(mean_squared_error(y_t, y_p))
         mae_v = float(mean_absolute_error(y_t, y_p))
-        r2_v = float(r2_score(y_t, y_p))
-        da_v = float(np.mean(np.sign(y_t) == np.sign(y_p)))
         eps = 1e-12
         yt_pos = np.clip(y_t, eps, None)
         yp_pos = np.clip(y_p, eps, None)
+        # Important: for log-space models, R² in natural space after exp()
+        # becomes hard to interpret due to exponential error amplification.
+        # We therefore compute R² in log-space for baselines.
+        r2_v = float(r2_score(np.log(yt_pos), np.log(yp_pos)))
         qlike_v = float(np.mean(np.log(yp_pos) + yt_pos / yp_pos))
+        hmse_v = float(np.mean(((y_p.astype(float) - yt_pos) / yt_pos) ** 2))
         out[f"mse_{col}"] = mse_v
         out[f"mae_{col}"] = mae_v
         out[f"r2_{col}"] = r2_v
-        out[f"da_{col}"] = da_v
         out[f"qlike_{col}"] = qlike_v
+        out[f"hmse_{col}"] = hmse_v
         mse_list.append(mse_v)
         mae_list.append(mae_v)
         r2_list.append(r2_v)
-        da_list.append(da_v)
         qlike_list.append(qlike_v)
+        hmse_list.append(hmse_v)
 
     out["mse_mean"] = float(np.mean(mse_list))
     out["mae_mean"] = float(np.mean(mae_list))
     out["r2_mean"] = float(np.mean(r2_list))
-    out["da_mean"] = float(np.mean(da_list))
     out["qlike_mean"] = float(np.mean(qlike_list))
+    out["hmse_mean"] = float(np.mean(hmse_list))
     return out
 
 
@@ -291,7 +336,7 @@ def print_regression_metrics(
     print("\n" + "=" * 60)
     print(f"  {model_name}")
     print("=" * 60)
-    for metric_name in ("mse", "mae", "r2", "da"):
+    for metric_name in ("mse", "mae", "r2", "hmse"):
         mean_key = f"{metric_name}_mean"
         vals = [float(m[mean_key]) for m in metrics_per_fold if mean_key in m]
         if vals:
@@ -304,12 +349,13 @@ def print_regression_metrics(
         mse_vals = [float(m[f"mse_{col}"]) for m in metrics_per_fold if f"mse_{col}" in m]
         mae_vals = [float(m[f"mae_{col}"]) for m in metrics_per_fold if f"mae_{col}" in m]
         r2_vals = [float(m[f"r2_{col}"]) for m in metrics_per_fold if f"r2_{col}" in m]
-        da_vals = [float(m[f"da_{col}"]) for m in metrics_per_fold if f"da_{col}" in m]
+        hmse_vals = [float(m[f"hmse_{col}"]) for m in metrics_per_fold if f"hmse_{col}" in m]
         if not mse_vals:
             continue
         print(
             f"    {col}: MSE {np.mean(mse_vals):.6f}, MAE {np.mean(mae_vals):.6f}, "
-            f"R2 {np.mean(r2_vals):.4f}, DA {np.mean(da_vals):.4f}, "
+            f"R2 {np.mean(r2_vals):.4f}, "
+            f"HMSE {np.mean(hmse_vals):.6f}, "
             f"QLIKE {np.mean([float(m[f'qlike_{col}']) for m in metrics_per_fold if f'qlike_{col}' in m]):.6f}"
         )
     print("=" * 60 + "\n")
