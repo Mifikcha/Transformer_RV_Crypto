@@ -28,9 +28,11 @@ def run(
     metrics_per_fold: list[dict] = []
 
     for train_idx, test_idx in splits:
+        # True persistence baseline: predict last observed RV at each time t:
+        #   v_hat[t] = v[t-1]  for t in test window.
         y_test = y[test_idx]
-        last_obs = y[train_idx][-1]
-        y_pred = np.repeat(last_obs.reshape(1, -1), repeats=len(y_test), axis=0)
+        prev_idx = np.clip(test_idx - 1, a_min=0, a_max=len(y) - 1)
+        y_pred = y[prev_idx]
         metrics_per_fold.append(
             compute_regression_metrics(y_true=y_test, y_pred=y_pred, target_columns=tgt_cols)
         )

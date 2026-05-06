@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import numpy as np
 from sklearn.linear_model import Ridge
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import StandardScaler
@@ -10,10 +11,12 @@ from utils import (
     RV_TARGET_COLS,
     compute_regression_metrics,
     get_default_data_path,
-    get_feature_columns,
+    get_feature_columns_recommended_or_all,
     get_regression_target_columns,
+    log_to_rv,
     load_dataset,
     print_regression_metrics,
+    rv_to_log,
     walk_forward_split,
 )
 
@@ -25,7 +28,7 @@ def run(
 ) -> list[dict]:
     path = data_path or get_default_data_path()
     df = load_dataset(path)
-    feat_cols = get_feature_columns(df)
+    feat_cols = get_feature_columns_recommended_or_all(df)
     tgt_cols = get_regression_target_columns(df, target_columns=target_columns)
 
     X = df[feat_cols].astype(float).fillna(0.0).values
@@ -41,14 +44,18 @@ def run(
         X_train_s = scaler.fit_transform(X_train)
         X_test_s = scaler.transform(X_test)
 
+        # Train in log-space so the optimization matches QLIKE-family objectives.
+        y_train_log = rv_to_log(y_train)
         model = MultiOutputRegressor(Ridge(alpha=1.0, random_state=42))
-        model.fit(X_train_s, y_train)
-        y_pred = model.predict(X_test_s)
+        model.fit(X_train_s, y_train_log)
+        y_pred_log = model.predict(X_test_s)
+        y_pred = log_to_rv(y_pred_log)
+
         metrics_per_fold.append(
             compute_regression_metrics(y_true=y_test, y_pred=y_pred, target_columns=tgt_cols)
         )
 
-    print_regression_metrics(metrics_per_fold, "Linear Regression (Ridge)", tgt_cols)
+    print_regression_metrics(metrics_per_fold, "Linear Regression (Ridge, log-target)", tgt_cols)
     return metrics_per_fold
 
 

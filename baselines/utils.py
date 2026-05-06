@@ -6,6 +6,7 @@ Shared utilities for baselines:
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -48,6 +49,88 @@ EXCLUDED_COLUMNS = {
 VALID_TARGET_COL = "is_valid_target"
 
 RV_TARGET_COLS = ("rv_3bar_fwd", "rv_12bar_fwd", "rv_48bar_fwd", "rv_288bar_fwd")
+
+
+def _project_root() -> Path:
+    return Path(__file__).resolve().parent.parent
+
+
+def get_recommended_features_path() -> str | None:
+    """Return path to recommended_features.csv if it exists, else None.
+
+    Resolution order:
+    1) feature_selection/output/<symbol_lower>/recommended_features.csv
+    2) feature_selection/output/recommended_features.csv
+    """
+    root = _project_root()
+    symbol_lower = os.environ.get("SYMBOL", "BTCUSDT").strip().lower() or "btcusdt"
+    candidates = [
+        root / "feature_selection" / "output" / symbol_lower / "recommended_features.csv",
+        root / "feature_selection" / "output" / "recommended_features.csv",
+    ]
+    for p in candidates:
+        if p.is_file():
+            return str(p)
+    return None
+
+
+def load_recommended_features(path: str) -> list[str]:
+    feat_df = pd.read_csv(path)
+    if "feature" not in feat_df.columns:
+        raise ValueError(f"'feature' column is missing in {path}")
+    features = (
+        feat_df["feature"]
+        .astype(str)
+        .str.strip()
+        .replace("", np.nan)
+        .dropna()
+        .drop_duplicates()
+        .tolist()
+    )
+    if not features:
+        raise ValueError(f"No recommended features in {path}")
+    return features
+
+
+def resolve_recommended_features(df: pd.DataFrame, features: list[str]) -> list[str]:
+    """Keep only existing numeric columns from the recommended feature list."""
+    out: list[str] = []
+    for f in features:
+        if f in df.columns and pd.api.types.is_numeric_dtype(df[f]):
+            out.append(f)
+    if not out:
+        raise ValueError("No overlap between recommended features and dataset numeric columns.")
+    return out
+
+
+def get_feature_columns_recommended_or_all(df: pd.DataFrame) -> list[str]:
+    """Prefer recommended_features.csv; fall back to full numeric feature set."""
+    p = get_recommended_features_path()
+    if p is None:
+        return get_feature_columns(df)
+    feats = load_recommended_features(p)
+    return resolve_recommended_features(df, feats)
+
+
+def rv_to_log(rv: np.ndarray, eps: float = 1e-12) -> np.ndarray:
+    """Convert RV in natural scale to log scale, clipping to avoid -inf."""
+    return np.log(np.clip(rv.astype(float), eps, None))
+
+
+def log_to_rv(y_log: np.ndarray, eps: float = 1e-12) -> np.ndarray:
+    """Convert log-RV predictions back to natural scale RV."""
+    return np.clip(np.exp(y_log.astype(float)), eps, None)
+
+
+def qlike_loss_logspace(y_true_log: np.ndarray, y_pred_log: np.ndarray) -> float:
+    """QLIKE loss in log-space up to an additive constant.
+
+    Using loss = y_pred + exp(y_true - y_pred).
+    This is equivalent (up to constants) to log(v_hat) + v/v_hat.
+    """
+    yt = y_true_log.astype(float)
+    yp = y_pred_log.astype(float)
+    return float(np.mean(yp + np.exp(yt - yp)))
 
 def get_default_data_path() -> str:
     """Resolve default dataset path with backward-compatible fallbacks.

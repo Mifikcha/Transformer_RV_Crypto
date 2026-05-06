@@ -12,10 +12,12 @@ from utils import (
     RV_TARGET_COLS,
     compute_regression_metrics,
     get_default_data_path,
-    get_feature_columns,
+    get_feature_columns_recommended_or_all,
     get_regression_target_columns,
+    log_to_rv,
     load_dataset,
     print_regression_metrics,
+    rv_to_log,
     walk_forward_split,
 )
 
@@ -61,22 +63,37 @@ def run(
     data_path: str | None = None,
     n_splits: int = 5,
     target_columns: tuple[str, ...] = RV_TARGET_COLS,
-    seq_len: int = 60,
+    seq_len: int = 240,
     hidden_dim: int = 64,
     num_layers: int = 2,
     batch_size: int = 128,
-    max_epochs: int = 10,
-    lr: float = 1e-3,
+    max_epochs: int = 75,
+    lr: float = 5e-5,
+    weight_decay: float = 1e-4,
+    patience: int = 15,
+    warmup_epochs: int = 5,
 ) -> list[dict]:
     path = data_path or get_default_data_path()
     df = load_dataset(path)
-    feat_cols = get_feature_columns(df)
+    feat_cols = get_feature_columns_recommended_or_all(df)
     tgt_cols = get_regression_target_columns(df, target_columns=target_columns)
     X = df[feat_cols].astype(float).fillna(0.0).values
     y = df[tgt_cols].astype(float).values
     splits = walk_forward_split(df, n_splits=n_splits)
     metrics_per_fold: list[dict] = []
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    def _warmup_cosine(epoch: int) -> float:
+        w = int(warmup_epochs)
+        if epoch < max(w, 1):
+            return float(lr) * (epoch + 1) / max(w, 1)
+        denom = max(int(max_epochs) - w, 1)
+        progress = (epoch - w) / denom
+        return float(lr) * 0.5 * (1.0 + float(np.cos(np.pi * progress)))
+
+    def _qlike_loss_log(pred_log: torch.Tensor, true_log: torch.Tensor) -> torch.Tensor:
+        # L = y_pred + exp(y_true - y_pred)
+        return (pred_log + torch.exp(true_log - pred_log)).mean()
 
     for train_idx, test_idx in splits:
         X_train_raw, X_test_raw = X[train_idx], X[test_idx]
@@ -86,14 +103,17 @@ def run(
         X_train = scaler.fit_transform(X_train_raw).astype(np.float32)
         X_test = scaler.transform(X_test_raw).astype(np.float32)
 
-        train_ds = _SeqDataset(X_train, y_train, seq_len=seq_len)
+        y_train_log = rv_to_log(y_train).astype(np.float32)
+        y_test_log = rv_to_log(y_test).astype(np.float32)
+
+        train_ds = _SeqDataset(X_train, y_train_log, seq_len=seq_len)
         ctx = seq_len - 1
         if ctx > 0:
             X_test_full = np.concatenate([X_train[-ctx:], X_test], axis=0)
-            y_test_full = np.concatenate([y_train[-ctx:], y_test], axis=0)
+            y_test_full = np.concatenate([y_train_log[-ctx:], y_test_log], axis=0)
         else:
             X_test_full = X_test
-            y_test_full = y_test
+            y_test_full = y_test_log
         test_ds = _SeqDataset(X_test_full, y_test_full, seq_len=seq_len)
 
         train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=False)
@@ -105,21 +125,23 @@ def run(
             num_layers=num_layers,
             out_dim=len(tgt_cols),
         ).to(device)
-        optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
-        criterion = nn.MSELoss()
+        optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=float(weight_decay))
 
         best_state = None
         best_val = float("inf")
         wait = 0
-        patience = 3
-        for _ in range(max_epochs):
+        for epoch in range(max_epochs):
+            # Match transformer-style schedule roughly.
+            lr_eff = _warmup_cosine(epoch)
+            for pg in optimizer.param_groups:
+                pg["lr"] = lr_eff
             model.train()
             for xb, yb in train_loader:
                 xb = xb.to(device)
                 yb = yb.to(device)
                 optimizer.zero_grad(set_to_none=True)
                 pred = model(xb)
-                loss = criterion(pred, yb)
+                loss = _qlike_loss_log(pred, yb)
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
                 optimizer.step()
@@ -130,7 +152,7 @@ def run(
                 for xb, yb in test_loader:
                     xb = xb.to(device)
                     yb = yb.to(device)
-                    val_losses.append(float(criterion(model(xb), yb).detach().cpu().item()))
+                    val_losses.append(float(_qlike_loss_log(model(xb), yb).detach().cpu().item()))
             val_loss = float(np.mean(val_losses)) if val_losses else float("inf")
             if val_loss < best_val:
                 best_val = val_loss
@@ -152,13 +174,15 @@ def run(
                 xb = xb.to(device)
                 pred_parts.append(model(xb).detach().cpu().numpy())
                 true_parts.append(yb.detach().cpu().numpy())
-        y_pred = np.concatenate(pred_parts, axis=0)
-        y_true = np.concatenate(true_parts, axis=0)
+        y_pred_log = np.concatenate(pred_parts, axis=0)
+        y_true_log = np.concatenate(true_parts, axis=0)
+        y_pred = log_to_rv(y_pred_log)
+        y_true = log_to_rv(y_true_log)
         metrics_per_fold.append(
             compute_regression_metrics(y_true=y_true, y_pred=y_pred, target_columns=tgt_cols)
         )
 
-    print_regression_metrics(metrics_per_fold, "LSTM (2-layer, hidden=64)", tgt_cols)
+    print_regression_metrics(metrics_per_fold, "LSTM (2-layer, hidden=64, log-target, QLIKE)", tgt_cols)
     return metrics_per_fold
 
 

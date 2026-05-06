@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import numpy as np
 import lightgbm as lgb
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import StandardScaler
@@ -10,12 +11,33 @@ from utils import (
     RV_TARGET_COLS,
     compute_regression_metrics,
     get_default_data_path,
-    get_feature_columns,
+    get_feature_columns_recommended_or_all,
     get_regression_target_columns,
+    log_to_rv,
     load_dataset,
     print_regression_metrics,
+    rv_to_log,
     walk_forward_split,
 )
+
+
+def _qlike_obj_logspace(y_true: np.ndarray, y_pred: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Custom LightGBM objective for QLIKE in log-space.
+
+    Loss: L = y_pred + exp(y_true - y_pred)
+    grad = 1 - exp(y_true - y_pred)
+    hess = exp(y_true - y_pred)
+    """
+    # Numerical stability: exp() can overflow if (y_true - y_pred) is large.
+    # Clipping keeps grads/hessians finite without changing behavior in the
+    # typical regime.
+    yt = y_true.astype(np.float64, copy=False)
+    yp = y_pred.astype(np.float64, copy=False)
+    diff = np.clip(yt - yp, -50.0, 50.0)
+    e = np.exp(diff)
+    grad = 1.0 - e
+    hess = e
+    return grad, hess
 
 
 def run(
@@ -25,7 +47,7 @@ def run(
 ) -> list[dict]:
     path = data_path or get_default_data_path()
     df = load_dataset(path)
-    feat_cols = get_feature_columns(df)
+    feat_cols = get_feature_columns_recommended_or_all(df)
     tgt_cols = get_regression_target_columns(df, target_columns=target_columns)
 
     X = df[feat_cols].astype(float).fillna(0.0).values
@@ -42,7 +64,7 @@ def run(
         X_test_s = scaler.transform(X_test)
 
         base = lgb.LGBMRegressor(
-            objective="regression",
+            objective=_qlike_obj_logspace,
             max_depth=6,
             n_estimators=300,
             learning_rate=0.05,
@@ -50,14 +72,16 @@ def run(
             verbose=-1,
         )
         model = MultiOutputRegressor(base)
-        model.fit(X_train_s, y_train)
-        y_pred = model.predict(X_test_s)
+        y_train_log = rv_to_log(y_train)
+        model.fit(X_train_s, y_train_log)
+        y_pred_log = model.predict(X_test_s)
+        y_pred = log_to_rv(y_pred_log)
 
         metrics_per_fold.append(
             compute_regression_metrics(y_true=y_test, y_pred=y_pred, target_columns=tgt_cols)
         )
 
-    print_regression_metrics(metrics_per_fold, "LightGBM", tgt_cols)
+    print_regression_metrics(metrics_per_fold, "LightGBM (QLIKE obj, log-target)", tgt_cols)
     return metrics_per_fold
 
 
