@@ -51,6 +51,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip feature_selection (only if recommended_features.csv already exists for this symbol).",
     )
+    parser.add_argument(
+        "--skip-transformer",
+        action="store_true",
+        help="Skip Transformer training step (useful when only baselines/arch are needed).",
+    )
     parser.add_argument("--skip-baselines", action="store_true")
     parser.add_argument("--skip-arch", action="store_true")
     return parser.parse_args()
@@ -71,7 +76,7 @@ def main() -> None:
         1
         + int(not args.skip_targets)
         + int(not args.skip_feature_selection)
-        + 1  # train
+        + int(not args.skip_transformer)  # train
         + int(not args.skip_baselines)
         + int(not args.skip_arch)
     )
@@ -92,12 +97,13 @@ def main() -> None:
         _progress(step, total, "Step: feature selection (recommended_features.csv)")
         _run([PY, "feature_selection/run_feature_selection.py"], env=child_env)
 
-    train_cmd = [PY, "transformer/run_transformer.py", "--mode", "train-rv"]
-    if args.smoke:
-        train_cmd += ["--max-epochs", "3", "--n-splits", "2", "--patience", "2"]
-    step += 1
-    _progress(step, total, "Step: train Transformer RV model")
-    _run(train_cmd, env=child_env)
+    if not args.skip_transformer:
+        train_cmd = [PY, "transformer/run_transformer.py", "--mode", "train-rv"]
+        if args.smoke:
+            train_cmd += ["--max-epochs", "3", "--n-splits", "2", "--patience", "2"]
+        step += 1
+        _progress(step, total, "Step: train Transformer RV model")
+        _run(train_cmd, env=child_env)
 
     if not args.skip_baselines:
         step += 1

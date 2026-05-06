@@ -113,6 +113,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="Pass to RV pipeline: skip if recommended_features.csv already exists.",
     )
     parser.add_argument(
+        "--skip-transformer",
+        action="store_true",
+        help="Pass to RV pipeline: skip Transformer training step.",
+    )
+    parser.add_argument(
         "--skip-baselines",
         action="store_true",
         help="Pass to RV pipeline: skip baselines step.",
@@ -180,6 +185,8 @@ def main() -> None:
             cmd.append("--smoke")
         if args.skip_feature_selection:
             cmd.append("--skip-feature-selection")
+        if args.skip_transformer:
+            cmd.append("--skip-transformer")
         if args.skip_baselines:
             cmd.append("--skip-baselines")
         # Always skip architecture comparison in full orchestrator.
