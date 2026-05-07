@@ -1,0 +1,84 @@
+{
+  "model": "GJR-GARCH(1,1)",
+  "symbol_lower": "btcusdt",
+  "n_splits": 5,
+  "folds": [
+    {
+      "fold": 1,
+      "train_size": 226,
+      "test_size": 226,
+      "metrics": {
+        "mse": 1.6710162436367055e-06,
+        "mae": 0.0008237687324690929,
+        "r2_log": -0.6986503515393891,
+        "qlike": -6.442167595175974,
+        "n": 226.0,
+        "r2_log_oos": -0.5573534154672712
+      }
+    },
+    {
+      "fold": 2,
+      "train_size": 452,
+      "test_size": 226,
+      "metrics": {
+        "mse": 1.386714220012884e-06,
+        "mae": 0.0007242279605906865,
+        "r2_log": -0.7952270584692138,
+        "qlike": -6.595430651461396,
+        "n": 226.0,
+        "r2_log_oos": -0.6472802733972134
+      }
+    },
+    {
+      "fold": 3,
+      "train_size": 678,
+      "test_size": 226,
+      "metrics": {
+        "mse": 2.4648166399999546e-06,
+        "mae": 0.0009352177222132017,
+        "r2_log": -0.40106372841556914,
+        "qlike": -6.123440349282616,
+        "n": 226.0,
+        "r2_log_oos": -0.2858197283708501
+      }
+    },
+    {
+      "fold": 4,
+      "train_size": 904,
+      "test_size": 226,
+      "metrics": {
+        "mse": 1.910953335924811e-06,
+        "mae": 0.0008119407124412243,
+        "r2_log": -0.4665128489500838,
+        "qlike": -6.300271500997162,
+        "n": 226.0,
+        "r2_log_oos": -0.46637495690970243
+      }
+    },
+    {
+      "fold": 5,
+      "train_size": 1130,
+      "test_size": 227,
+      "metrics": {
+        "mse": 4.6709401295409593e-07,
+        "mae": 0.0005035182595281097,
+        "r2_log": -0.7077890732910679,
+        "qlike": -6.889698185976831,
+        "n": 227.0,
+        "r2_log_oos": -0.6803387490538448
+      }
+    }
+  ],
+  "overall": {
+    "mse": 1.5791347836289867e-06,
+    "mae": 0.0007595081377332374,
+    "r2_log": -0.583112020690703,
+    "qlike": -6.470572564208679,
+    "n": 1131.0,
+    "r2_log_oos_mean": -0.5274334246397764
+  },
+  "artifacts": {
+    "predictions": "F:\\All\\Acheba\\Hope\\_YA_XYEV_SOSYN\\baselines\\garch_models\\output\\btcusdt\\predictions_gjr_garch11.parquet",
+    "metrics": "F:\\All\\Acheba\\Hope\\_YA_XYEV_SOSYN\\baselines\\garch_models\\output\\btcusdt\\metrics_gjr_garch11.json"
+  }
+}

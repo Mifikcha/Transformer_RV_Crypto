@@ -1,0 +1,84 @@
+{
+  "model": "GARCH(1,1)",
+  "symbol_lower": "btcusdt",
+  "n_splits": 5,
+  "folds": [
+    {
+      "fold": 1,
+      "train_size": 226,
+      "test_size": 226,
+      "metrics": {
+        "mse": 1.7436061836104761e-06,
+        "mae": 0.0008587631839536465,
+        "r2_log": -0.7063414682890587,
+        "qlike": -6.464091561450634,
+        "n": 226.0,
+        "r2_log_oos": -0.564404770637569
+      }
+    },
+    {
+      "fold": 2,
+      "train_size": 452,
+      "test_size": 226,
+      "metrics": {
+        "mse": 1.4036418030366883e-06,
+        "mae": 0.0007359331336631575,
+        "r2_log": -0.8006228281263879,
+        "qlike": -6.592672077599304,
+        "n": 226.0,
+        "r2_log_oos": -0.6522313712954577
+      }
+    },
+    {
+      "fold": 3,
+      "train_size": 678,
+      "test_size": 226,
+      "metrics": {
+        "mse": 2.548622933888685e-06,
+        "mae": 0.0009602526194402053,
+        "r2_log": -0.41722599287258344,
+        "qlike": -6.115531572518051,
+        "n": 226.0,
+        "r2_log_oos": -0.3006525714974633
+      }
+    },
+    {
+      "fold": 4,
+      "train_size": 904,
+      "test_size": 226,
+      "metrics": {
+        "mse": 1.9109640116452617e-06,
+        "mae": 0.0008277288100876273,
+        "r2_log": -0.48088973909296073,
+        "qlike": -6.302724817182519,
+        "n": 226.0,
+        "r2_log_oos": -0.48075049523440905
+      }
+    },
+    {
+      "fold": 5,
+      "train_size": 1130,
+      "test_size": 227,
+      "metrics": {
+        "mse": 4.5988570004372e-07,
+        "mae": 0.0004946957516575385,
+        "r2_log": -0.6998396681202395,
+        "qlike": -6.891607675426754,
+        "n": 227.0,
+        "r2_log_oos": -0.6725171194689159
+      }
+    }
+  ],
+  "overall": {
+    "mse": 1.612324269304028e-06,
+    "mae": 0.0007752264425118912,
+    "r2_log": -0.5903904928489425,
+    "qlike": -6.473695374729876,
+    "n": 1131.0,
+    "r2_log_oos_mean": -0.5341112656267629
+  },
+  "artifacts": {
+    "predictions": "F:\\All\\Acheba\\Hope\\_YA_XYEV_SOSYN\\baselines\\garch_models\\output\\btcusdt\\predictions_garch11.parquet",
+    "metrics": "F:\\All\\Acheba\\Hope\\_YA_XYEV_SOSYN\\baselines\\garch_models\\output\\btcusdt\\metrics_garch11.json"
+  }
+}

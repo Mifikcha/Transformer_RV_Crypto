@@ -94,7 +94,8 @@ def _run_with_features(
         metrics = compute_regression_metrics(y_test, y_pred, target_cols)
         metrics_per_fold.append(metrics)
 
-    keys = ["mse_mean", "mae_mean", "r2_mean", "da_mean", "qlike_mean"]
+    # DA was removed from baseline comparison; keep the same key set here.
+    keys = ["mse_mean", "mae_mean", "r2_mean", "hmse_mean", "qlike_mean"]
     return {k: float(np.mean([m[k] for m in metrics_per_fold])) for k in keys}
 
 
@@ -137,9 +138,9 @@ def run(
             "baseline_r2_mean": baseline_metrics["r2_mean"],
             "ablated_r2_mean": ablated_metrics["r2_mean"],
             "delta_r2_mean": baseline_metrics["r2_mean"] - ablated_metrics["r2_mean"],
-            "baseline_da_mean": baseline_metrics["da_mean"],
-            "ablated_da_mean": ablated_metrics["da_mean"],
-            "delta_da_mean": baseline_metrics["da_mean"] - ablated_metrics["da_mean"],
+            "baseline_hmse_mean": baseline_metrics["hmse_mean"],
+            "ablated_hmse_mean": ablated_metrics["hmse_mean"],
+            "delta_hmse_mean": ablated_metrics["hmse_mean"] - baseline_metrics["hmse_mean"],
             "baseline_qlike_mean": baseline_metrics["qlike_mean"],
             "ablated_qlike_mean": ablated_metrics["qlike_mean"],
             "delta_qlike_mean": ablated_metrics["qlike_mean"] - baseline_metrics["qlike_mean"],
@@ -156,19 +157,19 @@ def run(
         f"mse={baseline_metrics['mse_mean']:.6f} "
         f"mae={baseline_metrics['mae_mean']:.6f} "
         f"r2={baseline_metrics['r2_mean']:.4f} "
-        f"da={baseline_metrics['da_mean']:.4f} "
+        f"hmse={baseline_metrics['hmse_mean']:.6f} "
         f"qlike={baseline_metrics['qlike_mean']:.6f}",
         log_file,
     )
     _out("-" * 110, log_file)
     _out(
-        f"  {'Group':<18}  {'delta_mse':>10}  {'delta_r2':>10}  {'delta_qlike':>12}  {'delta_mae':>10}  {'delta_da':>10}",
+        f"  {'Group':<18}  {'delta_mse':>10}  {'delta_r2':>10}  {'delta_qlike':>12}  {'delta_mae':>10}  {'delta_hmse':>10}",
         log_file,
     )
     _out("-" * 110, log_file)
     for _, r in result.iterrows():
         _out(
-            f"  {r['group']:<18}  {r['delta_mse_mean']:>+10.6f}  {r['delta_r2_mean']:>+10.6f}  {r['delta_qlike_mean']:>+12.6f}  {r['delta_mae_mean']:>+10.6f}  {r['delta_da_mean']:>+10.6f}",
+            f"  {r['group']:<18}  {r['delta_mse_mean']:>+10.6f}  {r['delta_r2_mean']:>+10.6f}  {r['delta_qlike_mean']:>+12.6f}  {r['delta_mae_mean']:>+10.6f}  {r['delta_hmse_mean']:>+10.6f}",
             log_file,
         )
     _out("=" * 110 + "\n", log_file)

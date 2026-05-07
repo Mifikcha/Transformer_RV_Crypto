@@ -1,0 +1,59 @@
+[INFO] SYMBOL=BTCUSDT
+[INFO] Output dir: F:\All\Acheba\Hope\_YA_XYEV_SOSYN\baselines\garch_models\output\btcusdt
+[INFO] n_splits=3
+
+[STAGE] prepare_daily_variance_target
+
+====================================================================================================
+[TS ] 2026-05-07 01:16:25
+[CMD] C:\Users\fifik\AppData\Local\Programs\Python\Python310\python.exe F:\All\Acheba\Hope\_YA_XYEV_SOSYN\baselines\garch_models\prepare_daily_variance_target.py
+====================================================================================================
+[OK] Saved: F:\All\Acheba\Hope\_YA_XYEV_SOSYN\baselines\garch_models\data\btcusdt\daily_variance.parquet
+[OK] Saved: F:\All\Acheba\Hope\_YA_XYEV_SOSYN\baselines\garch_models\data\btcusdt\daily_variance.csv
+[INFO] Rows: 1,357
+[INFO] Columns: ['ts', 'close', 'ret_1d', 'var_1d']
+[INFO] ts range: 2022-04-16 00:00:00+00:00 -> 2026-01-01 00:00:00+00:00
+
+[STAGE] garch11
+
+====================================================================================================
+[TS ] 2026-05-07 01:16:27
+[CMD] C:\Users\fifik\AppData\Local\Programs\Python\Python310\python.exe F:\All\Acheba\Hope\_YA_XYEV_SOSYN\baselines\garch_models\train_garch_11.py --n-splits 3
+====================================================================================================
+{
+  "mse": 1.4724818372276856e-06,
+  "mae": 0.0007429267637758596,
+  "r2_log": -0.5780931558725311,
+  "qlike": -6.495779974138065,
+  "n": 1018.0
+}
+
+[STAGE] egarch11
+
+====================================================================================================
+[TS ] 2026-05-07 01:16:44
+[CMD] C:\Users\fifik\AppData\Local\Programs\Python\Python310\python.exe F:\All\Acheba\Hope\_YA_XYEV_SOSYN\baselines\garch_models\train_egarch_11.py --n-splits 3
+====================================================================================================
+{
+  "mse": 1.48236890091123e-06,
+  "mae": 0.0007501461260678862,
+  "r2_log": -0.5800054319508878,
+  "qlike": -6.492280853093168,
+  "n": 1018.0
+}
+
+[STAGE] gjr_garch11
+
+====================================================================================================
+[TS ] 2026-05-07 01:17:00
+[CMD] C:\Users\fifik\AppData\Local\Programs\Python\Python310\python.exe F:\All\Acheba\Hope\_YA_XYEV_SOSYN\baselines\garch_models\train_gjr_garch_11.py --n-splits 3
+====================================================================================================
+{
+  "mse": 1.4500422974395778e-06,
+  "mae": 0.0007312352541440646,
+  "r2_log": -0.5707306755540524,
+  "qlike": -6.497338086734502,
+  "n": 1018.0
+}
+
+[DONE] elapsed_sec=55.06
