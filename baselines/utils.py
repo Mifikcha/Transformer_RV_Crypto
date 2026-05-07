@@ -302,22 +302,33 @@ def compute_regression_metrics(
         # becomes hard to interpret due to exponential error amplification.
         # We therefore compute R² in log-space for baselines.
         r2_v = float(r2_score(np.log(yt_pos), np.log(yp_pos)))
+        # Directional Accuracy for RV should measure direction of *changes*,
+        # not sign(RV) (RV is positive -> degenerate DA==1).
+        if len(yt_pos) >= 2:
+            dyt = np.diff(np.log(yt_pos.astype(float)))
+            dyp = np.diff(np.log(yp_pos.astype(float)))
+            da_v = float(np.mean(np.sign(dyt) == np.sign(dyp)))
+        else:
+            da_v = float("nan")
         qlike_v = float(np.mean(np.log(yp_pos) + yt_pos / yp_pos))
         hmse_v = float(np.mean(((y_p.astype(float) - yt_pos) / yt_pos) ** 2))
         out[f"mse_{col}"] = mse_v
         out[f"mae_{col}"] = mae_v
         out[f"r2_{col}"] = r2_v
+        out[f"da_{col}"] = da_v
         out[f"qlike_{col}"] = qlike_v
         out[f"hmse_{col}"] = hmse_v
         mse_list.append(mse_v)
         mae_list.append(mae_v)
         r2_list.append(r2_v)
+        da_list.append(da_v)
         qlike_list.append(qlike_v)
         hmse_list.append(hmse_v)
 
     out["mse_mean"] = float(np.mean(mse_list))
     out["mae_mean"] = float(np.mean(mae_list))
     out["r2_mean"] = float(np.mean(r2_list))
+    out["da_mean"] = float(np.mean(da_list)) if da_list else float("nan")
     out["qlike_mean"] = float(np.mean(qlike_list))
     out["hmse_mean"] = float(np.mean(hmse_list))
     return out

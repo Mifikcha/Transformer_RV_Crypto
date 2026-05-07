@@ -42,10 +42,19 @@ def compute_regression_metrics(
         mse = float(mean_squared_error(yt, yp))
         mae = float(mean_absolute_error(yt, yp))
         r2 = float(r2_score(yt, yp))
-        da = float(np.mean(np.sign(yt) == np.sign(yp)))
-        qlike = _qlike_loss(yt, yp)
+        # Directional Accuracy for RV must be about *change direction*, not sign(RV):
+        # RV is strictly positive, so sign(yt)==sign(yp) degenerates to ~1.0.
+        # We compare the sign of 1-step changes in log-space: sign(Δlog yt) == sign(Δlog yp).
         eps = 1e-12
         yt_pos = np.clip(yt.astype(float), eps, None)
+        yp_pos = np.clip(yp.astype(float), eps, None)
+        if len(yt_pos) >= 2:
+            dyt = np.diff(np.log(yt_pos))
+            dyp = np.diff(np.log(yp_pos))
+            da = float(np.mean(np.sign(dyt) == np.sign(dyp)))
+        else:
+            da = float("nan")
+        qlike = _qlike_loss(yt, yp)
         hmse = float(np.mean(((yp.astype(float) - yt_pos) / yt_pos) ** 2))
         out[f"mse_{name}"] = mse
         out[f"mae_{name}"] = mae
