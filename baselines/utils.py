@@ -208,9 +208,20 @@ def get_default_data_path() -> str:
 
 
 def load_dataset(path: str) -> pd.DataFrame:
-    """Load CSV, filter is_valid_target==1 when available, sort by ts."""
+    """Load CSV and apply RV-appropriate filtering.
+
+    Important
+    ---------
+    The project dataset may contain a trading-oriented validity flag ``is_valid_target``.
+    For RV regression experiments this is the wrong filter (it couples volatility modeling
+    to a trading label definition). For RV we instead keep rows where RV forward targets
+    are present (drop NaNs on the RV target columns).
+    """
     df = pd.read_csv(path)
-    if VALID_TARGET_COL in df.columns:
+    rv_cols_present = [c for c in RV_TARGET_COLS if c in df.columns]
+    if rv_cols_present:
+        df = df.dropna(subset=rv_cols_present).copy()
+    elif VALID_TARGET_COL in df.columns:
         df = df.loc[df[VALID_TARGET_COL].astype(int) == 1].copy()
     if "ts" in df.columns:
         df["ts"] = pd.to_datetime(df["ts"], utc=True)
@@ -246,7 +257,30 @@ def walk_forward_split(
     """
     Expanding-window walk-forward: for each fold, train on past chunks, test on next chunk.
     Returns list of (train_idx, test_idx) arrays.
+
+    Leakage note (purge/embargo)
+    ----------------------------
+    Our targets ``rv_*bar_fwd`` are forward-looking: for horizon H, label at t uses future
+    data up to t+H-1. If we split at ``train_end``, the last H-1 labels in the train fold
+    overlap with the first H-1 timestamps of the test fold (through the label construction),
+    which is a form of look-ahead leakage. We therefore apply an embargo of max horizon
+    rows to the end of every train fold.
     """
+    def _max_horizon_from_rv_targets(cols: tuple[str, ...]) -> int:
+        hs: list[int] = []
+        for c in cols:
+            # expected form: rv_{H}bar_fwd
+            if not c.startswith("rv_") or "bar" not in c:
+                continue
+            try:
+                mid = c.split("_", 2)[1]  # "{H}bar"
+                h = int(mid.replace("bar", ""))
+                hs.append(h)
+            except Exception:
+                continue
+        return int(max(hs)) if hs else 0
+
+    EMBARGO = _max_horizon_from_rv_targets(RV_TARGET_COLS)  # 288 in current config
     n = len(df)
     if n < n_splits + 1:
         raise ValueError("Not enough rows for walk-forward splits")
@@ -255,10 +289,16 @@ def walk_forward_split(
     for k in range(n_splits):
         train_end = (k + 1) * segment_size
         test_end = (k + 2) * segment_size if (k + 2) <= n_splits else n
-        train_idx = np.arange(0, train_end)
+        train_end_eff = max(0, int(train_end) - int(EMBARGO))
+        train_idx = np.arange(0, train_end_eff)
         test_idx = np.arange(train_end, min(test_end, n))
         if len(test_idx) == 0:
             continue
+        if len(train_idx) == 0:
+            raise ValueError(
+                f"Embargo={EMBARGO} leaves empty train fold at split {k}. "
+                f"Increase data length or reduce n_splits."
+            )
         splits.append((train_idx, test_idx))
     return splits
 

@@ -37,6 +37,12 @@ import numpy as np
 import pandas as pd
 
 
+def _append_text(path: str, text: str) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(text)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Fair architecture comparison (transformers + baselines) for multi-horizon RV regression."
@@ -732,6 +738,8 @@ def main() -> None:  # noqa: C901
     out_csv = os.path.join(out_dir, "architecture_comparison.csv")
     sig_path = os.path.join(out_dir, "architecture_comparison.signature.json")
     hpo_csv = os.path.join(out_dir, "architecture_hpo_trials.csv")
+    symbol = os.environ.get("SYMBOL", "BTCUSDT").strip().upper() or "BTCUSDT"
+    dm_log_path = os.path.join(project_root, "logs", f"dm_bootstrap_{symbol}.txt")
 
     signature_payload = {
         "architectures": architectures,
@@ -1005,6 +1013,18 @@ def main() -> None:  # noqa: C901
         if args.quick:
             n_boot = min(n_boot, 200)
         hac_lags = int(args.dm_block_size) - 1
+        _append_text(
+            dm_log_path,
+            (
+                "\n" + "=" * 110 + "\n"
+                f"[TS   ] {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+                f"[SYMB ] {symbol}\n"
+                f"[REF  ] {ref}\n"
+                f"[CSV  ] {out_csv}\n"
+                f"[CONF ] block_size={int(args.dm_block_size)} n_boot={n_boot} hac_lags={hac_lags}\n"
+                + "-" * 110 + "\n"
+            ),
+        )
         for i in range(len(summary)):
             mt = str(summary.loc[i, "model_type"])
             if mt == ref:
@@ -1022,7 +1042,15 @@ def main() -> None:  # noqa: C901
             )
             for k, v in stats.items():
                 summary.loc[i, k] = v
+            # Full DM/CI columns are stored in the CSV; keep this log lightweight.
+            p_agg = float(stats.get("dm_p_agg", float("nan")))
+            d_agg = float(stats.get("diff_mean_agg", float("nan")))
+            _append_text(
+                dm_log_path,
+                f"[DM ] {mt:28s} vs {ref:16s} | dm_p_agg={p_agg:.6g} diff_mean_agg={d_agg:.6g}\n",
+            )
         summary.loc[summary["model_type"] == ref, "dm_ref"] = ref
+        _append_text(dm_log_path, "-" * 110 + "\n")
     else:
         print(f"[WARN] DM/bootstraps skipped: reference model '{ref}' has no prediction stream.")
     summary.to_csv(out_csv, index=False)
