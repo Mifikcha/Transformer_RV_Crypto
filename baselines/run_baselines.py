@@ -52,6 +52,9 @@ def run_regression(data_path: str | None = None, n_splits: int = 5, *, skip_lstm
                 "r2_mean": _mean_metric(metrics_per_fold, "r2_mean"),
                 "hmse_mean": _mean_metric(metrics_per_fold, "hmse_mean"),
                 "qlike_mean": _mean_metric(metrics_per_fold, "qlike_mean"),
+                "bias_mean": _mean_metric(metrics_per_fold, "bias_mean"),
+                "corr_mean": _mean_metric(metrics_per_fold, "corr_mean"),
+                "p95_abs_err_mean": _mean_metric(metrics_per_fold, "p95_abs_err_mean"),
                 "time_sec": round(elapsed, 2),
             }
         )
@@ -61,13 +64,15 @@ def run_regression(data_path: str | None = None, n_splits: int = 5, *, skip_lstm
     print("=" * 90)
     print(
         f"  {'Model':<28}  {'MSE(mean)':>10}  {'MAE(mean)':>10}  "
-        f"{'R2(mean)':>9}  {'HMSE':>10}  {'QLIKE':>10}  {'Time(s)':>8}"
+        f"{'R2(mean)':>9}  {'HMSE':>10}  {'QLIKE':>10}  "
+        f"{'Bias':>10}  {'Corr':>6}  {'P95':>10}  {'Time(s)':>8}"
     )
     print("-" * 90)
     for row in results:
         print(
             f"  {row['model']:<28}  {row['mse_mean']:>10.6f}  {row['mae_mean']:>10.6f}  "
-            f"{row['r2_mean']:>9.4f}  {row['hmse_mean']:>10.6f}  {row['qlike_mean']:>10.6f}  {row['time_sec']:>8.2f}"
+            f"{row['r2_mean']:>9.4f}  {row['hmse_mean']:>10.6f}  {row['qlike_mean']:>10.6f}  "
+            f"{row['bias_mean']:>+10.6f}  {row['corr_mean']:>6.3f}  {row['p95_abs_err_mean']:>10.6f}  {row['time_sec']:>8.2f}"
         )
     print("=" * 90 + "\n")
 

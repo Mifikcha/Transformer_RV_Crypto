@@ -329,10 +329,14 @@ def compute_regression_metrics(
     da_list: list[float] = []
     qlike_list: list[float] = []
     hmse_list: list[float] = []
+    bias_list: list[float] = []
+    corr_list: list[float] = []
+    p95_list: list[float] = []
 
     for idx, col in enumerate(target_columns):
-        y_t = y_true[:, idx]
-        y_p = y_pred[:, idx]
+        y_t = y_true[:, idx].astype(float)
+        y_p = y_pred[:, idx].astype(float)
+        err = y_p - y_t
         mse_v = float(mean_squared_error(y_t, y_p))
         mae_v = float(mean_absolute_error(y_t, y_p))
         eps = 1e-12
@@ -352,18 +356,27 @@ def compute_regression_metrics(
             da_v = float("nan")
         qlike_v = float(np.mean(np.log(yp_pos) + yt_pos / yp_pos))
         hmse_v = float(np.mean(((y_p.astype(float) - yt_pos) / yt_pos) ** 2))
+        bias_v = float(np.mean(err))
+        corr_v = float(np.corrcoef(y_t, y_p)[0, 1]) if len(y_t) > 1 else float("nan")
+        p95_abs_err_v = float(np.quantile(np.abs(err), 0.95))
         out[f"mse_{col}"] = mse_v
         out[f"mae_{col}"] = mae_v
         out[f"r2_{col}"] = r2_v
         out[f"da_{col}"] = da_v
         out[f"qlike_{col}"] = qlike_v
         out[f"hmse_{col}"] = hmse_v
+        out[f"bias_{col}"] = bias_v
+        out[f"corr_{col}"] = corr_v
+        out[f"p95_abs_err_{col}"] = p95_abs_err_v
         mse_list.append(mse_v)
         mae_list.append(mae_v)
         r2_list.append(r2_v)
         da_list.append(da_v)
         qlike_list.append(qlike_v)
         hmse_list.append(hmse_v)
+        bias_list.append(bias_v)
+        corr_list.append(corr_v)
+        p95_list.append(p95_abs_err_v)
 
     out["mse_mean"] = float(np.mean(mse_list))
     out["mae_mean"] = float(np.mean(mae_list))
@@ -371,6 +384,9 @@ def compute_regression_metrics(
     out["da_mean"] = float(np.mean(da_list)) if da_list else float("nan")
     out["qlike_mean"] = float(np.mean(qlike_list))
     out["hmse_mean"] = float(np.mean(hmse_list))
+    out["bias_mean"] = float(np.mean(bias_list))
+    out["corr_mean"] = float(np.nanmean(corr_list))
+    out["p95_abs_err_mean"] = float(np.mean(p95_list))
     return out
 
 
@@ -387,14 +403,12 @@ def print_regression_metrics(
     print("\n" + "=" * 60)
     print(f"  {model_name}")
     print("=" * 60)
-    for metric_name in ("mse", "mae", "r2", "hmse"):
+    for metric_name in ("mse", "mae", "r2", "hmse", "bias", "corr", "p95_abs_err"):
         mean_key = f"{metric_name}_mean"
         vals = [float(m[mean_key]) for m in metrics_per_fold if mean_key in m]
         if vals:
-            print(
-                f"  {metric_name.upper():<4} mean: {np.mean(vals):.6f} "
-                f"(+- {np.std(vals):.6f})"
-            )
+            label = metric_name.upper() if metric_name != "p95_abs_err" else "P95"
+            print(f"  {label:<4} mean: {np.mean(vals):.6f} (+- {np.std(vals):.6f})")
     print("  --- Per-horizon (mean over folds) ---")
     for col in target_columns:
         mse_vals = [float(m[f"mse_{col}"]) for m in metrics_per_fold if f"mse_{col}" in m]

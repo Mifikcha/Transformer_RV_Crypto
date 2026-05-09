@@ -35,10 +35,14 @@ def compute_regression_metrics(
     da_vals: list[float] = []
     qlike_vals: list[float] = []
     hmse_vals: list[float] = []
+    bias_vals: list[float] = []
+    corr_vals: list[float] = []
+    p95_vals: list[float] = []
 
     for idx, name in enumerate(target_columns):
-        yt = y_true[:, idx]
-        yp = y_pred[:, idx]
+        yt = y_true[:, idx].astype(float)
+        yp = y_pred[:, idx].astype(float)
+        err = yp - yt
         mse = float(mean_squared_error(yt, yp))
         mae = float(mean_absolute_error(yt, yp))
         r2 = float(r2_score(yt, yp))
@@ -56,18 +60,27 @@ def compute_regression_metrics(
             da = float("nan")
         qlike = _qlike_loss(yt, yp)
         hmse = float(np.mean(((yp.astype(float) - yt_pos) / yt_pos) ** 2))
+        bias = float(np.mean(err))
+        corr = float(np.corrcoef(yt, yp)[0, 1]) if len(yt) > 1 else float("nan")
+        p95_abs_err = float(np.quantile(np.abs(err), 0.95))
         out[f"mse_{name}"] = mse
         out[f"mae_{name}"] = mae
         out[f"r2_{name}"] = r2
         out[f"da_{name}"] = da
         out[f"qlike_{name}"] = qlike
         out[f"hmse_{name}"] = hmse
+        out[f"bias_{name}"] = bias
+        out[f"corr_{name}"] = corr
+        out[f"p95_abs_err_{name}"] = p95_abs_err
         mse_vals.append(mse)
         mae_vals.append(mae)
         r2_vals.append(r2)
         da_vals.append(da)
         qlike_vals.append(qlike)
         hmse_vals.append(hmse)
+        bias_vals.append(bias)
+        corr_vals.append(corr)
+        p95_vals.append(p95_abs_err)
 
     out["mse_mean"] = float(np.mean(mse_vals))
     out["mae_mean"] = float(np.mean(mae_vals))
@@ -75,4 +88,7 @@ def compute_regression_metrics(
     out["da_mean"] = float(np.mean(da_vals))
     out["qlike_mean"] = float(np.mean(qlike_vals))
     out["hmse_mean"] = float(np.mean(hmse_vals))
+    out["bias_mean"] = float(np.mean(bias_vals))
+    out["corr_mean"] = float(np.nanmean(corr_vals))
+    out["p95_abs_err_mean"] = float(np.mean(p95_vals))
     return out

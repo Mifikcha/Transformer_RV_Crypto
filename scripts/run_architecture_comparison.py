@@ -777,7 +777,16 @@ def main() -> None:  # noqa: C901
             return
         print(f"[CACHE] signature mismatch (cached={cached_sig}, current={signature}); retraining...")
 
-    metric_keys = ("mse_mean", "mae_mean", "r2_mean", "hmse_mean", "qlike_mean")
+    metric_keys = (
+        "mse_mean",
+        "mae_mean",
+        "r2_mean",
+        "hmse_mean",
+        "qlike_mean",
+        "bias_mean",
+        "corr_mean",
+        "p95_abs_err_mean",
+    )
     rows: list[dict] = []
     # Store a single OOS prediction stream per model_type for DM/bootstraps.
     # For transformers with multi-seed evaluation, we store the first seed's stream.

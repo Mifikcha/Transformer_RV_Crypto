@@ -122,7 +122,17 @@ def _print_rv_metrics(metrics_per_fold: list[dict], target_columns: list[str]) -
     _emit("\n" + "=" * 80)
     _emit("RV METRICS (walk-forward)")
     _emit("=" * 80)
-    for key in ("mse_mean", "mae_mean", "r2_mean", "da_mean", "qlike_mean"):
+    for key in (
+        "mse_mean",
+        "mae_mean",
+        "r2_mean",
+        "da_mean",
+        "qlike_mean",
+        "hmse_mean",
+        "bias_mean",
+        "corr_mean",
+        "p95_abs_err_mean",
+    ):
         mean_v, std_v = _metric_mean_std(metrics_per_fold, key)
         _emit(f"{key:20s}: {mean_v:>10.6f} (+- {std_v:.6f})")
     _emit("-" * 80)
