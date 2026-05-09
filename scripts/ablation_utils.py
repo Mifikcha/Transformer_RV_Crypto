@@ -248,8 +248,11 @@ def run_single_experiment(
 
 
 def save_experiment_csv(rows: list[dict[str, Any]], path: str) -> None:
+    from scripts.experiment_outputs import mirror_saved_csv
+
     os.makedirs(os.path.dirname(path), exist_ok=True)
     pd.DataFrame(rows).to_csv(path, index=False)
+    mirror_saved_csv(path)
 
 
 def load_experiment_csv(path: str) -> pd.DataFrame:

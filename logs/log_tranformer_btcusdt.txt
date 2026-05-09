@@ -1,0 +1,73 @@
+2026-05-07 09:42:00,288 | INFO | ================================================================================
+2026-05-07 09:42:00,288 | INFO | DEVICE DIAGNOSTICS
+2026-05-07 09:42:00,288 | INFO | ================================================================================
+2026-05-07 09:42:00,288 | INFO | requested_device        : auto
+2026-05-07 09:42:00,288 | INFO | python_executable       : /venv/main/bin/python
+2026-05-07 09:42:00,288 | INFO | python_version          : 3.12.13
+2026-05-07 09:42:00,288 | INFO | torch_version           : 2.10.0+cu130
+2026-05-07 09:42:00,288 | INFO | torch_cuda_build        : 13.0
+2026-05-07 09:42:00,389 | INFO | cudnn_version           : 91501
+2026-05-07 09:42:00,389 | INFO | cuda_available          : True
+2026-05-07 09:42:00,389 | INFO | cuda_device_count       : 1
+2026-05-07 09:42:00,389 | INFO | CUDA_VISIBLE_DEVICES    : <unset>
+2026-05-07 09:42:00,389 | INFO |   gpu[0]: NVIDIA GeForce RTX 4090 | mem=47.4GB | cc=8.9
+2026-05-07 09:42:00,389 | INFO | ================================================================================
+2026-05-07 09:42:00,389 | INFO | [RV] effective_device    : cuda
+2026-05-07 09:42:00,389 | INFO | CLI args: {"mode": "train-rv", "data_path": null, "features_path": null, "model_type": null, "seq_len": null, "patch_size": null, "d_model": null, "n_heads": null, "n_layers": null, "d_ff": null, "dropout": null, "batch_size": null, "lr": null, "weight_decay": null, "max_epochs": null, "patience": null, "n_splits": null, "device": "auto"}
+2026-05-07 09:42:00,389 | INFO | [RV] Run mode: train-rv | log file: /workspace/Transformer_RV_Crypto/logs/log_tranformer_btcusdt.txt
+2026-05-07 09:42:00,389 | INFO | App config: {"data_path": "/workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv", "features_path": "/workspace/Transformer_RV_Crypto/feature_selection/output/btcusdt/recommended_features.csv", "model": {"model_type": "patch_encoder", "seq_len": 240, "patch_size": 12, "d_model": 64, "n_heads": 4, "n_layers": 3, "n_enc_layers": 3, "n_dec_layers": 2, "d_ff": 256, "dropout": 0.2, "n_horizons": 5, "har_mode": "full"}, "train": {"task": "rv", "target_columns": ["rv_3bar_fwd", "rv_12bar_fwd", "rv_48bar_fwd", "rv_288bar_fwd"], "batch_size": 128, "lr": 5e-05, "max_epochs": 75, "patience": 15, "warmup_epochs": 5, "weight_decay": 0.0001, "gradient_clip_norm": 1.0, "loss_type": "rv_log_aware", "loss_alpha": 0.0, "horizon_weights": [], "n_splits": 5, "seed": 42, "num_workers": 0}}
+2026-05-07 10:20:54,480 | INFO | [RV] Saved predictions: /workspace/Transformer_RV_Crypto/transformer/output/predictions/btcusdt/predictions_walkforward_transformer_rv.csv
+2026-05-07 10:20:54,743 | INFO | [RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_15m_last1000_bars.png
+2026-05-07 10:20:54,985 | INFO | [RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_1h_last1000_bars.png
+2026-05-07 10:20:55,237 | INFO | [RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_4h_last1000_bars.png
+2026-05-07 10:20:55,521 | INFO | [RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_24h_last1000_bars.png
+2026-05-07 10:20:55,523 | INFO | [RV] Predictions shape: (325270, 110), fold_ids=[0, 1, 2, 3, 4]
+2026-05-07 10:20:55,523 | INFO | 
+================================================================================
+2026-05-07 10:20:55,523 | INFO | FEATURE SET SUMMARY
+2026-05-07 10:20:55,523 | INFO | ================================================================================
+2026-05-07 10:20:55,523 | INFO | feature_count          : 21
+2026-05-07 10:20:55,523 | INFO | feature_preview        : ['atr_14_norm', 'rv_parkinson_240min', 'openInterest', 'rv_gk_240min', 'realized_vol_240min', 'fundingRate', 'sma_240min', 'sin_day', 'weekday', 'rolling_vol_std_240min', 'rv_gk_15min', 'cos_day', 'rv_parkinson_15min', 'sma_60min', 'min_to_ny_open', 'vol_garman_klass', 'open_perp', 'rv_rs_240min', 'min_to_asia_open', 'high_perp']
+2026-05-07 10:20:55,523 | INFO | feature_preview_tail   : +1 more features
+2026-05-07 10:20:55,523 | INFO | ================================================================================
+2026-05-07 10:20:55,523 | INFO | 
+================================================================================
+2026-05-07 10:20:55,523 | INFO | RV METRICS (walk-forward)
+2026-05-07 10:20:55,523 | INFO | ================================================================================
+2026-05-07 10:20:55,523 | INFO | mse_mean            :   0.000027 (+- 0.000008)
+2026-05-07 10:20:55,523 | INFO | mae_mean            :   0.002447 (+- 0.000460)
+2026-05-07 10:20:55,523 | INFO | r2_mean             :   0.516007 (+- 0.085851)
+2026-05-07 10:20:55,523 | INFO | da_mean             :   0.589304 (+- 0.007379)
+2026-05-07 10:20:55,523 | INFO | qlike_mean          :  -4.227540 (+- 0.158374)
+2026-05-07 10:20:55,523 | INFO | --------------------------------------------------------------------------------
+2026-05-07 10:20:55,524 | INFO | rv_3bar_fwd         : MSE=0.000001 MAE=0.000457 R2=0.6834 QLIKE=-5.480046
+2026-05-07 10:20:55,524 | INFO | rv_12bar_fwd        : MSE=0.000005 MAE=0.001104 R2=0.5449 QLIKE=-4.679201
+2026-05-07 10:20:55,524 | INFO | rv_48bar_fwd        : MSE=0.000018 MAE=0.002380 R2=0.4790 QLIKE=-3.893609
+2026-05-07 10:20:55,524 | INFO | rv_288bar_fwd       : MSE=0.000083 MAE=0.005846 R2=0.3568 QLIKE=-2.857304
+2026-05-07 10:20:55,524 | INFO | ================================================================================
+2026-05-07 10:20:55,524 | INFO | RV metrics per fold: [{"mse_rv_3bar_fwd": 1.1364916190359509e-06, "mae_rv_3bar_fwd": 0.0005605135229416192, "r2_rv_3bar_fwd": 0.6427634358406067, "da_rv_3bar_fwd": 0.635768308430179, "qlike_rv_3bar_fwd": -5.622741480058897, "hmse_rv_3bar_fwd": 0.48159519348192475, "mse_rv_12bar_fwd": 5.385963959270157e-06, "mae_rv_12bar_fwd": 0.0014221332967281342, "r2_rv_12bar_fwd": 0.49976420402526855, "da_rv_12bar_fwd": 0.6023335178011437, "qlike_rv_12bar_fwd": -4.764791570351951, "hmse_rv_12bar_fwd": 0.5157125395289659, "mse_rv_48bar_fwd": 2.157417475245893e-05, "mae_rv_48bar_fwd": 0.0030559187289327383, "r2_rv_48bar_fwd": 0.36581701040267944, "da_rv_48bar_fwd": 0.581580889134846, "qlike_rv_48bar_fwd": -3.9354107826172426, "hmse_rv_48bar_fwd": 0.5107150689055827, "mse_rv_288bar_fwd": 0.0001016622845781967, "mae_rv_288bar_fwd": 0.007389838341623545, "r2_rv_288bar_fwd": 0.15368515253067017, "da_rv_288bar_fwd": 0.5148650310520814, "qlike_rv_288bar_fwd": -2.861532214039057, "hmse_rv_288bar_fwd": 0.5022914676272411, "mse_mean": 3.2439728727240436e-05, "mae_mean": 0.003107100972556509, "r2_mean": 0.4155074506998062, "da_mean": 0.5836369366045625, "qlike_mean": -4.296119011766788, "hmse_mean": 0.5025785673859285, "fold_id": 0, "val_loss": -4.29670991738325}, {"mse_rv_3bar_fwd": 1.2943122555952868e-06, "mae_rv_3bar_fwd": 0.0004311629163566977, "r2_rv_3bar_fwd": 0.6007225513458252, "da_rv_3bar_fwd": 0.6330474082272644, "qlike_rv_3bar_fwd": -5.686962303132, "hmse_rv_3bar_fwd": 0.3245609426025654, "mse_rv_12bar_fwd": 6.592068530153483e-06, "mae_rv_12bar_fwd": 0.001090630074031651, "r2_rv_12bar_fwd": 0.42617231607437134, "da_rv_12bar_fwd": 0.6030560167250815, "qlike_rv_12bar_fwd": -4.8576950815413005, "hmse_rv_12bar_fwd": 0.30929951162875574, "mse_rv_48bar_fwd": 2.393327849858906e-05, "mae_rv_48bar_fwd": 0.002382510807365179, "r2_rv_48bar_fwd": 0.3813791871070862, "da_rv_48bar_fwd": 0.584962798991576, "qlike_rv_48bar_fwd": -4.045487148918034, "hmse_rv_48bar_fwd": 0.30951976787977203, "mse_rv_288bar_fwd": 0.0001077042834367603, "mae_rv_288bar_fwd": 0.006015675142407417, "r2_rv_288bar_fwd": 0.29152464866638184, "da_rv_288bar_fwd": 0.4920678841542151, "qlike_rv_288bar_fwd": -2.9607320034004427, "hmse_rv_288bar_fwd": 0.26776007868018337, "mse_mean": 3.4880985680274534e-05, "mae_mean": 0.0024799947350402363, "r2_mean": 0.42494967579841614, "da_mean": 0.5782835270245342, "qlike_mean": -4.387719134247945, "hmse_mean": 0.30278507519781916, "fold_id": 1, "val_loss": -4.38748984814627}, {"mse_rv_3bar_fwd": 1.1457472055553808e-06, "mae_rv_3bar_fwd": 0.0005235777352936566, "r2_rv_3bar_fwd": 0.6886947751045227, "da_rv_3bar_fwd": 0.6375514972637275, "qlike_rv_3bar_fwd": -5.212798587433019, "hmse_rv_3bar_fwd": 0.10478978816920491, "mse_rv_12bar_fwd": 5.672503903042525e-06, "mae_rv_12bar_fwd": 0.0012360018445178866, "r2_rv_12bar_fwd": 0.5533628463745117, "da_rv_12bar_fwd": 0.6147543503658611, "qlike_rv_12bar_fwd": -4.430974485681246, "hmse_rv_12bar_fwd": 0.10299053124725882, "mse_rv_48bar_fwd": 2.0683432012447156e-05, "mae_rv_48bar_fwd": 0.0027078473940491676, "r2_rv_48bar_fwd": 0.5042171478271484, "da_rv_48bar_fwd": 0.5885138043411424, "qlike_rv_48bar_fwd": -3.6630328358160895, "hmse_rv_48bar_fwd": 0.12739132681633697, "mse_rv_288bar_fwd": 9.785515430849046e-05, "mae_rv_288bar_fwd": 0.006136516109108925, "r2_rv_288bar_fwd": 0.40402936935424805, "da_rv_288bar_fwd": 0.5476695566623624, "qlike_rv_288bar_fwd": -2.658689800283353, "hmse_rv_288bar_fwd": 0.09599031768453888, "mse_mean": 3.133920935738388e-05, "mae_mean": 0.002650985770742409, "r2_mean": 0.5375760346651077, "da_mean": 0.5971223021582733, "qlike_mean": -3.9913739273034268, "hmse_mean": 0.1077904909793349, "fold_id": 2, "val_loss": -3.9928313350864855}, {"mse_rv_3bar_fwd": 6.750051966264436e-07, "mae_rv_3bar_fwd": 0.0004266867763362825, "r2_rv_3bar_fwd": 0.7695878148078918, "da_rv_3bar_fwd": 0.6404107483244174, "qlike_rv_3bar_fwd": -5.2952331584350985, "hmse_rv_3bar_fwd": 0.09684755092451608, "mse_rv_12bar_fwd": 3.662953758976073e-06, "mae_rv_12bar_fwd": 0.0010047685354948044, "r2_rv_12bar_fwd": 0.6458473205566406, "da_rv_12bar_fwd": 0.613970362171801, "qlike_rv_12bar_fwd": -4.5311208823196445, "hmse_rv_12bar_fwd": 0.08317228821902811, "mse_rv_48bar_fwd": 1.3514433703676332e-05, "mae_rv_48bar_fwd": 0.0021889375057071447, "r2_rv_48bar_fwd": 0.6137100458145142, "da_rv_48bar_fwd": 0.5856852979155137, "qlike_rv_48bar_fwd": -3.7749243786008306, "hmse_rv_48bar_fwd": 0.08994429922873294, "mse_rv_288bar_fwd": 6.237002526177093e-05, "mae_rv_288bar_fwd": 0.0055650160647928715, "r2_rv_288bar_fwd": 0.543316125869751, "da_rv_288bar_fwd": 0.522812519215397, "qlike_rv_288bar_fwd": -2.7633499472073364, "hmse_rv_288bar_fwd": 0.0933399126105901, "mse_mean": 2.0055604480262446e-05, "mae_mean": 0.0022963522205827758, "r2_mean": 0.6431153267621994, "da_mean": 0.5907197319067823, "qlike_mean": -4.091157091640728, "hmse_mean": 0.0908260127457168, "fold_id": 3, "val_loss": -4.090903434397429}, {"mse_rv_3bar_fwd": 4.6500710482177965e-07, "mae_rv_3bar_fwd": 0.0003413761151023209, "r2_rv_3bar_fwd": 0.71498703956604, "da_rv_3bar_fwd": 0.6410839725164087, "qlike_rv_3bar_fwd": -5.582494266176911, "hmse_rv_3bar_fwd": 0.1470914710005778, "mse_rv_12bar_fwd": 2.265792772959685e-06, "mae_rv_12bar_fwd": 0.0007663553697057068, "r2_rv_12bar_fwd": 0.5992234945297241, "da_rv_12bar_fwd": 0.610587638532364, "qlike_rv_12bar_fwd": -4.811425156288041, "hmse_rv_12bar_fwd": 0.09715727902915475, "mse_rv_48bar_fwd": 8.870423698681407e-06, "mae_rv_48bar_fwd": 0.0015668747946619987, "r2_rv_48bar_fwd": 0.5299648642539978, "da_rv_48bar_fwd": 0.593371966122016, "qlike_rv_48bar_fwd": -4.049188227163828, "hmse_rv_48bar_fwd": 0.07485279623360014, "mse_rv_288bar_fwd": 4.4675907702185214e-05, "mae_rv_288bar_fwd": 0.004125338979065418, "r2_rv_288bar_fwd": 0.39137905836105347, "da_rv_288bar_fwd": 0.5419862582043439, "qlike_rv_288bar_fwd": -3.042217515837915, "hmse_rv_288bar_fwd": 0.08415023741205216, "mse_mean": 1.4069282819662021e-05, "mae_mean": 0.0016999863146338612, "r2_mean": 0.5588886141777039, "da_mean": 0.5967574588437832, "qlike_mean": -4.3713312913666735, "hmse_mean": 0.10081294591884621, "fold_id": 4, "val_loss": -4.371695783845568}]
+2026-05-07 10:20:55,524 | INFO | 
+================================================================================
+2026-05-07 10:20:55,524 | INFO | RV FOLD DIAGNOSTICS
+2026-05-07 10:20:55,524 | INFO | ================================================================================
+2026-05-07 10:20:55,531 | INFO | best_fold_by_r2        : fold=3 r2_mean=0.6431 mse_mean=0.000020
+2026-05-07 10:20:55,531 | INFO | worst_fold_by_r2       : fold=0 r2_mean=0.4155 mse_mean=0.000032
+2026-05-07 10:20:55,531 | INFO | val_loss_range          : min=-4.387490 max=-3.992831
+2026-05-07 10:20:55,531 | INFO | r2_mean_cv             : 0.1860
+2026-05-07 10:20:55,531 | INFO | --------------------------------------------------------------------------------
+2026-05-07 10:20:55,531 | INFO | rv_3bar_fwd         : r2_min=0.6007 r2_max=0.7696 r2_std=0.0651
+2026-05-07 10:20:55,532 | INFO | rv_12bar_fwd        : r2_min=0.4262 r2_max=0.6458 r2_std=0.0857
+2026-05-07 10:20:55,532 | INFO | rv_48bar_fwd        : r2_min=0.3658 r2_max=0.6137 r2_std=0.1045
+2026-05-07 10:20:55,532 | INFO | rv_288bar_fwd       : r2_min=0.1537 r2_max=0.5433 r2_std=0.1447
+2026-05-07 10:20:55,532 | INFO | ================================================================================
+2026-05-07 10:20:55,532 | INFO | 
+================================================================================
+2026-05-07 10:20:55,532 | INFO | PREDICTION DIAGNOSTICS
+2026-05-07 10:20:55,532 | INFO | ================================================================================
+2026-05-07 10:20:55,541 | INFO | rv_3bar_fwd         : mae=0.000457 bias=-0.000044 corr=0.8330 p95_abs_err=0.001364
+2026-05-07 10:20:55,550 | INFO | rv_12bar_fwd        : mae=0.001104 bias=-0.000109 corr=0.7487 p95_abs_err=0.003362
+2026-05-07 10:20:55,557 | INFO | rv_48bar_fwd        : mae=0.002380 bias=-0.000085 corr=0.7051 p95_abs_err=0.007134
+2026-05-07 10:20:55,564 | INFO | rv_288bar_fwd       : mae=0.005846 bias=+0.000201 corr=0.6420 p95_abs_err=0.017553
+2026-05-07 10:20:55,564 | INFO | --------------------------------------------------------------------------------
+2026-05-07 10:20:55,571 | INFO | latest_prediction_ts   : 2025-12-31 00:05:00+00:00
+2026-05-07 10:20:55,571 | INFO | ================================================================================

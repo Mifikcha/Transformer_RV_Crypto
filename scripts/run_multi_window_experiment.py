@@ -83,9 +83,12 @@ def main() -> None:
             }
         )
 
+    from scripts.experiment_outputs import mirror_saved_csv
+
     out = pd.DataFrame(rows).sort_values("seq_len")
     out_csv = os.path.join(out_dir, "multi_window_experiment.csv")
     out.to_csv(out_csv, index=False)
+    mirror_saved_csv(out_csv)
     print(f"Saved multi-window results: {out_csv}")
     print(out.to_string(index=False))
     _progress(5, 5, f"Finished in {time.time() - started:.1f}s")

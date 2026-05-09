@@ -1,84 +1,204 @@
-[CMD] C:\Users\fifik\AppData\Local\Programs\Python\Python310\python.exe baselines/run_baselines.py
-[CWD] F:\All\Acheba\Hope\_YA_XYEV_SOSYN
-[TS ] 2026-05-06 22:54:32
+[CMD] /venv/main/bin/python baselines/run_baselines.py
+[CWD] /workspace/Transformer_RV_Crypto
+[TS ] 2026-05-07 10:20:56
 
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+
+============================================================
+  Persistence (past-window RV)
+============================================================
+  MSE  mean: 0.000041 (+- 0.000011)
+  MAE  mean: 0.003171 (+- 0.000426)
+  R2   mean: 0.457081 (+- 0.021813)
+  HMSE mean: 0.270124 (+- 0.103915)
+  --- Per-horizon (mean over folds) ---
+    rv_3bar_fwd: MSE 0.000001, MAE 0.000530, R2 0.7316, HMSE 0.193815, QLIKE -5.456525
+    rv_12bar_fwd: MSE 0.000007, MAE 0.001334, R2 0.6182, HMSE 0.216726, QLIKE -4.646432
+    rv_48bar_fwd: MSE 0.000030, MAE 0.003319, R2 0.3879, HMSE 0.318378, QLIKE -3.829469
+    rv_288bar_fwd: MSE 0.000124, MAE 0.007501, R2 0.0906, HMSE 0.351575, QLIKE -2.799548
+============================================================
+
+
+============================================================
+  Historical Mean
+============================================================
+  MSE  mean: 0.000057 (+- 0.000014)
+  MAE  mean: 0.004710 (+- 0.000854)
+  R2   mean: -0.465611 (+- 0.362234)
+  HMSE mean: 5.216286 (+- 4.673725)
+  --- Per-horizon (mean over folds) ---
+    rv_3bar_fwd: MSE 0.000003, MAE 0.001260, R2 -0.4347, HMSE 9.491299, QLIKE -5.232765
+    rv_12bar_fwd: MSE 0.000012, MAE 0.002488, R2 -0.4516, HMSE 5.757923, QLIKE -4.489439
+    rv_48bar_fwd: MSE 0.000041, MAE 0.004811, R2 -0.4613, HMSE 3.828494, QLIKE -3.745145
+    rv_288bar_fwd: MSE 0.000173, MAE 0.010281, R2 -0.5149, HMSE 1.787429, QLIKE -2.773905
+============================================================
+
+
+============================================================
+  HAR-RV (Ridge, log-target)
+============================================================
+  MSE  mean: 0.000045 (+- 0.000016)
+  MAE  mean: 0.003028 (+- 0.000432)
+  R2   mean: 0.380470 (+- 0.052941)
+  HMSE mean: 0.651785 (+- 0.468908)
+  --- Per-horizon (mean over folds) ---
+    rv_3bar_fwd: MSE 0.000008, MAE 0.000763, R2 0.5020, HMSE 0.858036, QLIKE -5.400775
+    rv_12bar_fwd: MSE 0.000017, MAE 0.001497, R2 0.4457, HMSE 0.661579, QLIKE -4.617389
+    rv_48bar_fwd: MSE 0.000040, MAE 0.003104, R2 0.3460, HMSE 0.606842, QLIKE -3.836878
+    rv_288bar_fwd: MSE 0.000116, MAE 0.006748, R2 0.2282, HMSE 0.480681, QLIKE -2.832090
+============================================================
+
+
+============================================================
+  HAR-RV-J (Ridge, log-target)
+============================================================
+  MSE  mean: 0.000040 (+- 0.000013)
+  MAE  mean: 0.003113 (+- 0.000430)
+  R2   mean: 0.329294 (+- 0.033169)
+  HMSE mean: 0.645078 (+- 0.389744)
+  --- Per-horizon (mean over folds) ---
+    rv_3bar_fwd: MSE 0.000006, MAE 0.000802, R2 0.4266, HMSE 0.854242, QLIKE -5.338447
+    rv_12bar_fwd: MSE 0.000013, MAE 0.001572, R2 0.3824, HMSE 0.658488, QLIKE -4.588109
+    rv_48bar_fwd: MSE 0.000034, MAE 0.003219, R2 0.3009, HMSE 0.602740, QLIKE -3.823570
+    rv_288bar_fwd: MSE 0.000109, MAE 0.006859, R2 0.2072, HMSE 0.464844, QLIKE -2.828644
+============================================================
+
+
+============================================================
+  Linear Regression (Ridge, log-target)
+============================================================
+  MSE  mean: 0.000049 (+- 0.000022)
+  MAE  mean: 0.003072 (+- 0.000328)
+  R2   mean: 0.429374 (+- 0.064816)
+  HMSE mean: 0.536576 (+- 0.257557)
+  --- Per-horizon (mean over folds) ---
+    rv_3bar_fwd: MSE 0.000011, MAE 0.000772, R2 0.5483, HMSE 0.763726, QLIKE -5.422036
+    rv_12bar_fwd: MSE 0.000022, MAE 0.001546, R2 0.4803, HMSE 0.566034, QLIKE -4.630392
+    rv_48bar_fwd: MSE 0.000047, MAE 0.003132, R2 0.4007, HMSE 0.486020, QLIKE -3.849234
+    rv_288bar_fwd: MSE 0.000117, MAE 0.006840, R2 0.2882, HMSE 0.330525, QLIKE -2.835999
+============================================================
+
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
-C:\Users\fifik\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+/venv/main/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
   warnings.warn(
+
+============================================================
+  LightGBM (QLIKE obj, log-target)
+============================================================
+  MSE  mean: 0.000040 (+- 0.000014)
+  MAE  mean: 0.003098 (+- 0.000733)
+  R2   mean: 0.529955 (+- 0.121347)
+  HMSE mean: 0.336845 (+- 0.266183)
+  --- Per-horizon (mean over folds) ---
+    rv_3bar_fwd: MSE 0.000001, MAE 0.000424, R2 0.7897, HMSE 0.231453, QLIKE -5.481228
+    rv_12bar_fwd: MSE 0.000005, MAE 0.001147, R2 0.6618, HMSE 0.314693, QLIKE -4.670676
+    rv_48bar_fwd: MSE 0.000020, MAE 0.002603, R2 0.5536, HMSE 0.331855, QLIKE -3.876526
+    rv_288bar_fwd: MSE 0.000133, MAE 0.008219, R2 0.1147, HMSE 0.469379, QLIKE -2.821724
+============================================================
+
+
+============================================================
+  LSTM (2-layer, hidden=64, log-target, QLIKE)
+============================================================
+  MSE  mean: 0.000028 (+- 0.000008)
+  MAE  mean: 0.002690 (+- 0.000505)
+  R2   mean: 0.576336 (+- 0.085753)
+  HMSE mean: 0.337240 (+- 0.221744)
+  --- Per-horizon (mean over folds) ---
+    rv_3bar_fwd: MSE 0.000001, MAE 0.000511, R2 0.7043, HMSE 0.416819, QLIKE -5.462179
+    rv_12bar_fwd: MSE 0.000005, MAE 0.001161, R2 0.6486, HMSE 0.326625, QLIKE -4.669233
+    rv_48bar_fwd: MSE 0.000019, MAE 0.002551, R2 0.5784, HMSE 0.296677, QLIKE -3.884285
+    rv_288bar_fwd: MSE 0.000089, MAE 0.006537, R2 0.3740, HMSE 0.308837, QLIKE -2.848881
+============================================================
+
+
+==========================================================================================
+  BASELINE SUMMARY (REGRESSION)
+==========================================================================================
+  Model                          MSE(mean)   MAE(mean)   R2(mean)        HMSE       QLIKE   Time(s)
+------------------------------------------------------------------------------------------
+  Persistence                     0.000041    0.003171     0.4571    0.270124   -4.182994      4.43
+  Historical Mean                 0.000057    0.004710    -0.4656    5.216286   -4.060313      4.39
+  HAR-RV (Ridge)                  0.000045    0.003028     0.3805    0.651785   -4.171783      7.75
+  HAR-RV-J (Ridge)                0.000040    0.003113     0.3293    0.645078   -4.144692     11.85
+  Linear Regression (Ridge)       0.000049    0.003072     0.4294    0.536576   -4.184415      5.40
+  LightGBM                        0.000040    0.003098     0.5300    0.336845   -4.212539     46.69
+  LSTM (2-layer)                  0.000028    0.002690     0.5763    0.337240   -4.216145    596.69
+==========================================================================================
+

@@ -1,1 +1,13 @@
-﻿
+
+==========================================================================================
+[STAGE] form_target
+[SYMB ] BTCUSDT
+[CMD  ] /venv/main/bin/python target/form_target.py
+[CWD  ] /workspace/Transformer_RV_Crypto
+[TS   ] 2026-05-07 09:17:23
+==========================================================================================
+
+Loading: /workspace/Transformer_RV_Crypto/dataset/get_data/output/_main/_final/btcusdt_5m_final_cleaned.parquet
+Saved CSV: /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv
+Saved parquet: /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.parquet
+Rows: 390,610

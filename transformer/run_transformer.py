@@ -340,7 +340,15 @@ def run_train_mode(app_cfg: AppConfig) -> None:
     metrics_per_fold = list(result.get("metrics_per_fold", []))
     pred_path = os.path.join(PREDICTIONS_DIR, "predictions_walkforward_transformer_rv.csv")
     pred_df.to_csv(pred_path, index=False)
+    from scripts.experiment_outputs import mirror_saved_csv
+
+    mirror_saved_csv(pred_path)
     _emit(f"[RV] Saved predictions: {pred_path}")
+    if metrics_per_fold:
+        fold_metrics_path = os.path.join(PREDICTIONS_DIR, "rv_metrics_per_fold.csv")
+        pd.DataFrame(metrics_per_fold).sort_values("fold_id").to_csv(fold_metrics_path, index=False)
+        mirror_saved_csv(fold_metrics_path)
+        _emit(f"[RV] Saved fold metrics: {fold_metrics_path}")
     _save_rv_visualizations(pred_df)
     _emit(
         f"[RV] Predictions shape: {pred_df.shape}, "

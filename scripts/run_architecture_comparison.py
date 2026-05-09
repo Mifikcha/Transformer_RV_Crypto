@@ -19,9 +19,13 @@ Fair-comparison features:
 
 Outputs (under transformer/output/experiments/):
 - architecture_comparison.csv           : one row per model_type with
-  mean/std metrics and cost columns.
+  mean/std metrics, cost columns, and mean R² per horizon (r2_<target>) for fig. 9.
+- architecture_comparison_folds.csv     : one row per (model_type, fold[, seed]) with
+  r2_mean and r2_<target> for fig. 11.
 - architecture_comparison.signature.json: hash of run configuration.
 - architecture_hpo_trials.csv           : per-trial HPO log (when enabled).
+
+Mirrored into scripts/output/ and ~deep_lom/.../Графики/data/ via experiment_outputs.mirror_saved_csv.
 """
 
 from __future__ import annotations
@@ -203,6 +207,46 @@ def _aggregate_metric(per_run_metrics: list[dict], key: str) -> tuple[float, flo
     mean = float(np.mean(vals))
     std = float(np.std(vals, ddof=1)) if len(vals) > 1 else 0.0
     return mean, std
+
+
+def _append_horizon_r2_means(
+    row: dict,
+    fold_metrics: list[dict],
+    target_columns: tuple[str, ...],
+) -> None:
+    """Mean R² per horizon across WF folds (columns r2_<target>) — для рис. 9."""
+    if not fold_metrics:
+        for col in target_columns:
+            row[f"r2_{col}"] = float("nan")
+        return
+    for col in target_columns:
+        key = f"r2_{col}"
+        mean, _ = _aggregate_metric(fold_metrics, key)
+        row[key] = mean
+
+
+def _accumulate_fold_export_rows(
+    accumulator: list[dict],
+    *,
+    model_type: str,
+    fold_metrics: list[dict],
+    target_columns: tuple[str, ...],
+    seed: int | None,
+) -> None:
+    """Одна строка на WF-фолд — для рис. 11 (боксплоты по фолдам)."""
+    for row_idx, m in enumerate(fold_metrics):
+        fold_id = int(m.get("fold_id", row_idx))
+        entry: dict = {
+            "model_type": model_type,
+            "fold_id": fold_id,
+            "r2_mean": float(m.get("r2_mean", float("nan"))),
+        }
+        if seed is not None:
+            entry["seed"] = int(seed)
+        for col in target_columns:
+            kk = f"r2_{col}"
+            entry[kk] = float(m.get(kk, float("nan")))
+        accumulator.append(entry)
 
 
 def _count_model_params(
@@ -445,6 +489,7 @@ def _run_baselines_block(
     target_columns: tuple[str, ...],
     metric_keys: tuple[str, ...],
     project_root: str,
+    fold_export_accumulator: list[dict] | None = None,
 ) -> list[dict]:
     import numpy as np
 
@@ -498,6 +543,7 @@ def _run_baselines_block(
                 row[k] = float("nan")
                 row[k.replace("_mean", "_std")] = float("nan")
             row["model_config"] = ""
+            _append_horizon_r2_means(row, [], target_columns)
             rows.append(row)
             continue
         # Backward-compatible: baselines may return list[dict] or a dict bundle.
@@ -518,7 +564,16 @@ def _run_baselines_block(
             mean, std = _aggregate_metric(fold_metrics, k)
             row[k] = mean
             row[k.replace("_mean", "_std")] = std
+        _append_horizon_r2_means(row, fold_metrics, target_columns)
         row["model_config"] = ""
+        if fold_export_accumulator is not None:
+            _accumulate_fold_export_rows(
+                fold_export_accumulator,
+                model_type=name,
+                fold_metrics=fold_metrics,
+                target_columns=target_columns,
+                seed=None,
+            )
         rows.append(row)
         print(
             f"[BASELINE DONE] {name}: mse={row['mse_mean']:.6f} "
@@ -736,6 +791,7 @@ def main() -> None:  # noqa: C901
     out_dir = os.path.join(project_root, "transformer", "output", "experiments")
     os.makedirs(out_dir, exist_ok=True)
     out_csv = os.path.join(out_dir, "architecture_comparison.csv")
+    folds_csv = os.path.join(out_dir, "architecture_comparison_folds.csv")
     sig_path = os.path.join(out_dir, "architecture_comparison.signature.json")
     hpo_csv = os.path.join(out_dir, "architecture_hpo_trials.csv")
     symbol = os.environ.get("SYMBOL", "BTCUSDT").strip().upper() or "BTCUSDT"
@@ -769,10 +825,17 @@ def main() -> None:  # noqa: C901
         except Exception:
             cached_sig = None
         if cached_sig == signature:
+            from scripts.experiment_outputs import mirror_saved_csv
+
             cached = pd.read_csv(out_csv)
             _progress(2, 3, "Loaded cached architecture comparison")
             print(f"Using cached results: {out_csv}")
             print(cached.to_string(index=False))
+            mirror_saved_csv(out_csv)
+            if os.path.isfile(hpo_csv):
+                mirror_saved_csv(hpo_csv)
+            if os.path.isfile(folds_csv):
+                mirror_saved_csv(folds_csv)
             _progress(3, 3, f"Finished in {time.time() - started:.1f}s")
             return
         print(f"[CACHE] signature mismatch (cached={cached_sig}, current={signature}); retraining...")
@@ -788,6 +851,7 @@ def main() -> None:  # noqa: C901
         "p95_abs_err_mean",
     )
     rows: list[dict] = []
+    fold_export_rows: list[dict] = []
     # Store a single OOS prediction stream per model_type for DM/bootstraps.
     # For transformers with multi-seed evaluation, we store the first seed's stream.
     pred_streams: dict[str, pd.DataFrame] = {}
@@ -904,6 +968,13 @@ def main() -> None:  # noqa: C901
                 )
                 fold_metrics = result["metrics_per_fold"]
                 per_run_metrics.extend(fold_metrics)
+                _accumulate_fold_export_rows(
+                    fold_export_rows,
+                    model_type=model_type,
+                    fold_metrics=fold_metrics,
+                    target_columns=tuple(cfg.train.target_columns),
+                    seed=int(seed),
+                )
                 if seed == seeds[0] and "predictions_df" in result and isinstance(result["predictions_df"], pd.DataFrame):
                     pred_streams[model_type] = result["predictions_df"].copy()
                 mse_seed = float(np.nanmean([m.get("mse_mean", np.nan) for m in fold_metrics]))
@@ -945,6 +1016,7 @@ def main() -> None:  # noqa: C901
                 mean, std = _aggregate_metric(per_run_metrics, key)
                 row[key] = mean
                 row[key.replace("_mean", "_std")] = std
+            _append_horizon_r2_means(row, per_run_metrics, tuple(cfg.train.target_columns))
             row["model_config"] = json.dumps(asdict(final_model_cfg), ensure_ascii=False)
             rows.append(row)
             print(
@@ -964,6 +1036,7 @@ def main() -> None:  # noqa: C901
             target_columns=cfg.train.target_columns,
             metric_keys=metric_keys,
             project_root=project_root,
+            fold_export_accumulator=fold_export_rows,
         )
         rows.extend(baseline_rows)
 
@@ -1062,11 +1135,23 @@ def main() -> None:  # noqa: C901
         _append_text(dm_log_path, "-" * 110 + "\n")
     else:
         print(f"[WARN] DM/bootstraps skipped: reference model '{ref}' has no prediction stream.")
+    from scripts.experiment_outputs import mirror_saved_csv
+
+    if fold_export_rows:
+        folds_df = pd.DataFrame(fold_export_rows)
+        sort_cols = [c for c in ("model_type", "seed", "fold_id") if c in folds_df.columns]
+        if sort_cols:
+            folds_df = folds_df.sort_values(sort_cols, na_position="last")
+        folds_df.to_csv(folds_csv, index=False)
+        mirror_saved_csv(folds_csv)
+
     summary.to_csv(out_csv, index=False)
+    mirror_saved_csv(out_csv)
     with open(sig_path, "w", encoding="utf-8") as f:
         json.dump({"signature": signature, "payload": signature_payload}, f, ensure_ascii=False, indent=2)
     if hpo_all_logs:
         pd.DataFrame(hpo_all_logs).to_csv(hpo_csv, index=False)
+        mirror_saved_csv(hpo_csv)
         print(f"[HPO] Saved trial log: {hpo_csv}")
 
     _progress(2, 3, f"Saved results to {out_csv}")

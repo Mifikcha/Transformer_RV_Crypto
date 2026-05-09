@@ -16,7 +16,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
-from spike_warning.common import OUTPUT_DIR, ensure_output_dir
+from spike_warning.common import OUTPUT_DIR, ensure_output_dir, mirror_repo_csv
 
 
 def evaluate_classifier(y_true: pd.Series, y_proba: np.ndarray, model_name: str) -> tuple[dict, np.ndarray]:
@@ -184,6 +184,7 @@ def main() -> None:
     results, y_pred = evaluate_classifier(y_true, y_proba, model_name)
     thresh_table = evaluate_at_multiple_thresholds(y_true, y_proba)
     thresh_table.to_csv(OUTPUT_DIR / "threshold_tradeoff.csv", index=False)
+    mirror_repo_csv(OUTPUT_DIR / "threshold_tradeoff.csv")
 
     with open(OUTPUT_DIR / "classifier_metrics.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=True, indent=2)

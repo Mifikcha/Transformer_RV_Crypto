@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -8,6 +9,17 @@ from sqlalchemy import create_engine, text
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = PACKAGE_ROOT / "output"
+
+
+def mirror_repo_csv(path: Path | str) -> None:
+    """Copy CSV into scripts/output and ~deep_lom/.../Графики/data (requires repo root on sys.path)."""
+    repo_root = PACKAGE_ROOT.parent
+    rs = str(repo_root)
+    if rs not in sys.path:
+        sys.path.insert(0, rs)
+    from scripts.experiment_outputs import mirror_saved_csv
+
+    mirror_saved_csv(path)
 
 
 def ensure_output_dir() -> Path:
@@ -106,5 +118,6 @@ def load_base_frame(limit_rows: int | None = None) -> pd.DataFrame:
 def save_csv(df: pd.DataFrame, filename: str) -> Path:
     out = ensure_output_dir() / filename
     df.to_csv(out, index=False)
+    mirror_repo_csv(out)
     return out
 

@@ -1,0 +1,36 @@
+
+==============================================================================================================
+[TS   ] 2026-05-07 14:40:52
+[SYMB ] BTCUSDT
+[REF  ] patch_encoder
+[CSV  ] /workspace/Transformer_RV_Crypto/transformer/output/experiments/architecture_comparison.csv
+[CONF ] block_size=48 n_boot=2000 hac_lags=47
+--------------------------------------------------------------------------------------------------------------
+[DM ] patch_decoder                vs patch_encoder    | dm_p_agg=4.62359e-09 diff_mean_agg=-0.00200321
+[DM ] decoder_only                 vs patch_encoder    | dm_p_agg=0.234161 diff_mean_agg=0.000513077
+[DM ] vanilla_enc_dec              vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.00514029
+
+==============================================================================================================
+[TS   ] 2026-05-07 14:44:07
+[SYMB ] BTCUSDT
+[REF  ] patch_encoder
+[CSV  ] /workspace/Transformer_RV_Crypto/transformer/output/experiments/architecture_comparison.csv
+[CONF ] block_size=48 n_boot=2000 hac_lags=47
+--------------------------------------------------------------------------------------------------------------
+[DM ] baseline:lightgbm            vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0150014
+[DM ] patch_decoder                vs patch_encoder    | dm_p_agg=4.62359e-09 diff_mean_agg=-0.00200321
+[DM ] baseline:linear_ridge        vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0431246
+[DM ] decoder_only                 vs patch_encoder    | dm_p_agg=0.234119 diff_mean_agg=0.000513123
+[DM ] baseline:persistence         vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0445465
+[DM ] vanilla_enc_dec              vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.00514155
+[DM ] baseline:har_rv              vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0557573
+[DM ] baseline:lightgbm            vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0150014
+[DM ] baseline:har_rv_j            vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0828474
+[DM ] baseline:linear_ridge        vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0431246
+[DM ] baseline:historical_mean     vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.167227
+--------------------------------------------------------------------------------------------------------------
+[DM ] baseline:persistence         vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0445465
+[DM ] baseline:har_rv              vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0557573
+[DM ] baseline:har_rv_j            vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.0828474
+[DM ] baseline:historical_mean     vs patch_encoder    | dm_p_agg=0 diff_mean_agg=0.167227
+--------------------------------------------------------------------------------------------------------------

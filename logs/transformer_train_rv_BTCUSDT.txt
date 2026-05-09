@@ -1,0 +1,229 @@
+[CMD] /venv/main/bin/python transformer/run_transformer.py --mode train-rv
+[CWD] /workspace/Transformer_RV_Crypto
+[TS ] 2026-05-07 09:41:57
+
+================================================================================
+DEVICE DIAGNOSTICS
+================================================================================
+requested_device        : auto
+python_executable       : /venv/main/bin/python
+python_version          : 3.12.13
+torch_version           : 2.10.0+cu130
+torch_cuda_build        : 13.0
+cudnn_version           : 91501
+cuda_available          : True
+cuda_device_count       : 1
+CUDA_VISIBLE_DEVICES    : <unset>
+  gpu[0]: NVIDIA GeForce RTX 4090 | mem=47.4GB | cc=8.9
+================================================================================
+[RV] effective_device    : cuda
+CLI args: {"mode": "train-rv", "data_path": null, "features_path": null, "model_type": null, "seq_len": null, "patch_size": null, "d_model": null, "n_heads": null, "n_layers": null, "d_ff": null, "dropout": null, "batch_size": null, "lr": null, "weight_decay": null, "max_epochs": null, "patience": null, "n_splits": null, "device": "auto"}
+[RV] Run mode: train-rv | log file: /workspace/Transformer_RV_Crypto/logs/log_tranformer_btcusdt.txt
+App config: {"data_path": "/workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv", "features_path": "/workspace/Transformer_RV_Crypto/feature_selection/output/btcusdt/recommended_features.csv", "model": {"model_type": "patch_encoder", "seq_len": 240, "patch_size": 12, "d_model": 64, "n_heads": 4, "n_layers": 3, "n_enc_layers": 3, "n_dec_layers": 2, "d_ff": 256, "dropout": 0.2, "n_horizons": 5, "har_mode": "full"}, "train": {"task": "rv", "target_columns": ["rv_3bar_fwd", "rv_12bar_fwd", "rv_48bar_fwd", "rv_288bar_fwd"], "batch_size": 128, "lr": 5e-05, "max_epochs": 75, "patience": 15, "warmup_epochs": 5, "weight_decay": 0.0001, "gradient_clip_norm": 1.0, "loss_type": "rv_log_aware", "loss_alpha": 0.0, "horizon_weights": [], "n_splits": 5, "seed": 42, "num_workers": 0}}
+[train_rv] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=21 horizons=4 folds=5 device=cuda
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[train_rv] fold 1/5 starting | N_train=64765 N_val=65053 batches/epoch=505
+[train_rv] f1 ep  1/75 lr=1.0e-05 train=-0.6380 val=-1.3447 best=-1.3447@  1 wait=0/15 (8.0s) *
+[train_rv] f1 ep  2/75 lr=2.0e-05 train=-2.1840 val=-3.2244 best=-3.2244@  2 wait=0/15 (5.9s) *
+[train_rv] f1 ep  3/75 lr=3.0e-05 train=-3.5640 val=-4.2204 best=-4.2204@  3 wait=0/15 (6.9s) *
+[train_rv] f1 ep  4/75 lr=4.0e-05 train=-3.7352 val=-4.2790 best=-4.2790@  4 wait=0/15 (6.8s) *
+[train_rv] f1 ep  5/75 lr=5.0e-05 train=-3.7590 val=-4.2894 best=-4.2894@  5 wait=0/15 (6.9s) *
+[train_rv] f1 ep  6/75 lr=5.0e-05 train=-3.7678 val=-4.2924 best=-4.2924@  6 wait=0/15 (6.8s) *
+[train_rv] f1 ep  7/75 lr=5.0e-05 train=-3.7732 val=-4.2925 best=-4.2925@  7 wait=0/15 (6.8s) *
+[train_rv] f1 ep  8/75 lr=5.0e-05 train=-3.7770 val=-4.2948 best=-4.2948@  8 wait=0/15 (7.2s) *
+[train_rv] f1 ep  9/75 lr=5.0e-05 train=-3.7804 val=-4.2939 best=-4.2948@  8 wait=1/15 (7.9s)  
+[train_rv] f1 ep 10/75 lr=5.0e-05 train=-3.7827 val=-4.2954 best=-4.2954@ 10 wait=0/15 (6.7s) *
+[train_rv] f1 ep 11/75 lr=4.9e-05 train=-3.7848 val=-4.2941 best=-4.2954@ 10 wait=1/15 (7.6s)  
+[train_rv] f1 ep 12/75 lr=4.9e-05 train=-3.7869 val=-4.2967 best=-4.2967@ 12 wait=0/15 (6.6s) *
+[train_rv] f1 ep 13/75 lr=4.9e-05 train=-3.7892 val=-4.2913 best=-4.2967@ 12 wait=1/15 (5.9s)  
+[train_rv] f1 ep 14/75 lr=4.8e-05 train=-3.7924 val=-4.2900 best=-4.2967@ 12 wait=2/15 (6.9s)  
+[train_rv] f1 ep 15/75 lr=4.8e-05 train=-3.7935 val=-4.2560 best=-4.2967@ 12 wait=3/15 (6.4s)  
+[train_rv] f1 ep 16/75 lr=4.8e-05 train=-3.7955 val=-4.2770 best=-4.2967@ 12 wait=4/15 (6.9s)  
+[train_rv] f1 ep 17/75 lr=4.7e-05 train=-3.7975 val=-4.2490 best=-4.2967@ 12 wait=5/15 (6.4s)  
+[train_rv] f1 ep 18/75 lr=4.6e-05 train=-3.7994 val=-4.2614 best=-4.2967@ 12 wait=6/15 (5.7s)  
+[train_rv] f1 ep 19/75 lr=4.6e-05 train=-3.8012 val=-4.2519 best=-4.2967@ 12 wait=7/15 (5.7s)  
+[train_rv] f1 ep 20/75 lr=4.5e-05 train=-3.8027 val=-4.2629 best=-4.2967@ 12 wait=8/15 (7.7s)  
+[train_rv] f1 ep 21/75 lr=4.5e-05 train=-3.8053 val=-4.2337 best=-4.2967@ 12 wait=9/15 (7.7s)  
+[train_rv] f1 ep 22/75 lr=4.4e-05 train=-3.8058 val=-4.2685 best=-4.2967@ 12 wait=10/15 (5.7s)  
+[train_rv] f1 ep 23/75 lr=4.3e-05 train=-3.8078 val=-4.1867 best=-4.2967@ 12 wait=11/15 (5.8s)  
+[train_rv] f1 ep 24/75 lr=4.2e-05 train=-3.8095 val=-4.2070 best=-4.2967@ 12 wait=12/15 (6.5s)  
+[train_rv] f1 ep 25/75 lr=4.1e-05 train=-3.8096 val=-4.2198 best=-4.2967@ 12 wait=13/15 (5.7s)  
+[train_rv] f1 ep 26/75 lr=4.1e-05 train=-3.8128 val=-4.1875 best=-4.2967@ 12 wait=14/15 (5.7s)  
+[train_rv] f1 ep 27/75 lr=4.0e-05 train=-3.8124 val=-4.2306 best=-4.2967@ 12 wait=15/15 (7.6s)  
+[train_rv] f1 early-stop at ep27 (best=-4.2967 @ ep12)
+[train_rv] fold 1 done | best_val=-4.2967 @ ep12 elapsed=180.3s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[train_rv] fold 2/5 starting | N_train=129818 N_val=65053 batches/epoch=1013
+[train_rv] f2 ep  1/75 lr=1.0e-05 train=-1.2910 val=-2.4633 best=-2.4633@  1 wait=0/15 (11.3s) *
+[train_rv] f2 ep  2/75 lr=2.0e-05 train=-3.5598 val=-4.3297 best=-4.3297@  2 wait=0/15 (13.3s) *
+[train_rv] f2 ep  3/75 lr=3.0e-05 train=-3.9683 val=-4.3728 best=-4.3728@  3 wait=0/15 (12.5s) *
+[train_rv] f2 ep  4/75 lr=4.0e-05 train=-3.9892 val=-4.3826 best=-4.3826@  4 wait=0/15 (14.4s) *
+[train_rv] f2 ep  5/75 lr=5.0e-05 train=-3.9978 val=-4.3859 best=-4.3859@  5 wait=0/15 (12.0s) *
+[train_rv] f2 ep  6/75 lr=5.0e-05 train=-4.0039 val=-4.3824 best=-4.3859@  5 wait=1/15 (10.8s)  
+[train_rv] f2 ep  7/75 lr=5.0e-05 train=-4.0083 val=-4.3868 best=-4.3868@  7 wait=0/15 (14.9s) *
+[train_rv] f2 ep  8/75 lr=5.0e-05 train=-4.0129 val=-4.3858 best=-4.3868@  7 wait=1/15 (10.4s)  
+[train_rv] f2 ep  9/75 lr=5.0e-05 train=-4.0163 val=-4.3875 best=-4.3875@  9 wait=0/15 (10.5s) *
+[train_rv] f2 ep 10/75 lr=5.0e-05 train=-4.0203 val=-4.3829 best=-4.3875@  9 wait=1/15 (11.9s)  
+[train_rv] f2 ep 11/75 lr=4.9e-05 train=-4.0237 val=-4.3861 best=-4.3875@  9 wait=2/15 (14.7s)  
+[train_rv] f2 ep 12/75 lr=4.9e-05 train=-4.0259 val=-4.3813 best=-4.3875@  9 wait=3/15 (11.8s)  
+[train_rv] f2 ep 13/75 lr=4.9e-05 train=-4.0291 val=-4.3815 best=-4.3875@  9 wait=4/15 (13.2s)  
+[train_rv] f2 ep 14/75 lr=4.8e-05 train=-4.0315 val=-4.3835 best=-4.3875@  9 wait=5/15 (12.7s)  
+[train_rv] f2 ep 15/75 lr=4.8e-05 train=-4.0336 val=-4.3848 best=-4.3875@  9 wait=6/15 (12.4s)  
+[train_rv] f2 ep 16/75 lr=4.8e-05 train=-4.0364 val=-4.3853 best=-4.3875@  9 wait=7/15 (11.1s)  
+[train_rv] f2 ep 17/75 lr=4.7e-05 train=-4.0381 val=-4.3849 best=-4.3875@  9 wait=8/15 (11.9s)  
+[train_rv] f2 ep 18/75 lr=4.6e-05 train=-4.0402 val=-4.3828 best=-4.3875@  9 wait=9/15 (13.2s)  
+[train_rv] f2 ep 19/75 lr=4.6e-05 train=-4.0420 val=-4.3848 best=-4.3875@  9 wait=10/15 (13.1s)  
+[train_rv] f2 ep 20/75 lr=4.5e-05 train=-4.0440 val=-4.3813 best=-4.3875@  9 wait=11/15 (15.1s)  
+[train_rv] f2 ep 21/75 lr=4.5e-05 train=-4.0452 val=-4.3843 best=-4.3875@  9 wait=12/15 (14.5s)  
+[train_rv] f2 ep 22/75 lr=4.4e-05 train=-4.0468 val=-4.3850 best=-4.3875@  9 wait=13/15 (14.2s)  
+[train_rv] f2 ep 23/75 lr=4.3e-05 train=-4.0482 val=-4.3818 best=-4.3875@  9 wait=14/15 (12.3s)  
+[train_rv] f2 ep 24/75 lr=4.2e-05 train=-4.0495 val=-4.3845 best=-4.3875@  9 wait=15/15 (11.7s)  
+[train_rv] f2 early-stop at ep24 (best=-4.3875 @ ep9)
+[train_rv] fold 2 done | best_val=-4.3875 @ ep9 elapsed=303.9s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[train_rv] fold 3/5 starting | N_train=194871 N_val=65053 batches/epoch=1521
+[train_rv] f3 ep  1/75 lr=1.0e-05 train=-1.6881 val=-3.1465 best=-3.1465@  1 wait=0/15 (18.6s) *
+[train_rv] f3 ep  2/75 lr=2.0e-05 train=-3.9245 val=-3.9775 best=-3.9775@  2 wait=0/15 (17.4s) *
+[train_rv] f3 ep  3/75 lr=3.0e-05 train=-4.0827 val=-3.9854 best=-3.9854@  3 wait=0/15 (17.2s) *
+[train_rv] f3 ep  4/75 lr=4.0e-05 train=-4.0978 val=-3.9876 best=-3.9876@  4 wait=0/15 (19.1s) *
+[train_rv] f3 ep  5/75 lr=5.0e-05 train=-4.1078 val=-3.9813 best=-3.9876@  4 wait=1/15 (23.7s)  
+[train_rv] f3 ep  6/75 lr=5.0e-05 train=-4.1146 val=-3.9892 best=-3.9892@  6 wait=0/15 (19.1s) *
+[train_rv] f3 ep  7/75 lr=5.0e-05 train=-4.1203 val=-3.9894 best=-3.9894@  7 wait=0/15 (17.0s) *
+[train_rv] f3 ep  8/75 lr=5.0e-05 train=-4.1260 val=-3.9887 best=-3.9894@  7 wait=1/15 (19.8s)  
+[train_rv] f3 ep  9/75 lr=5.0e-05 train=-4.1300 val=-3.9928 best=-3.9928@  9 wait=0/15 (21.6s) *
+[train_rv] f3 ep 10/75 lr=5.0e-05 train=-4.1342 val=-3.9895 best=-3.9928@  9 wait=1/15 (15.6s)  
+[train_rv] f3 ep 11/75 lr=4.9e-05 train=-4.1378 val=-3.9906 best=-3.9928@  9 wait=2/15 (20.8s)  
+[train_rv] f3 ep 12/75 lr=4.9e-05 train=-4.1404 val=-3.9865 best=-3.9928@  9 wait=3/15 (16.9s)  
+[train_rv] f3 ep 13/75 lr=4.9e-05 train=-4.1433 val=-3.9744 best=-3.9928@  9 wait=4/15 (22.0s)  
+[train_rv] f3 ep 14/75 lr=4.8e-05 train=-4.1458 val=-3.9682 best=-3.9928@  9 wait=5/15 (19.9s)  
+[train_rv] f3 ep 15/75 lr=4.8e-05 train=-4.1476 val=-3.9879 best=-3.9928@  9 wait=6/15 (19.0s)  
+[train_rv] f3 ep 16/75 lr=4.8e-05 train=-4.1498 val=-3.9794 best=-3.9928@  9 wait=7/15 (17.7s)  
+[train_rv] f3 ep 17/75 lr=4.7e-05 train=-4.1517 val=-3.9834 best=-3.9928@  9 wait=8/15 (18.7s)  
+[train_rv] f3 ep 18/75 lr=4.6e-05 train=-4.1534 val=-3.9807 best=-3.9928@  9 wait=9/15 (16.8s)  
+[train_rv] f3 ep 19/75 lr=4.6e-05 train=-4.1551 val=-3.9812 best=-3.9928@  9 wait=10/15 (18.7s)  
+[train_rv] f3 ep 20/75 lr=4.5e-05 train=-4.1564 val=-3.9788 best=-3.9928@  9 wait=11/15 (17.8s)  
+[train_rv] f3 ep 21/75 lr=4.5e-05 train=-4.1576 val=-3.9819 best=-3.9928@  9 wait=12/15 (17.3s)  
+[train_rv] f3 ep 22/75 lr=4.4e-05 train=-4.1590 val=-3.9816 best=-3.9928@  9 wait=13/15 (20.6s)  
+[train_rv] f3 ep 23/75 lr=4.3e-05 train=-4.1603 val=-3.9828 best=-3.9928@  9 wait=14/15 (20.9s)  
+[train_rv] f3 ep 24/75 lr=4.2e-05 train=-4.1613 val=-3.9712 best=-3.9928@  9 wait=15/15 (19.6s)  
+[train_rv] f3 early-stop at ep24 (best=-3.9928 @ ep9)
+[train_rv] fold 3 done | best_val=-3.9928 @ ep9 elapsed=455.8s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[train_rv] fold 4/5 starting | N_train=259924 N_val=65053 batches/epoch=2029
+[train_rv] f4 ep  1/75 lr=1.0e-05 train=-2.1846 val=-3.8974 best=-3.8974@  1 wait=0/15 (24.0s) *
+[train_rv] f4 ep  2/75 lr=2.0e-05 train=-3.9986 val=-4.0836 best=-4.0836@  2 wait=0/15 (25.6s) *
+[train_rv] f4 ep  3/75 lr=3.0e-05 train=-4.0449 val=-4.0875 best=-4.0875@  3 wait=0/15 (24.5s) *
+[train_rv] f4 ep  4/75 lr=4.0e-05 train=-4.0569 val=-4.0900 best=-4.0900@  4 wait=0/15 (22.0s) *
+[train_rv] f4 ep  5/75 lr=5.0e-05 train=-4.0649 val=-4.0869 best=-4.0900@  4 wait=1/15 (24.2s)  
+[train_rv] f4 ep  6/75 lr=5.0e-05 train=-4.0728 val=-4.0872 best=-4.0900@  4 wait=2/15 (22.5s)  
+[train_rv] f4 ep  7/75 lr=5.0e-05 train=-4.0790 val=-4.0898 best=-4.0900@  4 wait=3/15 (23.9s)  
+[train_rv] f4 ep  8/75 lr=5.0e-05 train=-4.0844 val=-4.0900 best=-4.0900@  4 wait=4/15 (23.6s)  
+[train_rv] f4 ep  9/75 lr=5.0e-05 train=-4.0887 val=-4.0907 best=-4.0907@  9 wait=0/15 (23.6s) *
+[train_rv] f4 ep 10/75 lr=5.0e-05 train=-4.0919 val=-4.0909 best=-4.0909@ 10 wait=0/15 (23.2s) *
+[train_rv] f4 ep 11/75 lr=4.9e-05 train=-4.0954 val=-4.0891 best=-4.0909@ 10 wait=1/15 (25.7s)  
+[train_rv] f4 ep 12/75 lr=4.9e-05 train=-4.0977 val=-4.0876 best=-4.0909@ 10 wait=2/15 (25.3s)  
+[train_rv] f4 ep 13/75 lr=4.9e-05 train=-4.1001 val=-4.0889 best=-4.0909@ 10 wait=3/15 (24.5s)  
+[train_rv] f4 ep 14/75 lr=4.8e-05 train=-4.1023 val=-4.0888 best=-4.0909@ 10 wait=4/15 (26.8s)  
+[train_rv] f4 ep 15/75 lr=4.8e-05 train=-4.1039 val=-4.0882 best=-4.0909@ 10 wait=5/15 (27.9s)  
+[train_rv] f4 ep 16/75 lr=4.8e-05 train=-4.1054 val=-4.0873 best=-4.0909@ 10 wait=6/15 (24.0s)  
+[train_rv] f4 ep 17/75 lr=4.7e-05 train=-4.1068 val=-4.0860 best=-4.0909@ 10 wait=7/15 (29.8s)  
+[train_rv] f4 ep 18/75 lr=4.6e-05 train=-4.1085 val=-4.0835 best=-4.0909@ 10 wait=8/15 (22.7s)  
+[train_rv] f4 ep 19/75 lr=4.6e-05 train=-4.1098 val=-4.0825 best=-4.0909@ 10 wait=9/15 (19.2s)  
+[train_rv] f4 ep 20/75 lr=4.5e-05 train=-4.1114 val=-4.0811 best=-4.0909@ 10 wait=10/15 (23.3s)  
+[train_rv] f4 ep 21/75 lr=4.5e-05 train=-4.1124 val=-4.0807 best=-4.0909@ 10 wait=11/15 (27.7s)  
+[train_rv] f4 ep 22/75 lr=4.4e-05 train=-4.1134 val=-4.0736 best=-4.0909@ 10 wait=12/15 (18.8s)  
+[train_rv] f4 ep 23/75 lr=4.3e-05 train=-4.1146 val=-4.0729 best=-4.0909@ 10 wait=13/15 (22.6s)  
+[train_rv] f4 ep 24/75 lr=4.2e-05 train=-4.1160 val=-4.0716 best=-4.0909@ 10 wait=14/15 (25.6s)  
+[train_rv] f4 ep 25/75 lr=4.1e-05 train=-4.1170 val=-4.0719 best=-4.0909@ 10 wait=15/15 (26.9s)  
+[train_rv] f4 early-stop at ep25 (best=-4.0909 @ ep10)
+[train_rv] fold 4 done | best_val=-4.0909 @ ep10 elapsed=608.1s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[train_rv] fold 5/5 starting | N_train=324977 N_val=65058 batches/epoch=2538
+[train_rv] f5 ep  1/75 lr=1.0e-05 train=-2.6270 val=-4.3159 best=-4.3159@  1 wait=0/15 (29.6s) *
+[train_rv] f5 ep  2/75 lr=2.0e-05 train=-4.0160 val=-4.3616 best=-4.3616@  2 wait=0/15 (27.1s) *
+[train_rv] f5 ep  3/75 lr=3.0e-05 train=-4.0445 val=-4.3632 best=-4.3632@  3 wait=0/15 (28.1s) *
+[train_rv] f5 ep  4/75 lr=4.0e-05 train=-4.0556 val=-4.3647 best=-4.3647@  4 wait=0/15 (29.4s) *
+[train_rv] f5 ep  5/75 lr=5.0e-05 train=-4.0646 val=-4.3610 best=-4.3647@  4 wait=1/15 (27.1s)  
+[train_rv] f5 ep  6/75 lr=5.0e-05 train=-4.0714 val=-4.3714 best=-4.3714@  6 wait=0/15 (28.3s) *
+[train_rv] f5 ep  7/75 lr=5.0e-05 train=-4.0774 val=-4.3714 best=-4.3714@  6 wait=1/15 (26.1s)  
+[train_rv] f5 ep  8/75 lr=5.0e-05 train=-4.0816 val=-4.3706 best=-4.3714@  6 wait=2/15 (28.9s)  
+[train_rv] f5 ep  9/75 lr=5.0e-05 train=-4.0850 val=-4.3716 best=-4.3716@  9 wait=0/15 (27.2s) *
+[train_rv] f5 ep 10/75 lr=5.0e-05 train=-4.0887 val=-4.3715 best=-4.3716@  9 wait=1/15 (27.0s)  
+[train_rv] f5 ep 11/75 lr=4.9e-05 train=-4.0907 val=-4.3717 best=-4.3717@ 11 wait=0/15 (27.4s) *
+[train_rv] f5 ep 12/75 lr=4.9e-05 train=-4.0925 val=-4.3716 best=-4.3717@ 11 wait=1/15 (30.8s)  
+[train_rv] f5 ep 13/75 lr=4.9e-05 train=-4.0944 val=-4.3700 best=-4.3717@ 11 wait=2/15 (30.8s)  
+[train_rv] f5 ep 14/75 lr=4.8e-05 train=-4.0964 val=-4.3714 best=-4.3717@ 11 wait=3/15 (29.7s)  
+[train_rv] f5 ep 15/75 lr=4.8e-05 train=-4.0980 val=-4.3709 best=-4.3717@ 11 wait=4/15 (29.4s)  
+[train_rv] f5 ep 16/75 lr=4.8e-05 train=-4.1000 val=-4.3710 best=-4.3717@ 11 wait=5/15 (31.0s)  
+[train_rv] f5 ep 17/75 lr=4.7e-05 train=-4.1007 val=-4.3699 best=-4.3717@ 11 wait=6/15 (28.6s)  
+[train_rv] f5 ep 18/75 lr=4.6e-05 train=-4.1020 val=-4.3691 best=-4.3717@ 11 wait=7/15 (26.4s)  
+[train_rv] f5 ep 19/75 lr=4.6e-05 train=-4.1036 val=-4.3692 best=-4.3717@ 11 wait=8/15 (30.3s)  
+[train_rv] f5 ep 20/75 lr=4.5e-05 train=-4.1043 val=-4.3676 best=-4.3717@ 11 wait=9/15 (27.7s)  
+[train_rv] f5 ep 21/75 lr=4.5e-05 train=-4.1058 val=-4.3688 best=-4.3717@ 11 wait=10/15 (27.5s)  
+[train_rv] f5 ep 22/75 lr=4.4e-05 train=-4.1069 val=-4.3685 best=-4.3717@ 11 wait=11/15 (23.9s)  
+[train_rv] f5 ep 23/75 lr=4.3e-05 train=-4.1079 val=-4.3671 best=-4.3717@ 11 wait=12/15 (25.3s)  
+[train_rv] f5 ep 24/75 lr=4.2e-05 train=-4.1091 val=-4.3671 best=-4.3717@ 11 wait=13/15 (30.7s)  
+[train_rv] f5 ep 25/75 lr=4.1e-05 train=-4.1097 val=-4.3650 best=-4.3717@ 11 wait=14/15 (32.8s)  
+[train_rv] f5 ep 26/75 lr=4.1e-05 train=-4.1117 val=-4.3630 best=-4.3717@ 11 wait=15/15 (31.0s)  
+[train_rv] f5 early-stop at ep26 (best=-4.3717 @ ep11)
+[train_rv] fold 5 done | best_val=-4.3717 @ ep11 elapsed=742.0s
+[RV] Saved predictions: /workspace/Transformer_RV_Crypto/transformer/output/predictions/btcusdt/predictions_walkforward_transformer_rv.csv
+[RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_15m_last1000_bars.png
+[RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_1h_last1000_bars.png
+[RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_4h_last1000_bars.png
+[RV] Saved picture: /workspace/Transformer_RV_Crypto/transformer/output/pictures/btcusdt/transformer_rv_24h_last1000_bars.png
+[RV] Predictions shape: (325270, 110), fold_ids=[0, 1, 2, 3, 4]
+
+================================================================================
+FEATURE SET SUMMARY
+================================================================================
+feature_count          : 21
+feature_preview        : ['atr_14_norm', 'rv_parkinson_240min', 'openInterest', 'rv_gk_240min', 'realized_vol_240min', 'fundingRate', 'sma_240min', 'sin_day', 'weekday', 'rolling_vol_std_240min', 'rv_gk_15min', 'cos_day', 'rv_parkinson_15min', 'sma_60min', 'min_to_ny_open', 'vol_garman_klass', 'open_perp', 'rv_rs_240min', 'min_to_asia_open', 'high_perp']
+feature_preview_tail   : +1 more features
+================================================================================
+
+================================================================================
+RV METRICS (walk-forward)
+================================================================================
+mse_mean            :   0.000027 (+- 0.000008)
+mae_mean            :   0.002447 (+- 0.000460)
+r2_mean             :   0.516007 (+- 0.085851)
+da_mean             :   0.589304 (+- 0.007379)
+qlike_mean          :  -4.227540 (+- 0.158374)
+--------------------------------------------------------------------------------
+rv_3bar_fwd         : MSE=0.000001 MAE=0.000457 R2=0.6834 QLIKE=-5.480046
+rv_12bar_fwd        : MSE=0.000005 MAE=0.001104 R2=0.5449 QLIKE=-4.679201
+rv_48bar_fwd        : MSE=0.000018 MAE=0.002380 R2=0.4790 QLIKE=-3.893609
+rv_288bar_fwd       : MSE=0.000083 MAE=0.005846 R2=0.3568 QLIKE=-2.857304
+================================================================================
+RV metrics per fold: [{"mse_rv_3bar_fwd": 1.1364916190359509e-06, "mae_rv_3bar_fwd": 0.0005605135229416192, "r2_rv_3bar_fwd": 0.6427634358406067, "da_rv_3bar_fwd": 0.635768308430179, "qlike_rv_3bar_fwd": -5.622741480058897, "hmse_rv_3bar_fwd": 0.48159519348192475, "mse_rv_12bar_fwd": 5.385963959270157e-06, "mae_rv_12bar_fwd": 0.0014221332967281342, "r2_rv_12bar_fwd": 0.49976420402526855, "da_rv_12bar_fwd": 0.6023335178011437, "qlike_rv_12bar_fwd": -4.764791570351951, "hmse_rv_12bar_fwd": 0.5157125395289659, "mse_rv_48bar_fwd": 2.157417475245893e-05, "mae_rv_48bar_fwd": 0.0030559187289327383, "r2_rv_48bar_fwd": 0.36581701040267944, "da_rv_48bar_fwd": 0.581580889134846, "qlike_rv_48bar_fwd": -3.9354107826172426, "hmse_rv_48bar_fwd": 0.5107150689055827, "mse_rv_288bar_fwd": 0.0001016622845781967, "mae_rv_288bar_fwd": 0.007389838341623545, "r2_rv_288bar_fwd": 0.15368515253067017, "da_rv_288bar_fwd": 0.5148650310520814, "qlike_rv_288bar_fwd": -2.861532214039057, "hmse_rv_288bar_fwd": 0.5022914676272411, "mse_mean": 3.2439728727240436e-05, "mae_mean": 0.003107100972556509, "r2_mean": 0.4155074506998062, "da_mean": 0.5836369366045625, "qlike_mean": -4.296119011766788, "hmse_mean": 0.5025785673859285, "fold_id": 0, "val_loss": -4.29670991738325}, {"mse_rv_3bar_fwd": 1.2943122555952868e-06, "mae_rv_3bar_fwd": 0.0004311629163566977, "r2_rv_3bar_fwd": 0.6007225513458252, "da_rv_3bar_fwd": 0.6330474082272644, "qlike_rv_3bar_fwd": -5.686962303132, "hmse_rv_3bar_fwd": 0.3245609426025654, "mse_rv_12bar_fwd": 6.592068530153483e-06, "mae_rv_12bar_fwd": 0.001090630074031651, "r2_rv_12bar_fwd": 0.42617231607437134, "da_rv_12bar_fwd": 0.6030560167250815, "qlike_rv_12bar_fwd": -4.8576950815413005, "hmse_rv_12bar_fwd": 0.30929951162875574, "mse_rv_48bar_fwd": 2.393327849858906e-05, "mae_rv_48bar_fwd": 0.002382510807365179, "r2_rv_48bar_fwd": 0.3813791871070862, "da_rv_48bar_fwd": 0.584962798991576, "qlike_rv_48bar_fwd": -4.045487148918034, "hmse_rv_48bar_fwd": 0.30951976787977203, "mse_rv_288bar_fwd": 0.0001077042834367603, "mae_rv_288bar_fwd": 0.006015675142407417, "r2_rv_288bar_fwd": 0.29152464866638184, "da_rv_288bar_fwd": 0.4920678841542151, "qlike_rv_288bar_fwd": -2.9607320034004427, "hmse_rv_288bar_fwd": 0.26776007868018337, "mse_mean": 3.4880985680274534e-05, "mae_mean": 0.0024799947350402363, "r2_mean": 0.42494967579841614, "da_mean": 0.5782835270245342, "qlike_mean": -4.387719134247945, "hmse_mean": 0.30278507519781916, "fold_id": 1, "val_loss": -4.38748984814627}, {"mse_rv_3bar_fwd": 1.1457472055553808e-06, "mae_rv_3bar_fwd": 0.0005235777352936566, "r2_rv_3bar_fwd": 0.6886947751045227, "da_rv_3bar_fwd": 0.6375514972637275, "qlike_rv_3bar_fwd": -5.212798587433019, "hmse_rv_3bar_fwd": 0.10478978816920491, "mse_rv_12bar_fwd": 5.672503903042525e-06, "mae_rv_12bar_fwd": 0.0012360018445178866, "r2_rv_12bar_fwd": 0.5533628463745117, "da_rv_12bar_fwd": 0.6147543503658611, "qlike_rv_12bar_fwd": -4.430974485681246, "hmse_rv_12bar_fwd": 0.10299053124725882, "mse_rv_48bar_fwd": 2.0683432012447156e-05, "mae_rv_48bar_fwd": 0.0027078473940491676, "r2_rv_48bar_fwd": 0.5042171478271484, "da_rv_48bar_fwd": 0.5885138043411424, "qlike_rv_48bar_fwd": -3.6630328358160895, "hmse_rv_48bar_fwd": 0.12739132681633697, "mse_rv_288bar_fwd": 9.785515430849046e-05, "mae_rv_288bar_fwd": 0.006136516109108925, "r2_rv_288bar_fwd": 0.40402936935424805, "da_rv_288bar_fwd": 0.5476695566623624, "qlike_rv_288bar_fwd": -2.658689800283353, "hmse_rv_288bar_fwd": 0.09599031768453888, "mse_mean": 3.133920935738388e-05, "mae_mean": 0.002650985770742409, "r2_mean": 0.5375760346651077, "da_mean": 0.5971223021582733, "qlike_mean": -3.9913739273034268, "hmse_mean": 0.1077904909793349, "fold_id": 2, "val_loss": -3.9928313350864855}, {"mse_rv_3bar_fwd": 6.750051966264436e-07, "mae_rv_3bar_fwd": 0.0004266867763362825, "r2_rv_3bar_fwd": 0.7695878148078918, "da_rv_3bar_fwd": 0.6404107483244174, "qlike_rv_3bar_fwd": -5.2952331584350985, "hmse_rv_3bar_fwd": 0.09684755092451608, "mse_rv_12bar_fwd": 3.662953758976073e-06, "mae_rv_12bar_fwd": 0.0010047685354948044, "r2_rv_12bar_fwd": 0.6458473205566406, "da_rv_12bar_fwd": 0.613970362171801, "qlike_rv_12bar_fwd": -4.5311208823196445, "hmse_rv_12bar_fwd": 0.08317228821902811, "mse_rv_48bar_fwd": 1.3514433703676332e-05, "mae_rv_48bar_fwd": 0.0021889375057071447, "r2_rv_48bar_fwd": 0.6137100458145142, "da_rv_48bar_fwd": 0.5856852979155137, "qlike_rv_48bar_fwd": -3.7749243786008306, "hmse_rv_48bar_fwd": 0.08994429922873294, "mse_rv_288bar_fwd": 6.237002526177093e-05, "mae_rv_288bar_fwd": 0.0055650160647928715, "r2_rv_288bar_fwd": 0.543316125869751, "da_rv_288bar_fwd": 0.522812519215397, "qlike_rv_288bar_fwd": -2.7633499472073364, "hmse_rv_288bar_fwd": 0.0933399126105901, "mse_mean": 2.0055604480262446e-05, "mae_mean": 0.0022963522205827758, "r2_mean": 0.6431153267621994, "da_mean": 0.5907197319067823, "qlike_mean": -4.091157091640728, "hmse_mean": 0.0908260127457168, "fold_id": 3, "val_loss": -4.090903434397429}, {"mse_rv_3bar_fwd": 4.6500710482177965e-07, "mae_rv_3bar_fwd": 0.0003413761151023209, "r2_rv_3bar_fwd": 0.71498703956604, "da_rv_3bar_fwd": 0.6410839725164087, "qlike_rv_3bar_fwd": -5.582494266176911, "hmse_rv_3bar_fwd": 0.1470914710005778, "mse_rv_12bar_fwd": 2.265792772959685e-06, "mae_rv_12bar_fwd": 0.0007663553697057068, "r2_rv_12bar_fwd": 0.5992234945297241, "da_rv_12bar_fwd": 0.610587638532364, "qlike_rv_12bar_fwd": -4.811425156288041, "hmse_rv_12bar_fwd": 0.09715727902915475, "mse_rv_48bar_fwd": 8.870423698681407e-06, "mae_rv_48bar_fwd": 0.0015668747946619987, "r2_rv_48bar_fwd": 0.5299648642539978, "da_rv_48bar_fwd": 0.593371966122016, "qlike_rv_48bar_fwd": -4.049188227163828, "hmse_rv_48bar_fwd": 0.07485279623360014, "mse_rv_288bar_fwd": 4.4675907702185214e-05, "mae_rv_288bar_fwd": 0.004125338979065418, "r2_rv_288bar_fwd": 0.39137905836105347, "da_rv_288bar_fwd": 0.5419862582043439, "qlike_rv_288bar_fwd": -3.042217515837915, "hmse_rv_288bar_fwd": 0.08415023741205216, "mse_mean": 1.4069282819662021e-05, "mae_mean": 0.0016999863146338612, "r2_mean": 0.5588886141777039, "da_mean": 0.5967574588437832, "qlike_mean": -4.3713312913666735, "hmse_mean": 0.10081294591884621, "fold_id": 4, "val_loss": -4.371695783845568}]
+
+================================================================================
+RV FOLD DIAGNOSTICS
+================================================================================
+best_fold_by_r2        : fold=3 r2_mean=0.6431 mse_mean=0.000020
+worst_fold_by_r2       : fold=0 r2_mean=0.4155 mse_mean=0.000032
+val_loss_range          : min=-4.387490 max=-3.992831
+r2_mean_cv             : 0.1860
+--------------------------------------------------------------------------------
+rv_3bar_fwd         : r2_min=0.6007 r2_max=0.7696 r2_std=0.0651
+rv_12bar_fwd        : r2_min=0.4262 r2_max=0.6458 r2_std=0.0857
+rv_48bar_fwd        : r2_min=0.3658 r2_max=0.6137 r2_std=0.1045
+rv_288bar_fwd       : r2_min=0.1537 r2_max=0.5433 r2_std=0.1447
+================================================================================
+
+================================================================================
+PREDICTION DIAGNOSTICS
+================================================================================
+rv_3bar_fwd         : mae=0.000457 bias=-0.000044 corr=0.8330 p95_abs_err=0.001364
+rv_12bar_fwd        : mae=0.001104 bias=-0.000109 corr=0.7487 p95_abs_err=0.003362
+rv_48bar_fwd        : mae=0.002380 bias=-0.000085 corr=0.7051 p95_abs_err=0.007134
+rv_288bar_fwd       : mae=0.005846 bias=+0.000201 corr=0.6420 p95_abs_err=0.017553
+--------------------------------------------------------------------------------
+latest_prediction_ts   : 2025-12-31 00:05:00+00:00
+================================================================================

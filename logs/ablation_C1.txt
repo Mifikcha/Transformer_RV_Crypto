@@ -1,0 +1,22 @@
+
+==========================================================================================
+[GROUP] C1
+[CMD  ] /venv/main/bin/python scripts/run_ablation_ensemble.py
+[CWD  ] /workspace/Transformer_RV_Crypto
+[TS   ] 2026-05-08 07:45:14
+==========================================================================================
+
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+experiment_group experiment_id variant_name  fold_ids  n_models  n_samples  r2_rv_3bar_fwd  mse_rv_3bar_fwd  mae_rv_3bar_fwd  qlike_rv_3bar_fwd  bias_rv_3bar_fwd  corr_rv_3bar_fwd  overpredict_ratio_rv_3bar_fwd  p95_abs_err_rv_3bar_fwd  r2_rv_12bar_fwd  mse_rv_12bar_fwd  mae_rv_12bar_fwd  qlike_rv_12bar_fwd  bias_rv_12bar_fwd  corr_rv_12bar_fwd  overpredict_ratio_rv_12bar_fwd  p95_abs_err_rv_12bar_fwd      r2_mean  mse_mean  mae_mean  qlike_mean  bias_mean  corr_mean  overpredict_ratio_mean  p95_abs_err_mean
+              C1          C1.1  best_fold_3         3         1      19761        0.749593     4.906166e-07         0.000384          -5.327514         -0.000107          0.872515                       0.533526                 0.001188         0.645750          0.000002          0.000890           -4.558717          -0.000221           0.812151                        0.537017                  0.002745     0.697672  0.000001  0.000637   -4.943115  -0.000164   0.842333                0.535271          0.001967
+              C1          C1.2 worst_fold_1         1         1      19761        0.707685     5.727265e-07         0.000400          -5.324337         -0.000201          0.861356                       0.445524                 0.001337         0.596345          0.000003          0.000917           -4.557055          -0.000442           0.804641                        0.472598                  0.003170     0.652015  0.000002  0.000658   -4.940696  -0.000322   0.832998                0.459061          0.002254
+              C1          C1.4  all_5_folds 0,1,2,3,4         5      19761    -1334.266627     2.616160e-03         0.048102          -2.998504          0.048102         -0.054895                       1.000000                 0.083832      -191.884002          0.001270          0.034261           -3.166014           0.034259           0.000911                        0.999443                  0.054709  -763.075314  0.001943  0.041182   -3.082259   0.041180  -0.026992                0.999722          0.069270
+              C1          C1.3 best_3_folds     0,2,3         3      19761    -3717.427380     7.285436e-03         0.080296          -2.522128          0.080296         -0.075557                       1.000000                 0.139725      -539.006070          0.003555          0.057383           -2.741144           0.057383          -0.058897                        1.000000                  0.091285 -2128.216725  0.005420  0.068840   -2.631636   0.068840  -0.067227                1.000000          0.115505
+Saved: /workspace/Transformer_RV_Crypto/transformer/output/experiments/ablation_ensemble.csv

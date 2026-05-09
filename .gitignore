@@ -6,18 +6,19 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.csv
-*.png
-*.jpeg
 *.parquet
 dataset/get_data/output/
 target/form_target/output/
 strategy/output/
 feature_selection/output/
-transformer/output/
 z_dialog/
 target/output/
 feature_selection/output_smoke/
+target/btcusdt_5m_final_with_targets.csv
+target/btcusdt_5m_with_horizons.csv
+dataset/report.csv
+baselines/garch_models/data/btcusdt/daily_variance.csv
+transformer/output/
 
 # Other
 .cursor

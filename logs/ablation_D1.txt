@@ -1,0 +1,508 @@
+
+==========================================================================================
+[GROUP] D1
+[CMD  ] /venv/main/bin/python scripts/run_ablation_features.py
+[CWD  ] /workspace/Transformer_RV_Crypto
+[TS   ] 2026-05-08 07:51:16
+==========================================================================================
+
+[07:51:23] [1/7] ( 14%) D1 initialized
+[07:51:23] [2/7] ( 28%) Running D1.0 (none)
+[D1.0] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=21 horizons=4 folds=3 device=cuda
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.0] fold 1/3 starting | N_train=97292 N_val=97580 batches/epoch=759
+[D1.0] f1 ep  1/50 lr=1.0e-05 train=-0.9352 val=-1.8055 best=-1.8055@  1 wait=0/15 (8.7s) *
+[D1.0] f1 ep  2/50 lr=2.0e-05 train=-2.9527 val=-4.1671 best=-4.1671@  2 wait=0/15 (9.9s) *
+[D1.0] f1 ep  3/50 lr=3.0e-05 train=-3.8777 val=-4.3166 best=-4.3166@  3 wait=0/15 (11.8s) *
+[D1.0] f1 ep  4/50 lr=4.0e-05 train=-3.9223 val=-4.3359 best=-4.3359@  4 wait=0/15 (9.9s) *
+[D1.0] f1 ep  5/50 lr=5.0e-05 train=-3.9342 val=-4.3216 best=-4.3359@  4 wait=1/15 (10.4s)  
+[D1.0] f1 ep  6/50 lr=5.0e-05 train=-3.9424 val=-4.3259 best=-4.3359@  4 wait=2/15 (11.2s)  
+[D1.0] f1 ep  7/50 lr=5.0e-05 train=-3.9464 val=-4.3064 best=-4.3359@  4 wait=3/15 (9.5s)  
+[D1.0] f1 ep  8/50 lr=5.0e-05 train=-3.9516 val=-4.3078 best=-4.3359@  4 wait=4/15 (10.1s)  
+[D1.0] f1 ep  9/50 lr=4.9e-05 train=-3.9553 val=-4.2817 best=-4.3359@  4 wait=5/15 (14.9s)  
+[D1.0] f1 ep 10/50 lr=4.9e-05 train=-3.9591 val=-4.2290 best=-4.3359@  4 wait=6/15 (12.0s)  
+[D1.0] f1 ep 11/50 lr=4.8e-05 train=-3.9621 val=-4.2324 best=-4.3359@  4 wait=7/15 (11.5s)  
+[D1.0] f1 ep 12/50 lr=4.8e-05 train=-3.9652 val=-4.2114 best=-4.3359@  4 wait=8/15 (15.2s)  
+[D1.0] f1 ep 13/50 lr=4.7e-05 train=-3.9680 val=-4.1871 best=-4.3359@  4 wait=9/15 (11.6s)  
+[D1.0] f1 ep 14/50 lr=4.6e-05 train=-3.9715 val=-4.1502 best=-4.3359@  4 wait=10/15 (10.4s)  
+[D1.0] f1 ep 15/50 lr=4.5e-05 train=-3.9739 val=-4.1411 best=-4.3359@  4 wait=11/15 (8.8s)  
+[D1.0] f1 ep 16/50 lr=4.4e-05 train=-3.9753 val=-4.1651 best=-4.3359@  4 wait=12/15 (10.8s)  
+[D1.0] f1 ep 17/50 lr=4.3e-05 train=-3.9771 val=-4.1668 best=-4.3359@  4 wait=13/15 (9.5s)  
+[D1.0] f1 ep 18/50 lr=4.2e-05 train=-3.9792 val=-4.1529 best=-4.3359@  4 wait=14/15 (11.4s)  
+[D1.0] f1 ep 19/50 lr=4.0e-05 train=-3.9813 val=-4.0863 best=-4.3359@  4 wait=15/15 (15.2s)  
+[D1.0] f1 early-stop at ep19 (best=-4.3359 @ ep4)
+[D1.0] fold 1 done | best_val=-4.3359 @ ep4 elapsed=212.9s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.0] fold 2/3 starting | N_train=194872 N_val=97580 batches/epoch=1521
+[D1.0] f2 ep  1/50 lr=1.0e-05 train=-1.8902 val=-3.4398 best=-3.4398@  1 wait=0/15 (18.2s) *
+[D1.0] f2 ep  2/50 lr=2.0e-05 train=-4.0003 val=-3.9931 best=-3.9931@  2 wait=0/15 (19.6s) *
+[D1.0] f2 ep  3/50 lr=3.0e-05 train=-4.0938 val=-3.9975 best=-3.9975@  3 wait=0/15 (19.2s) *
+[D1.0] f2 ep  4/50 lr=4.0e-05 train=-4.1077 val=-4.0040 best=-4.0040@  4 wait=0/15 (20.1s) *
+[D1.0] f2 ep  5/50 lr=5.0e-05 train=-4.1142 val=-4.0017 best=-4.0040@  4 wait=1/15 (19.2s)  
+[D1.0] f2 ep  6/50 lr=5.0e-05 train=-4.1206 val=-4.0007 best=-4.0040@  4 wait=2/15 (15.6s)  
+[D1.0] f2 ep  7/50 lr=5.0e-05 train=-4.1256 val=-4.0046 best=-4.0046@  7 wait=0/15 (18.0s) *
+[D1.0] f2 ep  8/50 lr=5.0e-05 train=-4.1296 val=-3.9878 best=-4.0046@  7 wait=1/15 (16.7s)  
+[D1.0] f2 ep  9/50 lr=4.9e-05 train=-4.1330 val=-3.9964 best=-4.0046@  7 wait=2/15 (16.7s)  
+[D1.0] f2 ep 10/50 lr=4.9e-05 train=-4.1364 val=-3.9955 best=-4.0046@  7 wait=3/15 (18.8s)  
+[D1.0] f2 ep 11/50 lr=4.8e-05 train=-4.1390 val=-3.9858 best=-4.0046@  7 wait=4/15 (15.7s)  
+[D1.0] f2 ep 12/50 lr=4.8e-05 train=-4.1414 val=-3.9797 best=-4.0046@  7 wait=5/15 (18.8s)  
+[D1.0] f2 ep 13/50 lr=4.7e-05 train=-4.1444 val=-3.9807 best=-4.0046@  7 wait=6/15 (20.8s)  
+[D1.0] f2 ep 14/50 lr=4.6e-05 train=-4.1460 val=-3.9494 best=-4.0046@  7 wait=7/15 (17.6s)  
+[D1.0] f2 ep 15/50 lr=4.5e-05 train=-4.1484 val=-3.9650 best=-4.0046@  7 wait=8/15 (18.6s)  
+[D1.0] f2 ep 16/50 lr=4.4e-05 train=-4.1503 val=-3.9361 best=-4.0046@  7 wait=9/15 (17.4s)  
+[D1.0] f2 ep 17/50 lr=4.3e-05 train=-4.1515 val=-3.9630 best=-4.0046@  7 wait=10/15 (17.5s)  
+[D1.0] f2 ep 18/50 lr=4.2e-05 train=-4.1534 val=-3.9577 best=-4.0046@  7 wait=11/15 (18.7s)  
+[D1.0] f2 ep 19/50 lr=4.0e-05 train=-4.1549 val=-3.9698 best=-4.0046@  7 wait=12/15 (17.6s)  
+[D1.0] f2 ep 20/50 lr=3.9e-05 train=-4.1556 val=-3.9846 best=-4.0046@  7 wait=13/15 (19.2s)  
+[D1.0] f2 ep 21/50 lr=3.8e-05 train=-4.1569 val=-3.9768 best=-4.0046@  7 wait=14/15 (17.5s)  
+[D1.0] f2 ep 22/50 lr=3.6e-05 train=-4.1578 val=-3.9619 best=-4.0046@  7 wait=15/15 (20.9s)  
+[D1.0] f2 early-stop at ep22 (best=-4.0046 @ ep7)
+[D1.0] fold 2 done | best_val=-4.0046 @ ep7 elapsed=402.6s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.0] fold 3/3 starting | N_train=292452 N_val=97583 batches/epoch=2283
+[D1.0] f3 ep  1/50 lr=1.0e-05 train=-2.4200 val=-4.2022 best=-4.2022@  1 wait=0/15 (30.9s) *
+[D1.0] f3 ep  2/50 lr=2.0e-05 train=-4.0118 val=-4.2773 best=-4.2773@  2 wait=0/15 (29.9s) *
+[D1.0] f3 ep  3/50 lr=3.0e-05 train=-4.0446 val=-4.2862 best=-4.2862@  3 wait=0/15 (30.5s) *
+[D1.0] f3 ep  4/50 lr=4.0e-05 train=-4.0550 val=-4.2882 best=-4.2882@  4 wait=0/15 (25.3s) *
+[D1.0] f3 ep  5/50 lr=5.0e-05 train=-4.0624 val=-4.2909 best=-4.2909@  5 wait=0/15 (25.9s) *
+[D1.0] f3 ep  6/50 lr=5.0e-05 train=-4.0680 val=-4.2893 best=-4.2909@  5 wait=1/15 (26.3s)  
+[D1.0] f3 ep  7/50 lr=5.0e-05 train=-4.0730 val=-4.2894 best=-4.2909@  5 wait=2/15 (24.9s)  
+[D1.0] f3 ep  8/50 lr=5.0e-05 train=-4.0772 val=-4.2905 best=-4.2909@  5 wait=3/15 (25.8s)  
+[D1.0] f3 ep  9/50 lr=4.9e-05 train=-4.0808 val=-4.2887 best=-4.2909@  5 wait=4/15 (23.3s)  
+[D1.0] f3 ep 10/50 lr=4.9e-05 train=-4.0837 val=-4.2895 best=-4.2909@  5 wait=5/15 (24.3s)  
+[D1.0] f3 ep 11/50 lr=4.8e-05 train=-4.0862 val=-4.2885 best=-4.2909@  5 wait=6/15 (23.5s)  
+[D1.0] f3 ep 12/50 lr=4.8e-05 train=-4.0884 val=-4.2893 best=-4.2909@  5 wait=7/15 (26.5s)  
+[D1.0] f3 ep 13/50 lr=4.7e-05 train=-4.0904 val=-4.2883 best=-4.2909@  5 wait=8/15 (27.8s)  
+[D1.0] f3 ep 14/50 lr=4.6e-05 train=-4.0917 val=-4.2854 best=-4.2909@  5 wait=9/15 (25.4s)  
+[D1.0] f3 ep 15/50 lr=4.5e-05 train=-4.0936 val=-4.2873 best=-4.2909@  5 wait=10/15 (27.3s)  
+[D1.0] f3 ep 16/50 lr=4.4e-05 train=-4.0953 val=-4.2844 best=-4.2909@  5 wait=11/15 (24.9s)  
+[D1.0] f3 ep 17/50 lr=4.3e-05 train=-4.0967 val=-4.2847 best=-4.2909@  5 wait=12/15 (27.1s)  
+[D1.0] f3 ep 18/50 lr=4.2e-05 train=-4.0978 val=-4.2866 best=-4.2909@  5 wait=13/15 (31.0s)  
+[D1.0] f3 ep 19/50 lr=4.0e-05 train=-4.0991 val=-4.2870 best=-4.2909@  5 wait=14/15 (24.2s)  
+[D1.0] f3 ep 20/50 lr=3.9e-05 train=-4.1005 val=-4.2838 best=-4.2909@  5 wait=15/15 (25.8s)  
+[D1.0] f3 early-stop at ep20 (best=-4.2909 @ ep5)
+[D1.0] fold 3 done | best_val=-4.2909 @ ep5 elapsed=530.8s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[08:10:41] [3/7] ( 42%) Running D1.1 (drop_volatility_rv)
+[D1.1] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=13 horizons=4 folds=3 device=cuda
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.1] fold 1/3 starting | N_train=97292 N_val=97580 batches/epoch=759
+[D1.1] f1 ep  1/50 lr=1.0e-05 train=-0.9852 val=-1.9106 best=-1.9106@  1 wait=0/15 (10.3s) *
+[D1.1] f1 ep  2/50 lr=2.0e-05 train=-3.1316 val=-4.2188 best=-4.2188@  2 wait=0/15 (10.5s) *
+[D1.1] f1 ep  3/50 lr=3.0e-05 train=-3.8583 val=-4.2706 best=-4.2706@  3 wait=0/15 (11.1s) *
+[D1.1] f1 ep  4/50 lr=4.0e-05 train=-3.8888 val=-4.1941 best=-4.2706@  3 wait=1/15 (10.7s)  
+[D1.1] f1 ep  5/50 lr=5.0e-05 train=-3.9054 val=-4.0724 best=-4.2706@  3 wait=2/15 (10.3s)  
+[D1.1] f1 ep  6/50 lr=5.0e-05 train=-3.9122 val=-4.0300 best=-4.2706@  3 wait=3/15 (9.7s)  
+[D1.1] f1 ep  7/50 lr=5.0e-05 train=-3.9191 val=-3.9943 best=-4.2706@  3 wait=4/15 (10.6s)  
+[D1.1] f1 ep  8/50 lr=5.0e-05 train=-3.9241 val=-3.8604 best=-4.2706@  3 wait=5/15 (10.3s)  
+[D1.1] f1 ep  9/50 lr=4.9e-05 train=-3.9282 val=-4.0222 best=-4.2706@  3 wait=6/15 (10.7s)  
+[D1.1] f1 ep 10/50 lr=4.9e-05 train=-3.9329 val=-3.8838 best=-4.2706@  3 wait=7/15 (10.5s)  
+[D1.1] f1 ep 11/50 lr=4.8e-05 train=-3.9368 val=-3.9134 best=-4.2706@  3 wait=8/15 (11.3s)  
+[D1.1] f1 ep 12/50 lr=4.8e-05 train=-3.9405 val=-4.0427 best=-4.2706@  3 wait=9/15 (10.2s)  
+[D1.1] f1 ep 13/50 lr=4.7e-05 train=-3.9442 val=-4.0558 best=-4.2706@  3 wait=10/15 (11.8s)  
+[D1.1] f1 ep 14/50 lr=4.6e-05 train=-3.9471 val=-4.0151 best=-4.2706@  3 wait=11/15 (10.8s)  
+[D1.1] f1 ep 15/50 lr=4.5e-05 train=-3.9492 val=-4.0757 best=-4.2706@  3 wait=12/15 (8.8s)  
+[D1.1] f1 ep 16/50 lr=4.4e-05 train=-3.9521 val=-4.0194 best=-4.2706@  3 wait=13/15 (9.2s)  
+[D1.1] f1 ep 17/50 lr=4.3e-05 train=-3.9542 val=-4.0499 best=-4.2706@  3 wait=14/15 (11.0s)  
+[D1.1] f1 ep 18/50 lr=4.2e-05 train=-3.9569 val=-4.1117 best=-4.2706@  3 wait=15/15 (14.5s)  
+[D1.1] f1 early-stop at ep18 (best=-4.2706 @ ep3)
+[D1.1] fold 1 done | best_val=-4.2706 @ ep3 elapsed=192.2s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.1] fold 2/3 starting | N_train=194872 N_val=97580 batches/epoch=1521
+[D1.1] f2 ep  1/50 lr=1.0e-05 train=-1.6751 val=-3.1092 best=-3.1092@  1 wait=0/15 (19.5s) *
+[D1.1] f2 ep  2/50 lr=2.0e-05 train=-3.9029 val=-3.7488 best=-3.7488@  2 wait=0/15 (18.9s) *
+[D1.1] f2 ep  3/50 lr=3.0e-05 train=-4.0477 val=-3.9559 best=-3.9559@  3 wait=0/15 (19.1s) *
+[D1.1] f2 ep  4/50 lr=4.0e-05 train=-4.0650 val=-3.9577 best=-3.9577@  4 wait=0/15 (19.1s) *
+[D1.1] f2 ep  5/50 lr=5.0e-05 train=-4.0762 val=-3.9770 best=-3.9770@  5 wait=0/15 (21.0s) *
+[D1.1] f2 ep  6/50 lr=5.0e-05 train=-4.0850 val=-3.9643 best=-3.9770@  5 wait=1/15 (15.6s)  
+[D1.1] f2 ep  7/50 lr=5.0e-05 train=-4.0929 val=-3.9588 best=-3.9770@  5 wait=2/15 (17.1s)  
+[D1.1] f2 ep  8/50 lr=5.0e-05 train=-4.0993 val=-3.9581 best=-3.9770@  5 wait=3/15 (18.0s)  
+[D1.1] f2 ep  9/50 lr=4.9e-05 train=-4.1041 val=-3.9676 best=-3.9770@  5 wait=4/15 (16.3s)  
+[D1.1] f2 ep 10/50 lr=4.9e-05 train=-4.1087 val=-3.9140 best=-3.9770@  5 wait=5/15 (18.1s)  
+[D1.1] f2 ep 11/50 lr=4.8e-05 train=-4.1134 val=-3.9618 best=-3.9770@  5 wait=6/15 (18.8s)  
+[D1.1] f2 ep 12/50 lr=4.8e-05 train=-4.1172 val=-3.9400 best=-3.9770@  5 wait=7/15 (22.0s)  
+[D1.1] f2 ep 13/50 lr=4.7e-05 train=-4.1213 val=-3.9558 best=-3.9770@  5 wait=8/15 (16.3s)  
+[D1.1] f2 ep 14/50 lr=4.6e-05 train=-4.1238 val=-3.9558 best=-3.9770@  5 wait=9/15 (17.0s)  
+[D1.1] f2 ep 15/50 lr=4.5e-05 train=-4.1272 val=-3.9650 best=-3.9770@  5 wait=10/15 (18.8s)  
+[D1.1] f2 ep 16/50 lr=4.4e-05 train=-4.1298 val=-3.9608 best=-3.9770@  5 wait=11/15 (21.8s)  
+[D1.1] f2 ep 17/50 lr=4.3e-05 train=-4.1320 val=-3.9643 best=-3.9770@  5 wait=12/15 (19.2s)  
+[D1.1] f2 ep 18/50 lr=4.2e-05 train=-4.1339 val=-3.9662 best=-3.9770@  5 wait=13/15 (19.3s)  
+[D1.1] f2 ep 19/50 lr=4.0e-05 train=-4.1361 val=-3.9692 best=-3.9770@  5 wait=14/15 (19.3s)  
+[D1.1] f2 ep 20/50 lr=3.9e-05 train=-4.1377 val=-3.9648 best=-3.9770@  5 wait=15/15 (17.7s)  
+[D1.1] f2 early-stop at ep20 (best=-3.9770 @ ep5)
+[D1.1] fold 2 done | best_val=-3.9770 @ ep5 elapsed=373.0s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.1] fold 3/3 starting | N_train=292452 N_val=97583 batches/epoch=2283
+[D1.1] f3 ep  1/50 lr=1.0e-05 train=-2.3067 val=-4.1562 best=-4.1562@  1 wait=0/15 (28.9s) *
+[D1.1] f3 ep  2/50 lr=2.0e-05 train=-3.9742 val=-4.2484 best=-4.2484@  2 wait=0/15 (25.1s) *
+[D1.1] f3 ep  3/50 lr=3.0e-05 train=-4.0096 val=-4.2551 best=-4.2551@  3 wait=0/15 (24.4s) *
+[D1.1] f3 ep  4/50 lr=4.0e-05 train=-4.0235 val=-4.2577 best=-4.2577@  4 wait=0/15 (24.9s) *
+[D1.1] f3 ep  5/50 lr=5.0e-05 train=-4.0333 val=-4.2660 best=-4.2660@  5 wait=0/15 (23.2s) *
+[D1.1] f3 ep  6/50 lr=5.0e-05 train=-4.0422 val=-4.2662 best=-4.2662@  6 wait=0/15 (23.5s) *
+[D1.1] f3 ep  7/50 lr=5.0e-05 train=-4.0493 val=-4.2639 best=-4.2662@  6 wait=1/15 (27.0s)  
+[D1.1] f3 ep  8/50 lr=5.0e-05 train=-4.0548 val=-4.2573 best=-4.2662@  6 wait=2/15 (25.5s)  
+[D1.1] f3 ep  9/50 lr=4.9e-05 train=-4.0598 val=-4.2601 best=-4.2662@  6 wait=3/15 (27.3s)  
+[D1.1] f3 ep 10/50 lr=4.9e-05 train=-4.0637 val=-4.2698 best=-4.2698@ 10 wait=0/15 (24.2s) *
+[D1.1] f3 ep 11/50 lr=4.8e-05 train=-4.0674 val=-4.2695 best=-4.2698@ 10 wait=1/15 (28.7s)  
+[D1.1] f3 ep 12/50 lr=4.8e-05 train=-4.0702 val=-4.2578 best=-4.2698@ 10 wait=2/15 (25.0s)  
+[D1.1] f3 ep 13/50 lr=4.7e-05 train=-4.0729 val=-4.2653 best=-4.2698@ 10 wait=3/15 (25.0s)  
+[D1.1] f3 ep 14/50 lr=4.6e-05 train=-4.0756 val=-4.2665 best=-4.2698@ 10 wait=4/15 (23.6s)  
+[D1.1] f3 ep 15/50 lr=4.5e-05 train=-4.0779 val=-4.2646 best=-4.2698@ 10 wait=5/15 (23.5s)  
+[D1.1] f3 ep 16/50 lr=4.4e-05 train=-4.0798 val=-4.2592 best=-4.2698@ 10 wait=6/15 (25.6s)  
+[D1.1] f3 ep 17/50 lr=4.3e-05 train=-4.0814 val=-4.2548 best=-4.2698@ 10 wait=7/15 (21.9s)  
+[D1.1] f3 ep 18/50 lr=4.2e-05 train=-4.0829 val=-4.2615 best=-4.2698@ 10 wait=8/15 (23.5s)  
+[D1.1] f3 ep 19/50 lr=4.0e-05 train=-4.0845 val=-4.2576 best=-4.2698@ 10 wait=9/15 (27.5s)  
+[D1.1] f3 ep 20/50 lr=3.9e-05 train=-4.0861 val=-4.2545 best=-4.2698@ 10 wait=10/15 (28.0s)  
+[D1.1] f3 ep 21/50 lr=3.8e-05 train=-4.0873 val=-4.2438 best=-4.2698@ 10 wait=11/15 (23.0s)  
+[D1.1] f3 ep 22/50 lr=3.6e-05 train=-4.0888 val=-4.2404 best=-4.2698@ 10 wait=12/15 (25.6s)  
+[D1.1] f3 ep 23/50 lr=3.4e-05 train=-4.0899 val=-4.2407 best=-4.2698@ 10 wait=13/15 (28.7s)  
+[D1.1] f3 ep 24/50 lr=3.3e-05 train=-4.0910 val=-4.2426 best=-4.2698@ 10 wait=14/15 (25.1s)  
+[D1.1] f3 ep 25/50 lr=3.1e-05 train=-4.0920 val=-4.2408 best=-4.2698@ 10 wait=15/15 (26.2s)  
+[D1.1] f3 early-stop at ep25 (best=-4.2698 @ ep10)
+[D1.1] fold 3 done | best_val=-4.2698 @ ep10 elapsed=634.8s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[08:30:53] [4/7] ( 57%) Running D1.2 (drop_time)
+[D1.2] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=16 horizons=4 folds=3 device=cuda
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.2] fold 1/3 starting | N_train=97292 N_val=97580 batches/epoch=759
+[D1.2] f1 ep  1/50 lr=1.0e-05 train=-0.9485 val=-1.8347 best=-1.8347@  1 wait=0/15 (9.3s) *
+[D1.2] f1 ep  2/50 lr=2.0e-05 train=-3.0083 val=-4.2115 best=-4.2115@  2 wait=0/15 (10.4s) *
+[D1.2] f1 ep  3/50 lr=3.0e-05 train=-3.8693 val=-4.2843 best=-4.2843@  3 wait=0/15 (9.5s) *
+[D1.2] f1 ep  4/50 lr=4.0e-05 train=-3.9081 val=-4.3065 best=-4.3065@  4 wait=0/15 (10.0s) *
+[D1.2] f1 ep  5/50 lr=5.0e-05 train=-3.9211 val=-4.2975 best=-4.3065@  4 wait=1/15 (9.7s)  
+[D1.2] f1 ep  6/50 lr=5.0e-05 train=-3.9272 val=-4.3176 best=-4.3176@  6 wait=0/15 (9.5s) *
+[D1.2] f1 ep  7/50 lr=5.0e-05 train=-3.9311 val=-4.3081 best=-4.3176@  6 wait=1/15 (8.8s)  
+[D1.2] f1 ep  8/50 lr=5.0e-05 train=-3.9363 val=-4.3153 best=-4.3176@  6 wait=2/15 (9.6s)  
+[D1.2] f1 ep  9/50 lr=4.9e-05 train=-3.9407 val=-4.2751 best=-4.3176@  6 wait=3/15 (9.4s)  
+[D1.2] f1 ep 10/50 lr=4.9e-05 train=-3.9435 val=-4.2668 best=-4.3176@  6 wait=4/15 (9.7s)  
+[D1.2] f1 ep 11/50 lr=4.8e-05 train=-3.9460 val=-4.3001 best=-4.3176@  6 wait=5/15 (10.3s)  
+[D1.2] f1 ep 12/50 lr=4.8e-05 train=-3.9500 val=-4.2810 best=-4.3176@  6 wait=6/15 (10.1s)  
+[D1.2] f1 ep 13/50 lr=4.7e-05 train=-3.9519 val=-4.2655 best=-4.3176@  6 wait=7/15 (9.6s)  
+[D1.2] f1 ep 14/50 lr=4.6e-05 train=-3.9556 val=-4.2584 best=-4.3176@  6 wait=8/15 (9.6s)  
+[D1.2] f1 ep 15/50 lr=4.5e-05 train=-3.9580 val=-4.2491 best=-4.3176@  6 wait=9/15 (9.5s)  
+[D1.2] f1 ep 16/50 lr=4.4e-05 train=-3.9600 val=-4.2527 best=-4.3176@  6 wait=10/15 (10.1s)  
+[D1.2] f1 ep 17/50 lr=4.3e-05 train=-3.9615 val=-4.2536 best=-4.3176@  6 wait=11/15 (8.6s)  
+[D1.2] f1 ep 18/50 lr=4.2e-05 train=-3.9639 val=-4.1963 best=-4.3176@  6 wait=12/15 (8.7s)  
+[D1.2] f1 ep 19/50 lr=4.0e-05 train=-3.9653 val=-4.1989 best=-4.3176@  6 wait=13/15 (9.5s)  
+[D1.2] f1 ep 20/50 lr=3.9e-05 train=-3.9675 val=-4.2308 best=-4.3176@  6 wait=14/15 (9.4s)  
+[D1.2] f1 ep 21/50 lr=3.8e-05 train=-3.9687 val=-4.2567 best=-4.3176@  6 wait=15/15 (8.7s)  
+[D1.2] f1 early-stop at ep21 (best=-4.3176 @ ep6)
+[D1.2] fold 1 done | best_val=-4.3176 @ ep6 elapsed=199.9s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.2] fold 2/3 starting | N_train=194872 N_val=97580 batches/epoch=1521
+[D1.2] f2 ep  1/50 lr=1.0e-05 train=-1.7093 val=-3.0914 best=-3.0914@  1 wait=0/15 (18.7s) *
+[D1.2] f2 ep  2/50 lr=2.0e-05 train=-3.9044 val=-3.9807 best=-3.9807@  2 wait=0/15 (15.2s) *
+[D1.2] f2 ep  3/50 lr=3.0e-05 train=-4.0713 val=-3.9785 best=-3.9807@  2 wait=1/15 (20.1s)  
+[D1.2] f2 ep  4/50 lr=4.0e-05 train=-4.0848 val=-3.9950 best=-3.9950@  4 wait=0/15 (17.3s) *
+[D1.2] f2 ep  5/50 lr=5.0e-05 train=-4.0928 val=-3.9857 best=-3.9950@  4 wait=1/15 (18.9s)  
+[D1.2] f2 ep  6/50 lr=5.0e-05 train=-4.1013 val=-3.9826 best=-3.9950@  4 wait=2/15 (17.5s)  
+[D1.2] f2 ep  7/50 lr=5.0e-05 train=-4.1071 val=-3.9870 best=-3.9950@  4 wait=3/15 (17.6s)  
+[D1.2] f2 ep  8/50 lr=5.0e-05 train=-4.1129 val=-3.9707 best=-3.9950@  4 wait=4/15 (22.1s)  
+[D1.2] f2 ep  9/50 lr=4.9e-05 train=-4.1164 val=-3.9773 best=-3.9950@  4 wait=5/15 (19.4s)  
+[D1.2] f2 ep 10/50 lr=4.9e-05 train=-4.1207 val=-3.9373 best=-3.9950@  4 wait=6/15 (22.4s)  
+[D1.2] f2 ep 11/50 lr=4.8e-05 train=-4.1239 val=-3.9654 best=-3.9950@  4 wait=7/15 (17.4s)  
+[D1.2] f2 ep 12/50 lr=4.8e-05 train=-4.1261 val=-3.9797 best=-3.9950@  4 wait=8/15 (17.2s)  
+[D1.2] f2 ep 13/50 lr=4.7e-05 train=-4.1288 val=-3.9801 best=-3.9950@  4 wait=9/15 (20.8s)  
+[D1.2] f2 ep 14/50 lr=4.6e-05 train=-4.1316 val=-3.9470 best=-3.9950@  4 wait=10/15 (21.9s)  
+[D1.2] f2 ep 15/50 lr=4.5e-05 train=-4.1335 val=-3.9579 best=-3.9950@  4 wait=11/15 (21.2s)  
+[D1.2] f2 ep 16/50 lr=4.4e-05 train=-4.1357 val=-3.9443 best=-3.9950@  4 wait=12/15 (18.1s)  
+[D1.2] f2 ep 17/50 lr=4.3e-05 train=-4.1373 val=-3.9724 best=-3.9950@  4 wait=13/15 (21.3s)  
+[D1.2] f2 ep 18/50 lr=4.2e-05 train=-4.1394 val=-3.9813 best=-3.9950@  4 wait=14/15 (20.5s)  
+[D1.2] f2 ep 19/50 lr=4.0e-05 train=-4.1407 val=-3.9626 best=-3.9950@  4 wait=15/15 (20.2s)  
+[D1.2] f2 early-stop at ep19 (best=-3.9950 @ ep4)
+[D1.2] fold 2 done | best_val=-3.9950 @ ep4 elapsed=367.5s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.2] fold 3/3 starting | N_train=292452 N_val=97583 batches/epoch=2283
+[D1.2] f3 ep  1/50 lr=1.0e-05 train=-2.2893 val=-4.1666 best=-4.1666@  1 wait=0/15 (32.3s) *
+[D1.2] f3 ep  2/50 lr=2.0e-05 train=-3.9954 val=-4.2628 best=-4.2628@  2 wait=0/15 (25.0s) *
+[D1.2] f3 ep  3/50 lr=3.0e-05 train=-4.0289 val=-4.2772 best=-4.2772@  3 wait=0/15 (28.0s) *
+[D1.2] f3 ep  4/50 lr=4.0e-05 train=-4.0397 val=-4.2815 best=-4.2815@  4 wait=0/15 (26.8s) *
+[D1.2] f3 ep  5/50 lr=5.0e-05 train=-4.0481 val=-4.2804 best=-4.2815@  4 wait=1/15 (27.4s)  
+[D1.2] f3 ep  6/50 lr=5.0e-05 train=-4.0545 val=-4.2819 best=-4.2819@  6 wait=0/15 (27.2s) *
+[D1.2] f3 ep  7/50 lr=5.0e-05 train=-4.0596 val=-4.2818 best=-4.2819@  6 wait=1/15 (29.7s)  
+[D1.2] f3 ep  8/50 lr=5.0e-05 train=-4.0643 val=-4.2762 best=-4.2819@  6 wait=2/15 (27.0s)  
+[D1.2] f3 ep  9/50 lr=4.9e-05 train=-4.0682 val=-4.2808 best=-4.2819@  6 wait=3/15 (32.5s)  
+[D1.2] f3 ep 10/50 lr=4.9e-05 train=-4.0709 val=-4.2800 best=-4.2819@  6 wait=4/15 (25.7s)  
+[D1.2] f3 ep 11/50 lr=4.8e-05 train=-4.0736 val=-4.2801 best=-4.2819@  6 wait=5/15 (29.3s)  
+[D1.2] f3 ep 12/50 lr=4.8e-05 train=-4.0757 val=-4.2814 best=-4.2819@  6 wait=6/15 (26.5s)  
+[D1.2] f3 ep 13/50 lr=4.7e-05 train=-4.0779 val=-4.2760 best=-4.2819@  6 wait=7/15 (24.3s)  
+[D1.2] f3 ep 14/50 lr=4.6e-05 train=-4.0795 val=-4.2746 best=-4.2819@  6 wait=8/15 (24.9s)  
+[D1.2] f3 ep 15/50 lr=4.5e-05 train=-4.0815 val=-4.2741 best=-4.2819@  6 wait=9/15 (26.7s)  
+[D1.2] f3 ep 16/50 lr=4.4e-05 train=-4.0829 val=-4.2751 best=-4.2819@  6 wait=10/15 (28.3s)  
+[D1.2] f3 ep 17/50 lr=4.3e-05 train=-4.0841 val=-4.2769 best=-4.2819@  6 wait=11/15 (28.6s)  
+[D1.2] f3 ep 18/50 lr=4.2e-05 train=-4.0853 val=-4.2774 best=-4.2819@  6 wait=12/15 (25.5s)  
+[D1.2] f3 ep 19/50 lr=4.0e-05 train=-4.0864 val=-4.2758 best=-4.2819@  6 wait=13/15 (26.9s)  
+[D1.2] f3 ep 20/50 lr=3.9e-05 train=-4.0877 val=-4.2751 best=-4.2819@  6 wait=14/15 (22.8s)  
+[D1.2] f3 ep 21/50 lr=3.8e-05 train=-4.0887 val=-4.2738 best=-4.2819@  6 wait=15/15 (24.0s)  
+[D1.2] f3 early-stop at ep21 (best=-4.2819 @ ep6)
+[D1.2] fold 3 done | best_val=-4.2819 @ ep6 elapsed=569.4s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[08:50:01] [5/7] ( 71%) Running D1.3 (drop_derivatives)
+[D1.3] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=19 horizons=4 folds=3 device=cuda
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.3] fold 1/3 starting | N_train=97292 N_val=97580 batches/epoch=759
+[D1.3] f1 ep  1/50 lr=1.0e-05 train=-0.9450 val=-1.8097 best=-1.8097@  1 wait=0/15 (10.5s) *
+[D1.3] f1 ep  2/50 lr=2.0e-05 train=-2.9680 val=-4.1837 best=-4.1837@  2 wait=0/15 (9.6s) *
+[D1.3] f1 ep  3/50 lr=3.0e-05 train=-3.8747 val=-4.3159 best=-4.3159@  3 wait=0/15 (10.3s) *
+[D1.3] f1 ep  4/50 lr=4.0e-05 train=-3.9128 val=-4.3330 best=-4.3330@  4 wait=0/15 (8.6s) *
+[D1.3] f1 ep  5/50 lr=5.0e-05 train=-3.9253 val=-4.3217 best=-4.3330@  4 wait=1/15 (8.7s)  
+[D1.3] f1 ep  6/50 lr=5.0e-05 train=-3.9331 val=-4.3417 best=-4.3417@  6 wait=0/15 (9.3s) *
+[D1.3] f1 ep  7/50 lr=5.0e-05 train=-3.9375 val=-4.3236 best=-4.3417@  6 wait=1/15 (9.5s)  
+[D1.3] f1 ep  8/50 lr=5.0e-05 train=-3.9425 val=-4.3222 best=-4.3417@  6 wait=2/15 (10.4s)  
+[D1.3] f1 ep  9/50 lr=4.9e-05 train=-3.9462 val=-4.3264 best=-4.3417@  6 wait=3/15 (11.5s)  
+[D1.3] f1 ep 10/50 lr=4.9e-05 train=-3.9496 val=-4.3113 best=-4.3417@  6 wait=4/15 (10.1s)  
+[D1.3] f1 ep 11/50 lr=4.8e-05 train=-3.9536 val=-4.3163 best=-4.3417@  6 wait=5/15 (8.5s)  
+[D1.3] f1 ep 12/50 lr=4.8e-05 train=-3.9576 val=-4.2959 best=-4.3417@  6 wait=6/15 (10.3s)  
+[D1.3] f1 ep 13/50 lr=4.7e-05 train=-3.9605 val=-4.3025 best=-4.3417@  6 wait=7/15 (10.3s)  
+[D1.3] f1 ep 14/50 lr=4.6e-05 train=-3.9634 val=-4.3092 best=-4.3417@  6 wait=8/15 (9.2s)  
+[D1.3] f1 ep 15/50 lr=4.5e-05 train=-3.9655 val=-4.2954 best=-4.3417@  6 wait=9/15 (10.3s)  
+[D1.3] f1 ep 16/50 lr=4.4e-05 train=-3.9666 val=-4.2910 best=-4.3417@  6 wait=10/15 (10.3s)  
+[D1.3] f1 ep 17/50 lr=4.3e-05 train=-3.9700 val=-4.2959 best=-4.3417@  6 wait=11/15 (10.3s)  
+[D1.3] f1 ep 18/50 lr=4.2e-05 train=-3.9717 val=-4.2984 best=-4.3417@  6 wait=12/15 (9.6s)  
+[D1.3] f1 ep 19/50 lr=4.0e-05 train=-3.9739 val=-4.2772 best=-4.3417@  6 wait=13/15 (8.5s)  
+[D1.3] f1 ep 20/50 lr=3.9e-05 train=-3.9751 val=-4.2680 best=-4.3417@  6 wait=14/15 (9.4s)  
+[D1.3] f1 ep 21/50 lr=3.8e-05 train=-3.9767 val=-4.2673 best=-4.3417@  6 wait=15/15 (10.3s)  
+[D1.3] f1 early-stop at ep21 (best=-4.3417 @ ep6)
+[D1.3] fold 1 done | best_val=-4.3417 @ ep6 elapsed=205.6s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.3] fold 2/3 starting | N_train=194872 N_val=97580 batches/epoch=1521
+[D1.3] f2 ep  1/50 lr=1.0e-05 train=-1.9456 val=-3.5194 best=-3.5194@  1 wait=0/15 (16.9s) *
+[D1.3] f2 ep  2/50 lr=2.0e-05 train=-4.0102 val=-3.9960 best=-3.9960@  2 wait=0/15 (20.1s) *
+[D1.3] f2 ep  3/50 lr=3.0e-05 train=-4.0943 val=-4.0037 best=-4.0037@  3 wait=0/15 (19.3s) *
+[D1.3] f2 ep  4/50 lr=4.0e-05 train=-4.1069 val=-4.0050 best=-4.0050@  4 wait=0/15 (18.2s) *
+[D1.3] f2 ep  5/50 lr=5.0e-05 train=-4.1131 val=-4.0090 best=-4.0090@  5 wait=0/15 (20.5s) *
+[D1.3] f2 ep  6/50 lr=5.0e-05 train=-4.1187 val=-3.9963 best=-4.0090@  5 wait=1/15 (17.8s)  
+[D1.3] f2 ep  7/50 lr=5.0e-05 train=-4.1231 val=-4.0047 best=-4.0090@  5 wait=2/15 (17.0s)  
+[D1.3] f2 ep  8/50 lr=5.0e-05 train=-4.1275 val=-4.0057 best=-4.0090@  5 wait=3/15 (19.8s)  
+[D1.3] f2 ep  9/50 lr=4.9e-05 train=-4.1312 val=-4.0034 best=-4.0090@  5 wait=4/15 (17.6s)  
+[D1.3] f2 ep 10/50 lr=4.9e-05 train=-4.1343 val=-3.9999 best=-4.0090@  5 wait=5/15 (18.1s)  
+[D1.3] f2 ep 11/50 lr=4.8e-05 train=-4.1368 val=-4.0041 best=-4.0090@  5 wait=6/15 (18.6s)  
+[D1.3] f2 ep 12/50 lr=4.8e-05 train=-4.1391 val=-3.9977 best=-4.0090@  5 wait=7/15 (16.3s)  
+[D1.3] f2 ep 13/50 lr=4.7e-05 train=-4.1415 val=-4.0003 best=-4.0090@  5 wait=8/15 (17.7s)  
+[D1.3] f2 ep 14/50 lr=4.6e-05 train=-4.1432 val=-3.9679 best=-4.0090@  5 wait=9/15 (17.2s)  
+[D1.3] f2 ep 15/50 lr=4.5e-05 train=-4.1451 val=-3.9664 best=-4.0090@  5 wait=10/15 (21.2s)  
+[D1.3] f2 ep 16/50 lr=4.4e-05 train=-4.1465 val=-3.9796 best=-4.0090@  5 wait=11/15 (20.3s)  
+[D1.3] f2 ep 17/50 lr=4.3e-05 train=-4.1478 val=-3.9594 best=-4.0090@  5 wait=12/15 (21.9s)  
+[D1.3] f2 ep 18/50 lr=4.2e-05 train=-4.1496 val=-3.9626 best=-4.0090@  5 wait=13/15 (19.1s)  
+[D1.3] f2 ep 19/50 lr=4.0e-05 train=-4.1505 val=-3.9572 best=-4.0090@  5 wait=14/15 (19.6s)  
+[D1.3] f2 ep 20/50 lr=3.9e-05 train=-4.1515 val=-3.9629 best=-4.0090@  5 wait=15/15 (17.4s)  
+[D1.3] f2 early-stop at ep20 (best=-4.0090 @ ep5)
+[D1.3] fold 2 done | best_val=-4.0090 @ ep5 elapsed=374.6s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.3] fold 3/3 starting | N_train=292452 N_val=97583 batches/epoch=2283
+[D1.3] f3 ep  1/50 lr=1.0e-05 train=-2.2621 val=-4.1787 best=-4.1787@  1 wait=0/15 (26.0s) *
+[D1.3] f3 ep  2/50 lr=2.0e-05 train=-3.9932 val=-4.2794 best=-4.2794@  2 wait=0/15 (28.2s) *
+[D1.3] f3 ep  3/50 lr=3.0e-05 train=-4.0323 val=-4.2859 best=-4.2859@  3 wait=0/15 (22.3s) *
+[D1.3] f3 ep  4/50 lr=4.0e-05 train=-4.0446 val=-4.2893 best=-4.2893@  4 wait=0/15 (25.0s) *
+[D1.3] f3 ep  5/50 lr=5.0e-05 train=-4.0546 val=-4.2870 best=-4.2893@  4 wait=1/15 (24.7s)  
+[D1.3] f3 ep  6/50 lr=5.0e-05 train=-4.0628 val=-4.2877 best=-4.2893@  4 wait=2/15 (29.1s)  
+[D1.3] f3 ep  7/50 lr=5.0e-05 train=-4.0688 val=-4.2894 best=-4.2894@  7 wait=0/15 (25.7s) *
+[D1.3] f3 ep  8/50 lr=5.0e-05 train=-4.0742 val=-4.2879 best=-4.2894@  7 wait=1/15 (27.8s)  
+[D1.3] f3 ep  9/50 lr=4.9e-05 train=-4.0783 val=-4.2876 best=-4.2894@  7 wait=2/15 (26.4s)  
+[D1.3] f3 ep 10/50 lr=4.9e-05 train=-4.0814 val=-4.2887 best=-4.2894@  7 wait=3/15 (28.5s)  
+[D1.3] f3 ep 11/50 lr=4.8e-05 train=-4.0839 val=-4.2861 best=-4.2894@  7 wait=4/15 (27.4s)  
+[D1.3] f3 ep 12/50 lr=4.8e-05 train=-4.0864 val=-4.2890 best=-4.2894@  7 wait=5/15 (27.5s)  
+[D1.3] f3 ep 13/50 lr=4.7e-05 train=-4.0879 val=-4.2865 best=-4.2894@  7 wait=6/15 (26.1s)  
+[D1.3] f3 ep 14/50 lr=4.6e-05 train=-4.0901 val=-4.2798 best=-4.2894@  7 wait=7/15 (25.0s)  
+[D1.3] f3 ep 15/50 lr=4.5e-05 train=-4.0915 val=-4.2837 best=-4.2894@  7 wait=8/15 (26.6s)  
+[D1.3] f3 ep 16/50 lr=4.4e-05 train=-4.0928 val=-4.2809 best=-4.2894@  7 wait=9/15 (28.1s)  
+[D1.3] f3 ep 17/50 lr=4.3e-05 train=-4.0938 val=-4.2820 best=-4.2894@  7 wait=10/15 (30.4s)  
+[D1.3] f3 ep 18/50 lr=4.2e-05 train=-4.0952 val=-4.2842 best=-4.2894@  7 wait=11/15 (31.1s)  
+[D1.3] f3 ep 19/50 lr=4.0e-05 train=-4.0962 val=-4.2812 best=-4.2894@  7 wait=12/15 (24.2s)  
+[D1.3] f3 ep 20/50 lr=3.9e-05 train=-4.0973 val=-4.2802 best=-4.2894@  7 wait=13/15 (23.3s)  
+[D1.3] f3 ep 21/50 lr=3.8e-05 train=-4.0980 val=-4.2821 best=-4.2894@  7 wait=14/15 (22.9s)  
+[D1.3] f3 ep 22/50 lr=3.6e-05 train=-4.0989 val=-4.2786 best=-4.2894@  7 wait=15/15 (22.6s)  
+[D1.3] f3 early-stop at ep22 (best=-4.2894 @ ep7)
+[D1.3] fold 3 done | best_val=-4.2894 @ ep7 elapsed=578.9s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[09:09:31] [6/7] ( 85%) Running D1.4 (drop_price_sma)
+[D1.4] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=17 horizons=4 folds=3 device=cuda
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.4] fold 1/3 starting | N_train=97292 N_val=97580 batches/epoch=759
+[D1.4] f1 ep  1/50 lr=1.0e-05 train=-0.8488 val=-1.6342 best=-1.6342@  1 wait=0/15 (8.6s) *
+[D1.4] f1 ep  2/50 lr=2.0e-05 train=-2.8432 val=-4.1131 best=-4.1131@  2 wait=0/15 (8.6s) *
+[D1.4] f1 ep  3/50 lr=3.0e-05 train=-3.8706 val=-4.3201 best=-4.3201@  3 wait=0/15 (8.4s) *
+[D1.4] f1 ep  4/50 lr=4.0e-05 train=-3.9169 val=-4.3337 best=-4.3337@  4 wait=0/15 (8.3s) *
+[D1.4] f1 ep  5/50 lr=5.0e-05 train=-3.9299 val=-4.3318 best=-4.3337@  4 wait=1/15 (8.5s)  
+[D1.4] f1 ep  6/50 lr=5.0e-05 train=-3.9363 val=-4.3216 best=-4.3337@  4 wait=2/15 (8.3s)  
+[D1.4] f1 ep  7/50 lr=5.0e-05 train=-3.9425 val=-4.3146 best=-4.3337@  4 wait=3/15 (8.4s)  
+[D1.4] f1 ep  8/50 lr=5.0e-05 train=-3.9468 val=-4.2868 best=-4.3337@  4 wait=4/15 (10.3s)  
+[D1.4] f1 ep  9/50 lr=4.9e-05 train=-3.9513 val=-4.2435 best=-4.3337@  4 wait=5/15 (11.2s)  
+[D1.4] f1 ep 10/50 lr=4.9e-05 train=-3.9544 val=-4.2315 best=-4.3337@  4 wait=6/15 (8.4s)  
+[D1.4] f1 ep 11/50 lr=4.8e-05 train=-3.9585 val=-4.2015 best=-4.3337@  4 wait=7/15 (8.3s)  
+[D1.4] f1 ep 12/50 lr=4.8e-05 train=-3.9619 val=-4.1701 best=-4.3337@  4 wait=8/15 (10.2s)  
+[D1.4] f1 ep 13/50 lr=4.7e-05 train=-3.9653 val=-4.1127 best=-4.3337@  4 wait=9/15 (10.0s)  
+[D1.4] f1 ep 14/50 lr=4.6e-05 train=-3.9684 val=-4.0787 best=-4.3337@  4 wait=10/15 (9.7s)  
+[D1.4] f1 ep 15/50 lr=4.5e-05 train=-3.9709 val=-4.1556 best=-4.3337@  4 wait=11/15 (10.5s)  
+[D1.4] f1 ep 16/50 lr=4.4e-05 train=-3.9724 val=-4.1145 best=-4.3337@  4 wait=12/15 (10.2s)  
+[D1.4] f1 ep 17/50 lr=4.3e-05 train=-3.9753 val=-4.0907 best=-4.3337@  4 wait=13/15 (10.7s)  
+[D1.4] f1 ep 18/50 lr=4.2e-05 train=-3.9770 val=-4.1143 best=-4.3337@  4 wait=14/15 (10.2s)  
+[D1.4] f1 ep 19/50 lr=4.0e-05 train=-3.9792 val=-4.1539 best=-4.3337@  4 wait=15/15 (9.0s)  
+[D1.4] f1 early-stop at ep19 (best=-4.3337 @ ep4)
+[D1.4] fold 1 done | best_val=-4.3337 @ ep4 elapsed=177.8s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.4] fold 2/3 starting | N_train=194872 N_val=97580 batches/epoch=1521
+[D1.4] f2 ep  1/50 lr=1.0e-05 train=-1.7202 val=-3.2053 best=-3.2053@  1 wait=0/15 (17.7s) *
+[D1.4] f2 ep  2/50 lr=2.0e-05 train=-3.9510 val=-3.9897 best=-3.9897@  2 wait=0/15 (16.5s) *
+[D1.4] f2 ep  3/50 lr=3.0e-05 train=-4.0803 val=-3.9982 best=-3.9982@  3 wait=0/15 (15.9s) *
+[D1.4] f2 ep  4/50 lr=4.0e-05 train=-4.0969 val=-4.0034 best=-4.0034@  4 wait=0/15 (15.3s) *
+[D1.4] f2 ep  5/50 lr=5.0e-05 train=-4.1065 val=-3.9986 best=-4.0034@  4 wait=1/15 (18.8s)  
+[D1.4] f2 ep  6/50 lr=5.0e-05 train=-4.1141 val=-4.0030 best=-4.0034@  4 wait=2/15 (17.0s)  
+[D1.4] f2 ep  7/50 lr=5.0e-05 train=-4.1198 val=-4.0027 best=-4.0034@  4 wait=3/15 (16.2s)  
+[D1.4] f2 ep  8/50 lr=5.0e-05 train=-4.1244 val=-3.9988 best=-4.0034@  4 wait=4/15 (19.1s)  
+[D1.4] f2 ep  9/50 lr=4.9e-05 train=-4.1287 val=-3.9998 best=-4.0034@  4 wait=5/15 (18.7s)  
+[D1.4] f2 ep 10/50 lr=4.9e-05 train=-4.1332 val=-3.9974 best=-4.0034@  4 wait=6/15 (17.8s)  
+[D1.4] f2 ep 11/50 lr=4.8e-05 train=-4.1363 val=-3.9966 best=-4.0034@  4 wait=7/15 (18.3s)  
+[D1.4] f2 ep 12/50 lr=4.8e-05 train=-4.1391 val=-3.9941 best=-4.0034@  4 wait=8/15 (17.9s)  
+[D1.4] f2 ep 13/50 lr=4.7e-05 train=-4.1422 val=-3.9998 best=-4.0034@  4 wait=9/15 (21.4s)  
+[D1.4] f2 ep 14/50 lr=4.6e-05 train=-4.1442 val=-3.9936 best=-4.0034@  4 wait=10/15 (20.3s)  
+[D1.4] f2 ep 15/50 lr=4.5e-05 train=-4.1462 val=-3.9898 best=-4.0034@  4 wait=11/15 (19.1s)  
+[D1.4] f2 ep 16/50 lr=4.4e-05 train=-4.1478 val=-3.9791 best=-4.0034@  4 wait=12/15 (20.0s)  
+[D1.4] f2 ep 17/50 lr=4.3e-05 train=-4.1494 val=-3.9910 best=-4.0034@  4 wait=13/15 (20.9s)  
+[D1.4] f2 ep 18/50 lr=4.2e-05 train=-4.1511 val=-3.9802 best=-4.0034@  4 wait=14/15 (17.6s)  
+[D1.4] f2 ep 19/50 lr=4.0e-05 train=-4.1527 val=-3.9873 best=-4.0034@  4 wait=15/15 (15.4s)  
+[D1.4] f2 early-stop at ep19 (best=-4.0034 @ ep4)
+[D1.4] fold 2 done | best_val=-4.0034 @ ep4 elapsed=343.9s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.4] fold 3/3 starting | N_train=292452 N_val=97583 batches/epoch=2283
+[D1.4] f3 ep  1/50 lr=1.0e-05 train=-2.5030 val=-4.2164 best=-4.2164@  1 wait=0/15 (23.9s) *
+[D1.4] f3 ep  2/50 lr=2.0e-05 train=-4.0142 val=-4.2827 best=-4.2827@  2 wait=0/15 (28.0s) *
+[D1.4] f3 ep  3/50 lr=3.0e-05 train=-4.0449 val=-4.2873 best=-4.2873@  3 wait=0/15 (25.8s) *
+[D1.4] f3 ep  4/50 lr=4.0e-05 train=-4.0551 val=-4.2876 best=-4.2876@  4 wait=0/15 (23.4s) *
+[D1.4] f3 ep  5/50 lr=5.0e-05 train=-4.0623 val=-4.2897 best=-4.2897@  5 wait=0/15 (25.4s) *
+[D1.4] f3 ep  6/50 lr=5.0e-05 train=-4.0684 val=-4.2902 best=-4.2902@  6 wait=0/15 (24.9s) *
+[D1.4] f3 ep  7/50 lr=5.0e-05 train=-4.0736 val=-4.2900 best=-4.2902@  6 wait=1/15 (26.3s)  
+[D1.4] f3 ep  8/50 lr=5.0e-05 train=-4.0774 val=-4.2922 best=-4.2922@  8 wait=0/15 (26.7s) *
+[D1.4] f3 ep  9/50 lr=4.9e-05 train=-4.0809 val=-4.2928 best=-4.2928@  9 wait=0/15 (32.0s) *
+[D1.4] f3 ep 10/50 lr=4.9e-05 train=-4.0838 val=-4.2899 best=-4.2928@  9 wait=1/15 (26.9s)  
+[D1.4] f3 ep 11/50 lr=4.8e-05 train=-4.0862 val=-4.2911 best=-4.2928@  9 wait=2/15 (23.1s)  
+[D1.4] f3 ep 12/50 lr=4.8e-05 train=-4.0888 val=-4.2918 best=-4.2928@  9 wait=3/15 (23.4s)  
+[D1.4] f3 ep 13/50 lr=4.7e-05 train=-4.0905 val=-4.2914 best=-4.2928@  9 wait=4/15 (26.0s)  
+[D1.4] f3 ep 14/50 lr=4.6e-05 train=-4.0922 val=-4.2910 best=-4.2928@  9 wait=5/15 (29.9s)  
+[D1.4] f3 ep 15/50 lr=4.5e-05 train=-4.0942 val=-4.2898 best=-4.2928@  9 wait=6/15 (27.9s)  
+[D1.4] f3 ep 16/50 lr=4.4e-05 train=-4.0956 val=-4.2884 best=-4.2928@  9 wait=7/15 (26.3s)  
+[D1.4] f3 ep 17/50 lr=4.3e-05 train=-4.0969 val=-4.2891 best=-4.2928@  9 wait=8/15 (30.7s)  
+[D1.4] f3 ep 18/50 lr=4.2e-05 train=-4.0981 val=-4.2892 best=-4.2928@  9 wait=9/15 (32.3s)  
+[D1.4] f3 ep 19/50 lr=4.0e-05 train=-4.0994 val=-4.2873 best=-4.2928@  9 wait=10/15 (25.0s)  
+[D1.4] f3 ep 20/50 lr=3.9e-05 train=-4.1006 val=-4.2841 best=-4.2928@  9 wait=11/15 (27.6s)  
+[D1.4] f3 ep 21/50 lr=3.8e-05 train=-4.1019 val=-4.2836 best=-4.2928@  9 wait=12/15 (27.4s)  
+[D1.4] f3 ep 22/50 lr=3.6e-05 train=-4.1028 val=-4.2824 best=-4.2928@  9 wait=13/15 (23.9s)  
+[D1.4] f3 ep 23/50 lr=3.4e-05 train=-4.1037 val=-4.2768 best=-4.2928@  9 wait=14/15 (27.0s)  
+[D1.4] f3 ep 24/50 lr=3.3e-05 train=-4.1046 val=-4.2761 best=-4.2928@  9 wait=15/15 (28.0s)  
+[D1.4] f3 early-stop at ep24 (best=-4.2928 @ ep9)
+[D1.4] fold 3 done | best_val=-4.2928 @ ep9 elapsed=641.8s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[09:29:06] [7/7] (100%) Running D1.5 (drop_volume)
+[D1.5] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=20 horizons=4 folds=3 device=cuda
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.5] fold 1/3 starting | N_train=97292 N_val=97580 batches/epoch=759
+[D1.5] f1 ep  1/50 lr=1.0e-05 train=-1.0049 val=-1.9587 best=-1.9587@  1 wait=0/15 (10.1s) *
+[D1.5] f1 ep  2/50 lr=2.0e-05 train=-3.1561 val=-4.2481 best=-4.2481@  2 wait=0/15 (10.7s) *
+[D1.5] f1 ep  3/50 lr=3.0e-05 train=-3.8980 val=-4.3261 best=-4.3261@  3 wait=0/15 (11.5s) *
+[D1.5] f1 ep  4/50 lr=4.0e-05 train=-3.9297 val=-4.3358 best=-4.3358@  4 wait=0/15 (10.3s) *
+[D1.5] f1 ep  5/50 lr=5.0e-05 train=-3.9410 val=-4.3099 best=-4.3358@  4 wait=1/15 (10.3s)  
+[D1.5] f1 ep  6/50 lr=5.0e-05 train=-3.9471 val=-4.3287 best=-4.3358@  4 wait=2/15 (8.4s)  
+[D1.5] f1 ep  7/50 lr=5.0e-05 train=-3.9517 val=-4.3036 best=-4.3358@  4 wait=3/15 (10.3s)  
+[D1.5] f1 ep  8/50 lr=5.0e-05 train=-3.9567 val=-4.3002 best=-4.3358@  4 wait=4/15 (11.3s)  
+[D1.5] f1 ep  9/50 lr=4.9e-05 train=-3.9595 val=-4.2762 best=-4.3358@  4 wait=5/15 (11.2s)  
+[D1.5] f1 ep 10/50 lr=4.9e-05 train=-3.9620 val=-4.2463 best=-4.3358@  4 wait=6/15 (11.3s)  
+[D1.5] f1 ep 11/50 lr=4.8e-05 train=-3.9653 val=-4.2249 best=-4.3358@  4 wait=7/15 (10.1s)  
+[D1.5] f1 ep 12/50 lr=4.8e-05 train=-3.9675 val=-4.2280 best=-4.3358@  4 wait=8/15 (11.9s)  
+[D1.5] f1 ep 13/50 lr=4.7e-05 train=-3.9702 val=-4.2302 best=-4.3358@  4 wait=9/15 (11.6s)  
+[D1.5] f1 ep 14/50 lr=4.6e-05 train=-3.9729 val=-4.1715 best=-4.3358@  4 wait=10/15 (10.7s)  
+[D1.5] f1 ep 15/50 lr=4.5e-05 train=-3.9747 val=-4.2032 best=-4.3358@  4 wait=11/15 (9.7s)  
+[D1.5] f1 ep 16/50 lr=4.4e-05 train=-3.9764 val=-4.1854 best=-4.3358@  4 wait=12/15 (10.5s)  
+[D1.5] f1 ep 17/50 lr=4.3e-05 train=-3.9781 val=-4.1742 best=-4.3358@  4 wait=13/15 (10.5s)  
+[D1.5] f1 ep 18/50 lr=4.2e-05 train=-3.9802 val=-4.2003 best=-4.3358@  4 wait=14/15 (10.9s)  
+[D1.5] f1 ep 19/50 lr=4.0e-05 train=-3.9814 val=-4.1998 best=-4.3358@  4 wait=15/15 (9.8s)  
+[D1.5] f1 early-stop at ep19 (best=-4.3358 @ ep4)
+[D1.5] fold 1 done | best_val=-4.3358 @ ep4 elapsed=201.1s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.5] fold 2/3 starting | N_train=194872 N_val=97580 batches/epoch=1521
+[D1.5] f2 ep  1/50 lr=1.0e-05 train=-1.6024 val=-3.0066 best=-3.0066@  1 wait=0/15 (15.4s) *
+[D1.5] f2 ep  2/50 lr=2.0e-05 train=-3.8972 val=-3.9887 best=-3.9887@  2 wait=0/15 (18.0s) *
+[D1.5] f2 ep  3/50 lr=3.0e-05 train=-4.0762 val=-3.9926 best=-3.9926@  3 wait=0/15 (17.2s) *
+[D1.5] f2 ep  4/50 lr=4.0e-05 train=-4.0945 val=-3.9914 best=-3.9926@  3 wait=1/15 (18.8s)  
+[D1.5] f2 ep  5/50 lr=5.0e-05 train=-4.1038 val=-4.0035 best=-4.0035@  5 wait=0/15 (16.0s) *
+[D1.5] f2 ep  6/50 lr=5.0e-05 train=-4.1123 val=-3.9952 best=-4.0035@  5 wait=1/15 (15.7s)  
+[D1.5] f2 ep  7/50 lr=5.0e-05 train=-4.1183 val=-3.9997 best=-4.0035@  5 wait=2/15 (18.0s)  
+[D1.5] f2 ep  8/50 lr=5.0e-05 train=-4.1238 val=-4.0029 best=-4.0035@  5 wait=3/15 (18.8s)  
+[D1.5] f2 ep  9/50 lr=4.9e-05 train=-4.1291 val=-4.0036 best=-4.0036@  9 wait=0/15 (17.2s) *
+[D1.5] f2 ep 10/50 lr=4.9e-05 train=-4.1332 val=-3.9835 best=-4.0036@  9 wait=1/15 (16.6s)  
+[D1.5] f2 ep 11/50 lr=4.8e-05 train=-4.1367 val=-3.9915 best=-4.0036@  9 wait=2/15 (18.8s)  
+[D1.5] f2 ep 12/50 lr=4.8e-05 train=-4.1399 val=-3.9339 best=-4.0036@  9 wait=3/15 (18.9s)  
+[D1.5] f2 ep 13/50 lr=4.7e-05 train=-4.1428 val=-3.9721 best=-4.0036@  9 wait=4/15 (17.3s)  
+[D1.5] f2 ep 14/50 lr=4.6e-05 train=-4.1455 val=-3.9028 best=-4.0036@  9 wait=5/15 (18.7s)  
+[D1.5] f2 ep 15/50 lr=4.5e-05 train=-4.1473 val=-3.9461 best=-4.0036@  9 wait=6/15 (17.1s)  
+[D1.5] f2 ep 16/50 lr=4.4e-05 train=-4.1500 val=-3.9108 best=-4.0036@  9 wait=7/15 (20.5s)  
+[D1.5] f2 ep 17/50 lr=4.3e-05 train=-4.1514 val=-3.9250 best=-4.0036@  9 wait=8/15 (21.1s)  
+[D1.5] f2 ep 18/50 lr=4.2e-05 train=-4.1528 val=-3.8211 best=-4.0036@  9 wait=9/15 (16.0s)  
+[D1.5] f2 ep 19/50 lr=4.0e-05 train=-4.1548 val=-3.8956 best=-4.0036@  9 wait=10/15 (18.1s)  
+[D1.5] f2 ep 20/50 lr=3.9e-05 train=-4.1559 val=-3.8782 best=-4.0036@  9 wait=11/15 (18.1s)  
+[D1.5] f2 ep 21/50 lr=3.8e-05 train=-4.1573 val=-3.9140 best=-4.0036@  9 wait=12/15 (16.2s)  
+[D1.5] f2 ep 22/50 lr=3.6e-05 train=-4.1589 val=-3.9093 best=-4.0036@  9 wait=13/15 (18.0s)  
+[D1.5] f2 ep 23/50 lr=3.4e-05 train=-4.1596 val=-3.8935 best=-4.0036@  9 wait=14/15 (20.0s)  
+[D1.5] f2 ep 24/50 lr=3.3e-05 train=-4.1606 val=-3.9093 best=-4.0036@  9 wait=15/15 (18.8s)  
+[D1.5] f2 early-stop at ep24 (best=-4.0036 @ ep9)
+[D1.5] fold 2 done | best_val=-4.0036 @ ep9 elapsed=429.3s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+[D1.5] fold 3/3 starting | N_train=292452 N_val=97583 batches/epoch=2283
+[D1.5] f3 ep  1/50 lr=1.0e-05 train=-2.2585 val=-4.0870 best=-4.0870@  1 wait=0/15 (28.3s) *
+[D1.5] f3 ep  2/50 lr=2.0e-05 train=-3.9855 val=-4.2796 best=-4.2796@  2 wait=0/15 (30.2s) *
+[D1.5] f3 ep  3/50 lr=3.0e-05 train=-4.0269 val=-4.2862 best=-4.2862@  3 wait=0/15 (25.4s) *
+[D1.5] f3 ep  4/50 lr=4.0e-05 train=-4.0414 val=-4.2869 best=-4.2869@  4 wait=0/15 (22.3s) *
+[D1.5] f3 ep  5/50 lr=5.0e-05 train=-4.0517 val=-4.2892 best=-4.2892@  5 wait=0/15 (25.7s) *
+[D1.5] f3 ep  6/50 lr=5.0e-05 train=-4.0609 val=-4.2898 best=-4.2898@  6 wait=0/15 (24.0s) *
+[D1.5] f3 ep  7/50 lr=5.0e-05 train=-4.0689 val=-4.2885 best=-4.2898@  6 wait=1/15 (25.8s)  
+[D1.5] f3 ep  8/50 lr=5.0e-05 train=-4.0743 val=-4.2907 best=-4.2907@  8 wait=0/15 (26.0s) *
+[D1.5] f3 ep  9/50 lr=4.9e-05 train=-4.0789 val=-4.2926 best=-4.2926@  9 wait=0/15 (24.5s) *
+[D1.5] f3 ep 10/50 lr=4.9e-05 train=-4.0828 val=-4.2906 best=-4.2926@  9 wait=1/15 (27.9s)  
+[D1.5] f3 ep 11/50 lr=4.8e-05 train=-4.0856 val=-4.2917 best=-4.2926@  9 wait=2/15 (29.4s)  
+[D1.5] f3 ep 12/50 lr=4.8e-05 train=-4.0884 val=-4.2900 best=-4.2926@  9 wait=3/15 (29.3s)  
+[D1.5] f3 ep 13/50 lr=4.7e-05 train=-4.0901 val=-4.2881 best=-4.2926@  9 wait=4/15 (27.6s)  
+[D1.5] f3 ep 14/50 lr=4.6e-05 train=-4.0924 val=-4.2890 best=-4.2926@  9 wait=5/15 (26.9s)  
+[D1.5] f3 ep 15/50 lr=4.5e-05 train=-4.0938 val=-4.2833 best=-4.2926@  9 wait=6/15 (28.1s)  
+[D1.5] f3 ep 16/50 lr=4.4e-05 train=-4.0952 val=-4.2848 best=-4.2926@  9 wait=7/15 (26.6s)  
+[D1.5] f3 ep 17/50 lr=4.3e-05 train=-4.0969 val=-4.2858 best=-4.2926@  9 wait=8/15 (30.8s)  
+[D1.5] f3 ep 18/50 lr=4.2e-05 train=-4.0979 val=-4.2827 best=-4.2926@  9 wait=9/15 (26.7s)  
+[D1.5] f3 ep 19/50 lr=4.0e-05 train=-4.0992 val=-4.2785 best=-4.2926@  9 wait=10/15 (30.9s)  
+[D1.5] f3 ep 20/50 lr=3.9e-05 train=-4.1003 val=-4.2775 best=-4.2926@  9 wait=11/15 (30.3s)  
+[D1.5] f3 ep 21/50 lr=3.8e-05 train=-4.1013 val=-4.2701 best=-4.2926@  9 wait=12/15 (25.5s)  
+[D1.5] f3 ep 22/50 lr=3.6e-05 train=-4.1024 val=-4.2730 best=-4.2926@  9 wait=13/15 (28.8s)  
+[D1.5] f3 ep 23/50 lr=3.4e-05 train=-4.1033 val=-4.2729 best=-4.2926@  9 wait=14/15 (28.3s)  
+[D1.5] f3 ep 24/50 lr=3.3e-05 train=-4.1041 val=-4.2709 best=-4.2926@  9 wait=15/15 (25.9s)  
+[D1.5] f3 early-stop at ep24 (best=-4.2926 @ ep9)
+[D1.5] fold 3 done | best_val=-4.2926 @ ep9 elapsed=655.2s
+/workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+experiment_id       variant_name    model_type har_mode    loss_type  loss_alpha  n_folds  elapsed_sec  n_features  n_params  r2_rv_3bar_fwd  mse_rv_3bar_fwd  mae_rv_3bar_fwd  qlike_rv_3bar_fwd  bias_rv_3bar_fwd  corr_rv_3bar_fwd  overpredict_ratio_rv_3bar_fwd  p95_abs_err_rv_3bar_fwd  r2_rv_12bar_fwd  mse_rv_12bar_fwd  mae_rv_12bar_fwd  qlike_rv_12bar_fwd  bias_rv_12bar_fwd  corr_rv_12bar_fwd  overpredict_ratio_rv_12bar_fwd  p95_abs_err_rv_12bar_fwd  r2_rv_48bar_fwd  mse_rv_48bar_fwd  mae_rv_48bar_fwd  qlike_rv_48bar_fwd  bias_rv_48bar_fwd  corr_rv_48bar_fwd  overpredict_ratio_rv_48bar_fwd  p95_abs_err_rv_48bar_fwd  r2_rv_288bar_fwd  mse_rv_288bar_fwd  mae_rv_288bar_fwd  qlike_rv_288bar_fwd  bias_rv_288bar_fwd  corr_rv_288bar_fwd  overpredict_ratio_rv_288bar_fwd  p95_abs_err_rv_288bar_fwd  r2_mean  mse_mean  mae_mean  qlike_mean  bias_mean  corr_mean  overpredict_ratio_mean  p95_abs_err_mean                                                                                                                                                                                                          model_config                                                                                                                                                                                                                                                                                                                                                    train_config experiment_group
+         D1.3   drop_derivatives patch_encoder     full rv_log_aware         0.0        3      1170.43          19    185844        0.683597     9.289149e-07         0.000453          -5.454370         -0.000035          0.831313                       0.614112                 0.001309         0.558465          0.000005          0.001106           -4.662279           0.000014           0.749267                        0.656221                  0.003139         0.512680          0.000017          0.002340           -3.882923           0.000050           0.716530                        0.640234                  0.006365          0.420309           0.000078           0.005926            -2.852940            0.001085            0.656065                         0.668761                   0.014957 0.543763  0.000025  0.002456   -4.213128   0.000278   0.738294                0.644832          0.006442 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 50, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 3, 'seed': 42, 'num_workers': 0}               D1
+         D1.5        drop_volume patch_encoder     full rv_log_aware         0.0        3      1296.94          20    186612        0.660480     9.967827e-07         0.000497          -5.447886          0.000011          0.817011                       0.638198                 0.001479         0.544383          0.000005          0.001164           -4.657512           0.000067           0.739315                        0.656801                  0.003320         0.492618          0.000017          0.002449           -3.880275           0.000045           0.702228                        0.634208                  0.006786          0.430449           0.000077           0.005853            -2.856029            0.001044            0.663285                         0.674496                   0.015176 0.531982  0.000025  0.002491   -4.210425   0.000292   0.730460                0.650926          0.006690 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 50, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 3, 'seed': 42, 'num_workers': 0}               D1
+         D1.0               none patch_encoder     full rv_log_aware         0.0        3      1158.46          21    187380        0.661838     9.927962e-07         0.000524          -5.442490          0.000105          0.818968                       0.696153                 0.001373         0.552187          0.000005          0.001149           -4.659279           0.000106           0.745485                        0.680361                  0.003121         0.504015          0.000017          0.002428           -3.881875           0.000209           0.710957                        0.657461                  0.006558          0.447905           0.000075           0.005518            -2.857424            0.000052            0.669348                         0.621197                   0.015257 0.541486  0.000024  0.002405   -4.210267   0.000118   0.736189                0.663793          0.006577 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 50, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 3, 'seed': 42, 'num_workers': 0}               D1
+         D1.4     drop_price_sma patch_encoder     full rv_log_aware         0.0        3      1174.64          17    184308        0.627830     1.092638e-06         0.000516          -5.442139         -0.000032          0.797689                       0.609815                 0.001536         0.541556          0.000005          0.001165           -4.657379           0.000088           0.737700                        0.667005                  0.003239         0.502708          0.000017          0.002396           -3.881905           0.000028           0.709276                        0.634174                  0.006617          0.445966           0.000075           0.005500            -2.857463           -0.000012            0.667965                         0.616155                   0.015136 0.529515  0.000024  0.002394   -4.209722   0.000018   0.728157                0.631787          0.006632 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 50, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 3, 'seed': 42, 'num_workers': 0}               D1
+         D1.2          drop_time patch_encoder     full rv_log_aware         0.0        3      1147.90          16    183540        0.616495     1.125916e-06         0.000608          -5.436499          0.000266          0.803321                       0.746867                 0.001701         0.532784          0.000005          0.001219           -4.651732           0.000137           0.731540                        0.679442                  0.003308         0.442518          0.000019          0.002769           -3.864136           0.000268           0.666801                        0.659821                  0.007166          0.338407           0.000090           0.006675            -2.839367            0.001986            0.606640                         0.700372                   0.016719 0.482551  0.000029  0.002818   -4.197934   0.000664   0.702075                0.696626          0.007223 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 50, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 3, 'seed': 42, 'num_workers': 0}               D1
+         D1.1 drop_volatility_rv patch_encoder     full rv_log_aware         0.0        3      1211.47          13    181236        0.245136     2.216173e-06         0.000803          -5.366165         -0.000022          0.519407                       0.589811                 0.002562         0.308065          0.000007          0.001478           -4.617570           0.000011           0.568753                        0.617555                  0.004637         0.304857          0.000024          0.002893           -3.858426           0.000142           0.575774                        0.613637                  0.008824          0.351844           0.000088           0.005986            -2.847026           -0.000174            0.596355                         0.582033                   0.017503 0.302475  0.000030  0.002790   -4.172297  -0.000011   0.565072                0.600759          0.008382 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 50, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 3, 'seed': 42, 'num_workers': 0}               D1
+Saved: /workspace/Transformer_RV_Crypto/transformer/output/experiments/ablation_features.csv

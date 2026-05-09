@@ -13,7 +13,7 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from spike_warning.common import OUTPUT_DIR, ensure_output_dir
+from spike_warning.common import OUTPUT_DIR, ensure_output_dir, mirror_repo_csv
 
 try:
     import lightgbm as lgb
@@ -220,6 +220,7 @@ def main() -> None:
     if "_meta_close_perp" in test_df.columns:
         pred_df["close_perp"] = test_df["_meta_close_perp"].values
     pred_df.to_csv(OUTPUT_DIR / "test_predictions.csv", index=False)
+    mirror_repo_csv(OUTPUT_DIR / "test_predictions.csv")
 
     bundle = {
         "model_name": best_name,

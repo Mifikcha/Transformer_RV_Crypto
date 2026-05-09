@@ -1,0 +1,36 @@
+@startuml production_arch
+skinparam defaultFontName Arial
+skinparam rectangle {
+  roundCorner 10
+}
+title Production-архитектура (логические контуры, общая БД)
+
+rectangle "Bybit API" as BYBIT #LightBlue
+rectangle "Ingestion Worker\n(tg_bot/ingestion_worker)" as ING #White
+database "PostgreSQL\nbars_5m" as BARS #LightGray
+rectangle "Predictor\n(FeatureEngine +\nRVInference,\nprediction_worker)" as PR #White
+database "PostgreSQL\npredictions,\nrv_actual" as PRED #LightGray
+rectangle "Notifier\n(notification_worker)" as NOT #White
+rectangle "Telegram\n(личные чаты)" as TG #LightCyan
+rectangle "Streamlit\nDashboard" as DS #LightCyan
+
+rectangle "Spike Warning\n(integrate.py,\nклассификатор)" as SW #LightPink
+
+BYBIT --> ING : закрытые\n5m бары
+ING --> BARS
+BARS --> PR : последние\n240+ баров
+PR --> PRED
+PRED --> NOT
+NOT --> TG
+PRED --> DS : SQL\nзапросы
+
+PRED .. SW : признаки +\nпрогнозы RV
+SW .. NOT : опциональное\nпредупреждение
+
+note right of PR
+  Эталонный запуск:
+  python -m tg_bot
+  (ingest→predict→notify\nв одном цикле)
+end note
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml ml_pipeline
+skinparam defaultFontName Arial
+skinparam rectangle {
+  roundCorner 10
+}
+title ML-пайплайн: от сырых данных до production
+
+rectangle "Bybit REST API\n(5m OHLCV, funding, OI)" as API #LightBlue
+rectangle "Очистка и валидация\n(dataset/, validate)" as CLEAN #White
+rectangle "Признаки\n(FeatureEngine,\nrecommended_features.csv)" as FEAT #White
+rectangle "Таргеты RV\n(target/, GK forward RV)" as TGT #White
+rectangle "Walk-forward CV\nembargo = max(H)" as WF #LightYellow
+rectangle "Patch Transformer\n(transformer/)" as PT #LightGreen
+rectangle "Spike-классификатор\n(spike_warning/)" as SPIKE #LightPink
+rectangle "Inference\n(RVInference + scaler)" as INF #White
+rectangle "PostgreSQL\n(bars_5m, predictions,\nrv_actual)" as DB #LightGray
+rectangle "Telegram-бот /\nStreamlit Dashboard" as UI #LightCyan
+
+API --> CLEAN
+CLEAN --> FEAT
+FEAT --> TGT
+TGT --> WF
+WF --> PT
+PT --> SPIKE
+PT --> INF
+SPIKE --> INF : событийный\nфильтр (опц.)
+INF --> DB
+DB --> UI
+
+note bottom of SPIKE
+  Надстройка над регрессией:
+  вероятность экстремальной RV (4ч)
+end note
+
+@enduml
