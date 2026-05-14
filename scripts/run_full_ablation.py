@@ -1,11 +1,17 @@
 """
 Unified ablation runner with filtering controls.
 
+Predictions (walk-forward) from ``run_single_experiment`` are saved by default as
+Parquet under ``transformer/output/experiments/preds/<experiment_id>.parquet`` (see
+``scripts.ablation_utils``). Use ``--no-save-predictions`` to skip disk writes for
+all subgroup processes.
+
 Examples:
   python scripts/run_full_ablation.py
   python scripts/run_full_ablation.py --quick
   python scripts/run_full_ablation.py --only B1
   python scripts/run_full_ablation.py --skip A1,C1
+  python scripts/run_full_ablation.py --no-save-predictions
 """
 
 from __future__ import annotations
@@ -78,10 +84,14 @@ def _group_log_path(group: str) -> Path:
     return LOGS_DIR / f"ablation_{group}.txt"
 
 
-def _run(cmd: list[str], *, quick: bool, group: str) -> None:
+def _run(cmd: list[str], *, quick: bool, group: str, no_save_predictions: bool) -> None:
     run_cmd = list(cmd)
     if quick and "--quick" not in run_cmd:
         run_cmd.append("--quick")
+
+    env = os.environ.copy()
+    if no_save_predictions:
+        env["ABLATION_NO_SAVE_PREDS"] = "1"
 
     stage_log = _group_log_path(group)
     _ensure_empty_log(stage_log)
@@ -109,6 +119,7 @@ def _run(cmd: list[str], *, quick: bool, group: str) -> None:
             stderr=subprocess.STDOUT,
             text=True,
             bufsize=1,
+            env=env,
         )
         assert p.stdout is not None
         for line in p.stdout:
@@ -129,6 +140,11 @@ def parse_args() -> argparse.Namespace:
         "--allow-missing",
         action="store_true",
         help="Skip groups whose script files do not exist instead of failing.",
+    )
+    p.add_argument(
+        "--no-save-predictions",
+        action="store_true",
+        help="Set ABLATION_NO_SAVE_PREDS=1 for subgroup runs (skip default Parquet preds).",
     )
     return p.parse_args()
 
@@ -154,7 +170,7 @@ def main() -> None:
                 continue
             raise FileNotFoundError(msg)
         _progress(i, len(schedule) + 1, f"Running group {group}")
-        _run(cmd, quick=args.quick, group=group)
+        _run(cmd, quick=args.quick, group=group, no_save_predictions=args.no_save_predictions)
 
     _progress(len(schedule) + 1, len(schedule) + 1, f"Done in {time.time() - started:.1f}s")
 

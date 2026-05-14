@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 import time
 from dataclasses import asdict
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -15,6 +16,14 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from transformer.model import build_model
 from transformer.train import train_walk_forward_regression
+
+# Walk-forward predictions for DM / downstream (Parquet, one file per experiment_id).
+# Default absolute path: <repo>/transformer/output/experiments/preds/<experiment_id>.parquet
+ABLATION_PREDS_REL = Path("transformer") / "output" / "experiments" / "preds"
+
+
+def default_ablation_preds_dir() -> Path:
+    return Path(__file__).resolve().parents[1] / ABLATION_PREDS_REL
 
 
 def _qlike_loss(y_true: np.ndarray, y_pred: np.ndarray, eps: float = 1e-12) -> float:
@@ -203,10 +212,24 @@ def run_single_experiment(
     variant_name: str,
     feature_cols_override: list[str] | None = None,
     val_frac: float = 0.0,
+    save_predictions: bool = True,
+    preds_dir: str | None = None,
 ) -> dict[str, Any]:
     """
     Run one ablation experiment and return a flat row with extended metrics.
+
+    By default writes ``predictions_df`` to Parquet under
+    ``transformer/output/experiments/preds/{experiment_id}.parquet`` (see
+    ``default_ablation_preds_dir()``). Pass ``preds_dir`` to override the directory.
+    Disable with ``save_predictions=False`` or environment ``ABLATION_NO_SAVE_PREDS=1``.
     """
+    if save_predictions and os.environ.get("ABLATION_NO_SAVE_PREDS", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+    ):
+        save_predictions = False
+
     started = time.time()
     result = train_walk_forward_regression(
         data_path=data_path,
@@ -224,6 +247,11 @@ def run_single_experiment(
     feature_columns: list[str] = list(result["feature_columns"])
     if pred_df.empty:
         raise RuntimeError(f"{experiment_id}: empty predictions dataframe.")
+
+    if save_predictions:
+        out_dir = Path(preds_dir) if preds_dir else default_ablation_preds_dir()
+        out_dir.mkdir(parents=True, exist_ok=True)
+        pred_df.to_parquet(out_dir / f"{experiment_id}.parquet", index=False)
 
     y_true = pred_df[[f"actual_{c}" for c in target_columns]].to_numpy(dtype=float)
     y_pred = pred_df[[f"pred_{c}" for c in target_columns]].to_numpy(dtype=float)

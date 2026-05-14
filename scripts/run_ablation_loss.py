@@ -19,11 +19,23 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="B1: loss ablation.")
     p.add_argument("--quick", action="store_true")
     p.add_argument("--model-type", type=str, default="patch_encoder")
+    p.add_argument(
+        "--no-save-predictions",
+        action="store_true",
+        help="Skip writing parquet predictions (default: save under transformer/output/experiments/preds/).",
+    )
+    p.add_argument(
+        "--preds-dir",
+        type=str,
+        default="",
+        help="Override directory for parquet files (default: repo transformer/output/experiments/preds/).",
+    )
     return p.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+    preds_dir = args.preds_dir.strip() or None
     cfg = AppConfig()
     ensure_output_dirs()
     base_model = replace(cfg.model, model_type=args.model_type)
@@ -52,6 +64,8 @@ def main() -> None:
             features_path=cfg.features_path,
             experiment_id=exp_id,
             variant_name=name,
+            save_predictions=not args.no_save_predictions,
+            preds_dir=preds_dir,
         )
         row["experiment_group"] = "B1"
         rows.append(row)
