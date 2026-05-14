@@ -19,6 +19,8 @@ target/btcusdt_5m_with_horizons.csv
 dataset/report.csv
 baselines/garch_models/data/btcusdt/daily_variance.csv
 transformer/output/
+scripts/output/
+spike_warning/output/
 
 # Other
 .cursor

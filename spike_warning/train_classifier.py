@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 
 import joblib
 import matplotlib.pyplot as plt
@@ -13,7 +14,7 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from spike_warning.common import OUTPUT_DIR, ensure_output_dir, mirror_repo_csv
+from spike_warning.common import OUTPUT_DIR, ensure_output_dir, save_csv
 
 try:
     import lightgbm as lgb
@@ -219,8 +220,9 @@ def main() -> None:
         pred_df[f"proba_{name}"] = p
     if "_meta_close_perp" in test_df.columns:
         pred_df["close_perp"] = test_df["_meta_close_perp"].values
-    pred_df.to_csv(OUTPUT_DIR / "test_predictions.csv", index=False)
-    mirror_repo_csv(OUTPUT_DIR / "test_predictions.csv")
+    pred_path = save_csv(pred_df, "test_predictions.csv")
+    repo_root = Path(__file__).resolve().parents[1]
+    scripts_copy = repo_root / "scripts" / "output" / "test_predictions.csv"
 
     bundle = {
         "model_name": best_name,
@@ -252,7 +254,7 @@ def main() -> None:
         )
 
     print(f"Saved: {OUTPUT_DIR / 'spike_classifier_bundle.joblib'}")
-    print(f"Saved: {OUTPUT_DIR / 'test_predictions.csv'}")
+    print(f"Saved: {pred_path} (копия для графиков: {scripts_copy})")
     print(f"Best model: {best_name}")
     print(model_scores)
 

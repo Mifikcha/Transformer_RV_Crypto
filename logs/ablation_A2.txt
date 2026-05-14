@@ -3,641 +3,633 @@
 [GROUP] A2
 [CMD  ] /venv/main/bin/python scripts/run_ablation_har.py
 [CWD  ] /workspace/Transformer_RV_Crypto
-[TS   ] 2026-05-07 14:53:32
+[TS   ] 2026-05-09 23:54:09
 ==========================================================================================
 
-[14:53:34] [1/5] ( 20%) A2 initialized
-[14:53:34] [2/5] ( 40%) Running A2.1 (har_full)
+[23:54:11] [1/5] ( 20%) A2 initialized
+[23:54:11] [2/5] ( 40%) Running A2.1 (har_full)
 [A2.1] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=full loss=rv_log_aware(alpha=0.00) hw=equal | features=21 horizons=4 folds=5 device=cuda
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.1] fold 1/5 starting | N_train=64765 N_val=65053 batches/epoch=505
-[A2.1] f1 ep  1/75 lr=1.0e-05 train=-0.6380 val=-1.3447 best=-1.3447@  1 wait=0/15 (7.9s) *
-[A2.1] f1 ep  2/75 lr=2.0e-05 train=-2.1840 val=-3.2244 best=-3.2244@  2 wait=0/15 (6.3s) *
-[A2.1] f1 ep  3/75 lr=3.0e-05 train=-3.5640 val=-4.2204 best=-4.2204@  3 wait=0/15 (7.1s) *
-[A2.1] f1 ep  4/75 lr=4.0e-05 train=-3.7352 val=-4.2790 best=-4.2790@  4 wait=0/15 (7.6s) *
-[A2.1] f1 ep  5/75 lr=5.0e-05 train=-3.7590 val=-4.2894 best=-4.2894@  5 wait=0/15 (6.6s) *
-[A2.1] f1 ep  6/75 lr=5.0e-05 train=-3.7678 val=-4.2924 best=-4.2924@  6 wait=0/15 (8.9s) *
-[A2.1] f1 ep  7/75 lr=5.0e-05 train=-3.7732 val=-4.2925 best=-4.2925@  7 wait=0/15 (7.1s) *
-[A2.1] f1 ep  8/75 lr=5.0e-05 train=-3.7770 val=-4.2948 best=-4.2948@  8 wait=0/15 (7.0s) *
-[A2.1] f1 ep  9/75 lr=5.0e-05 train=-3.7804 val=-4.2939 best=-4.2948@  8 wait=1/15 (7.3s)  
-[A2.1] f1 ep 10/75 lr=5.0e-05 train=-3.7827 val=-4.2954 best=-4.2954@ 10 wait=0/15 (7.4s) *
-[A2.1] f1 ep 11/75 lr=4.9e-05 train=-3.7848 val=-4.2941 best=-4.2954@ 10 wait=1/15 (7.6s)  
-[A2.1] f1 ep 12/75 lr=4.9e-05 train=-3.7869 val=-4.2967 best=-4.2967@ 12 wait=0/15 (7.2s) *
-[A2.1] f1 ep 13/75 lr=4.9e-05 train=-3.7892 val=-4.2913 best=-4.2967@ 12 wait=1/15 (6.6s)  
-[A2.1] f1 ep 14/75 lr=4.8e-05 train=-3.7924 val=-4.2900 best=-4.2967@ 12 wait=2/15 (6.8s)  
-[A2.1] f1 ep 15/75 lr=4.8e-05 train=-3.7935 val=-4.2560 best=-4.2967@ 12 wait=3/15 (7.2s)  
-[A2.1] f1 ep 16/75 lr=4.8e-05 train=-3.7955 val=-4.2770 best=-4.2967@ 12 wait=4/15 (7.0s)  
-[A2.1] f1 ep 17/75 lr=4.7e-05 train=-3.7975 val=-4.2490 best=-4.2967@ 12 wait=5/15 (7.8s)  
-[A2.1] f1 ep 18/75 lr=4.6e-05 train=-3.7994 val=-4.2614 best=-4.2967@ 12 wait=6/15 (6.8s)  
-[A2.1] f1 ep 19/75 lr=4.6e-05 train=-3.8012 val=-4.2520 best=-4.2967@ 12 wait=7/15 (7.4s)  
-[A2.1] f1 ep 20/75 lr=4.5e-05 train=-3.8027 val=-4.2630 best=-4.2967@ 12 wait=8/15 (7.4s)  
-[A2.1] f1 ep 21/75 lr=4.5e-05 train=-3.8053 val=-4.2337 best=-4.2967@ 12 wait=9/15 (7.6s)  
-[A2.1] f1 ep 22/75 lr=4.4e-05 train=-3.8058 val=-4.2684 best=-4.2967@ 12 wait=10/15 (6.7s)  
-[A2.1] f1 ep 23/75 lr=4.3e-05 train=-3.8078 val=-4.1865 best=-4.2967@ 12 wait=11/15 (7.6s)  
-[A2.1] f1 ep 24/75 lr=4.2e-05 train=-3.8095 val=-4.2070 best=-4.2967@ 12 wait=12/15 (7.6s)  
-[A2.1] f1 ep 25/75 lr=4.1e-05 train=-3.8096 val=-4.2198 best=-4.2967@ 12 wait=13/15 (7.0s)  
-[A2.1] f1 ep 26/75 lr=4.1e-05 train=-3.8128 val=-4.1876 best=-4.2967@ 12 wait=14/15 (6.8s)  
-[A2.1] f1 ep 27/75 lr=4.0e-05 train=-3.8124 val=-4.2305 best=-4.2967@ 12 wait=15/15 (6.8s)  
-[A2.1] f1 early-stop at ep27 (best=-4.2967 @ ep12)
-[A2.1] fold 1 done | best_val=-4.2967 @ ep12 elapsed=195.1s
+[A2.1] f1 ep  1/75 lr=1.0e-05 train=-0.6381 val=-1.3455 best=-1.3455@  1 wait=0/15 (5.2s) *
+[A2.1] f1 ep  2/75 lr=2.0e-05 train=-2.1850 val=-3.2253 best=-3.2253@  2 wait=0/15 (4.5s) *
+[A2.1] f1 ep  3/75 lr=3.0e-05 train=-3.5651 val=-4.2205 best=-4.2205@  3 wait=0/15 (4.5s) *
+[A2.1] f1 ep  4/75 lr=4.0e-05 train=-3.7364 val=-4.2767 best=-4.2767@  4 wait=0/15 (4.8s) *
+[A2.1] f1 ep  5/75 lr=5.0e-05 train=-3.7586 val=-4.2879 best=-4.2879@  5 wait=0/15 (4.8s) *
+[A2.1] f1 ep  6/75 lr=5.0e-05 train=-3.7678 val=-4.2909 best=-4.2909@  6 wait=0/15 (4.7s) *
+[A2.1] f1 ep  7/75 lr=5.0e-05 train=-3.7721 val=-4.2895 best=-4.2909@  6 wait=1/15 (4.7s)  
+[A2.1] f1 ep  8/75 lr=5.0e-05 train=-3.7765 val=-4.2945 best=-4.2945@  8 wait=0/15 (4.7s) *
+[A2.1] f1 ep  9/75 lr=5.0e-05 train=-3.7788 val=-4.2907 best=-4.2945@  8 wait=1/15 (4.7s)  
+[A2.1] f1 ep 10/75 lr=5.0e-05 train=-3.7818 val=-4.2940 best=-4.2945@  8 wait=2/15 (5.0s)  
+[A2.1] f1 ep 11/75 lr=4.9e-05 train=-3.7839 val=-4.2922 best=-4.2945@  8 wait=3/15 (5.1s)  
+[A2.1] f1 ep 12/75 lr=4.9e-05 train=-3.7870 val=-4.2906 best=-4.2945@  8 wait=4/15 (4.5s)  
+[A2.1] f1 ep 13/75 lr=4.9e-05 train=-3.7884 val=-4.2934 best=-4.2945@  8 wait=5/15 (4.7s)  
+[A2.1] f1 ep 14/75 lr=4.8e-05 train=-3.7922 val=-4.2879 best=-4.2945@  8 wait=6/15 (5.1s)  
+[A2.1] f1 ep 15/75 lr=4.8e-05 train=-3.7926 val=-4.2400 best=-4.2945@  8 wait=7/15 (4.4s)  
+[A2.1] f1 ep 16/75 lr=4.8e-05 train=-3.7953 val=-4.2771 best=-4.2945@  8 wait=8/15 (4.4s)  
+[A2.1] f1 ep 17/75 lr=4.7e-05 train=-3.7974 val=-4.2580 best=-4.2945@  8 wait=9/15 (4.5s)  
+[A2.1] f1 ep 18/75 lr=4.6e-05 train=-3.7998 val=-4.2641 best=-4.2945@  8 wait=10/15 (4.4s)  
+[A2.1] f1 ep 19/75 lr=4.6e-05 train=-3.8011 val=-4.2035 best=-4.2945@  8 wait=11/15 (4.5s)  
+[A2.1] f1 ep 20/75 lr=4.5e-05 train=-3.8036 val=-4.2440 best=-4.2945@  8 wait=12/15 (4.5s)  
+[A2.1] f1 ep 21/75 lr=4.5e-05 train=-3.8058 val=-4.2464 best=-4.2945@  8 wait=13/15 (4.5s)  
+[A2.1] f1 ep 22/75 lr=4.4e-05 train=-3.8053 val=-4.2714 best=-4.2945@  8 wait=14/15 (4.5s)  
+[A2.1] f1 ep 23/75 lr=4.3e-05 train=-3.8075 val=-4.2102 best=-4.2945@  8 wait=15/15 (4.5s)  
+[A2.1] f1 early-stop at ep23 (best=-4.2945 @ ep8)
+[A2.1] fold 1 done | best_val=-4.2945 @ ep8 elapsed=107.2s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.1] fold 2/5 starting | N_train=129818 N_val=65053 batches/epoch=1013
-[A2.1] f2 ep  1/75 lr=1.0e-05 train=-1.2910 val=-2.4632 best=-2.4632@  1 wait=0/15 (13.5s) *
-[A2.1] f2 ep  2/75 lr=2.0e-05 train=-3.5598 val=-4.3297 best=-4.3297@  2 wait=0/15 (13.4s) *
-[A2.1] f2 ep  3/75 lr=3.0e-05 train=-3.9683 val=-4.3728 best=-4.3728@  3 wait=0/15 (10.8s) *
-[A2.1] f2 ep  4/75 lr=4.0e-05 train=-3.9892 val=-4.3826 best=-4.3826@  4 wait=0/15 (13.9s) *
-[A2.1] f2 ep  5/75 lr=5.0e-05 train=-3.9978 val=-4.3859 best=-4.3859@  5 wait=0/15 (15.0s) *
-[A2.1] f2 ep  6/75 lr=5.0e-05 train=-4.0039 val=-4.3824 best=-4.3859@  5 wait=1/15 (12.7s)  
-[A2.1] f2 ep  7/75 lr=5.0e-05 train=-4.0083 val=-4.3868 best=-4.3868@  7 wait=0/15 (15.5s) *
-[A2.1] f2 ep  8/75 lr=5.0e-05 train=-4.0129 val=-4.3858 best=-4.3868@  7 wait=1/15 (12.3s)  
-[A2.1] f2 ep  9/75 lr=5.0e-05 train=-4.0163 val=-4.3875 best=-4.3875@  9 wait=0/15 (13.7s) *
-[A2.1] f2 ep 10/75 lr=5.0e-05 train=-4.0203 val=-4.3829 best=-4.3875@  9 wait=1/15 (11.9s)  
-[A2.1] f2 ep 11/75 lr=4.9e-05 train=-4.0237 val=-4.3861 best=-4.3875@  9 wait=2/15 (14.2s)  
-[A2.1] f2 ep 12/75 lr=4.9e-05 train=-4.0259 val=-4.3813 best=-4.3875@  9 wait=3/15 (10.5s)  
-[A2.1] f2 ep 13/75 lr=4.9e-05 train=-4.0291 val=-4.3815 best=-4.3875@  9 wait=4/15 (10.2s)  
-[A2.1] f2 ep 14/75 lr=4.8e-05 train=-4.0315 val=-4.3835 best=-4.3875@  9 wait=5/15 (12.4s)  
-[A2.1] f2 ep 15/75 lr=4.8e-05 train=-4.0336 val=-4.3848 best=-4.3875@  9 wait=6/15 (11.0s)  
-[A2.1] f2 ep 16/75 lr=4.8e-05 train=-4.0364 val=-4.3853 best=-4.3875@  9 wait=7/15 (12.4s)  
-[A2.1] f2 ep 17/75 lr=4.7e-05 train=-4.0381 val=-4.3849 best=-4.3875@  9 wait=8/15 (14.3s)  
-[A2.1] f2 ep 18/75 lr=4.6e-05 train=-4.0402 val=-4.3828 best=-4.3875@  9 wait=9/15 (14.3s)  
-[A2.1] f2 ep 19/75 lr=4.6e-05 train=-4.0420 val=-4.3848 best=-4.3875@  9 wait=10/15 (11.2s)  
-[A2.1] f2 ep 20/75 lr=4.5e-05 train=-4.0440 val=-4.3813 best=-4.3875@  9 wait=11/15 (12.5s)  
-[A2.1] f2 ep 21/75 lr=4.5e-05 train=-4.0452 val=-4.3843 best=-4.3875@  9 wait=12/15 (12.5s)  
-[A2.1] f2 ep 22/75 lr=4.4e-05 train=-4.0468 val=-4.3850 best=-4.3875@  9 wait=13/15 (14.2s)  
-[A2.1] f2 ep 23/75 lr=4.3e-05 train=-4.0482 val=-4.3817 best=-4.3875@  9 wait=14/15 (14.2s)  
-[A2.1] f2 ep 24/75 lr=4.2e-05 train=-4.0495 val=-4.3845 best=-4.3875@  9 wait=15/15 (10.6s)  
-[A2.1] f2 early-stop at ep24 (best=-4.3875 @ ep9)
-[A2.1] fold 2 done | best_val=-4.3875 @ ep9 elapsed=307.1s
+[A2.1] f2 ep  1/75 lr=1.0e-05 train=-1.2027 val=-2.4127 best=-2.4127@  1 wait=0/15 (8.0s) *
+[A2.1] f2 ep  2/75 lr=2.0e-05 train=-3.5755 val=-4.3315 best=-4.3315@  2 wait=0/15 (8.4s) *
+[A2.1] f2 ep  3/75 lr=3.0e-05 train=-3.9748 val=-4.3687 best=-4.3687@  3 wait=0/15 (9.0s) *
+[A2.1] f2 ep  4/75 lr=4.0e-05 train=-3.9960 val=-4.3694 best=-4.3694@  4 wait=0/15 (9.3s) *
+[A2.1] f2 ep  5/75 lr=5.0e-05 train=-4.0060 val=-4.3861 best=-4.3861@  5 wait=0/15 (8.3s) *
+[A2.1] f2 ep  6/75 lr=5.0e-05 train=-4.0112 val=-4.3851 best=-4.3861@  5 wait=1/15 (9.3s)  
+[A2.1] f2 ep  7/75 lr=5.0e-05 train=-4.0155 val=-4.3798 best=-4.3861@  5 wait=2/15 (8.9s)  
+[A2.1] f2 ep  8/75 lr=5.0e-05 train=-4.0196 val=-4.3761 best=-4.3861@  5 wait=3/15 (8.7s)  
+[A2.1] f2 ep  9/75 lr=5.0e-05 train=-4.0220 val=-4.3768 best=-4.3861@  5 wait=4/15 (8.4s)  
+[A2.1] f2 ep 10/75 lr=5.0e-05 train=-4.0253 val=-4.3710 best=-4.3861@  5 wait=5/15 (8.4s)  
+[A2.1] f2 ep 11/75 lr=4.9e-05 train=-4.0288 val=-4.3825 best=-4.3861@  5 wait=6/15 (8.4s)  
+[A2.1] f2 ep 12/75 lr=4.9e-05 train=-4.0319 val=-4.3821 best=-4.3861@  5 wait=7/15 (8.3s)  
+[A2.1] f2 ep 13/75 lr=4.9e-05 train=-4.0342 val=-4.3796 best=-4.3861@  5 wait=8/15 (9.1s)  
+[A2.1] f2 ep 14/75 lr=4.8e-05 train=-4.0359 val=-4.3769 best=-4.3861@  5 wait=9/15 (8.4s)  
+[A2.1] f2 ep 15/75 lr=4.8e-05 train=-4.0387 val=-4.3824 best=-4.3861@  5 wait=10/15 (8.7s)  
+[A2.1] f2 ep 16/75 lr=4.8e-05 train=-4.0404 val=-4.3802 best=-4.3861@  5 wait=11/15 (8.6s)  
+[A2.1] f2 ep 17/75 lr=4.7e-05 train=-4.0424 val=-4.3789 best=-4.3861@  5 wait=12/15 (9.5s)  
+[A2.1] f2 ep 18/75 lr=4.6e-05 train=-4.0444 val=-4.3843 best=-4.3861@  5 wait=13/15 (9.4s)  
+[A2.1] f2 ep 19/75 lr=4.6e-05 train=-4.0451 val=-4.3801 best=-4.3861@  5 wait=14/15 (9.4s)  
+[A2.1] f2 ep 20/75 lr=4.5e-05 train=-4.0474 val=-4.3742 best=-4.3861@  5 wait=15/15 (9.5s)  
+[A2.1] f2 early-stop at ep20 (best=-4.3861 @ ep5)
+[A2.1] fold 2 done | best_val=-4.3861 @ ep5 elapsed=175.9s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.1] fold 3/5 starting | N_train=194871 N_val=65053 batches/epoch=1521
-[A2.1] f3 ep  1/75 lr=1.0e-05 train=-1.6881 val=-3.1465 best=-3.1465@  1 wait=0/15 (19.8s) *
-[A2.1] f3 ep  2/75 lr=2.0e-05 train=-3.9245 val=-3.9775 best=-3.9775@  2 wait=0/15 (20.2s) *
-[A2.1] f3 ep  3/75 lr=3.0e-05 train=-4.0827 val=-3.9854 best=-3.9854@  3 wait=0/15 (20.7s) *
-[A2.1] f3 ep  4/75 lr=4.0e-05 train=-4.0978 val=-3.9876 best=-3.9876@  4 wait=0/15 (18.4s) *
-[A2.1] f3 ep  5/75 lr=5.0e-05 train=-4.1078 val=-3.9813 best=-3.9876@  4 wait=1/15 (16.9s)  
-[A2.1] f3 ep  6/75 lr=5.0e-05 train=-4.1146 val=-3.9892 best=-3.9892@  6 wait=0/15 (17.9s) *
-[A2.1] f3 ep  7/75 lr=5.0e-05 train=-4.1203 val=-3.9894 best=-3.9894@  7 wait=0/15 (21.0s) *
-[A2.1] f3 ep  8/75 lr=5.0e-05 train=-4.1260 val=-3.9887 best=-3.9894@  7 wait=1/15 (19.7s)  
-[A2.1] f3 ep  9/75 lr=5.0e-05 train=-4.1300 val=-3.9928 best=-3.9928@  9 wait=0/15 (19.8s) *
-[A2.1] f3 ep 10/75 lr=5.0e-05 train=-4.1342 val=-3.9895 best=-3.9928@  9 wait=1/15 (19.9s)  
-[A2.1] f3 ep 11/75 lr=4.9e-05 train=-4.1378 val=-3.9906 best=-3.9928@  9 wait=2/15 (18.0s)  
-[A2.1] f3 ep 12/75 lr=4.9e-05 train=-4.1404 val=-3.9865 best=-3.9928@  9 wait=3/15 (18.0s)  
-[A2.1] f3 ep 13/75 lr=4.9e-05 train=-4.1433 val=-3.9744 best=-3.9928@  9 wait=4/15 (18.7s)  
-[A2.1] f3 ep 14/75 lr=4.8e-05 train=-4.1458 val=-3.9681 best=-3.9928@  9 wait=5/15 (15.4s)  
-[A2.1] f3 ep 15/75 lr=4.8e-05 train=-4.1476 val=-3.9879 best=-3.9928@  9 wait=6/15 (18.3s)  
-[A2.1] f3 ep 16/75 lr=4.8e-05 train=-4.1498 val=-3.9795 best=-3.9928@  9 wait=7/15 (19.5s)  
-[A2.1] f3 ep 17/75 lr=4.7e-05 train=-4.1517 val=-3.9834 best=-3.9928@  9 wait=8/15 (18.4s)  
-[A2.1] f3 ep 18/75 lr=4.6e-05 train=-4.1534 val=-3.9807 best=-3.9928@  9 wait=9/15 (15.4s)  
-[A2.1] f3 ep 19/75 lr=4.6e-05 train=-4.1551 val=-3.9812 best=-3.9928@  9 wait=10/15 (18.0s)  
-[A2.1] f3 ep 20/75 lr=4.5e-05 train=-4.1564 val=-3.9788 best=-3.9928@  9 wait=11/15 (16.3s)  
-[A2.1] f3 ep 21/75 lr=4.5e-05 train=-4.1576 val=-3.9819 best=-3.9928@  9 wait=12/15 (18.0s)  
-[A2.1] f3 ep 22/75 lr=4.4e-05 train=-4.1590 val=-3.9816 best=-3.9928@  9 wait=13/15 (20.8s)  
-[A2.1] f3 ep 23/75 lr=4.3e-05 train=-4.1603 val=-3.9828 best=-3.9928@  9 wait=14/15 (17.5s)  
-[A2.1] f3 ep 24/75 lr=4.2e-05 train=-4.1613 val=-3.9712 best=-3.9928@  9 wait=15/15 (18.7s)  
-[A2.1] f3 early-stop at ep24 (best=-3.9928 @ ep9)
-[A2.1] fold 3 done | best_val=-3.9928 @ ep9 elapsed=445.4s
+[A2.1] f3 ep  1/75 lr=1.0e-05 train=-1.7741 val=-3.4009 best=-3.4009@  1 wait=0/15 (12.4s) *
+[A2.1] f3 ep  2/75 lr=2.0e-05 train=-3.9921 val=-3.9832 best=-3.9832@  2 wait=0/15 (13.6s) *
+[A2.1] f3 ep  3/75 lr=3.0e-05 train=-4.0917 val=-3.9856 best=-3.9856@  3 wait=0/15 (13.4s) *
+[A2.1] f3 ep  4/75 lr=4.0e-05 train=-4.1059 val=-3.9857 best=-3.9857@  4 wait=0/15 (12.0s) *
+[A2.1] f3 ep  5/75 lr=5.0e-05 train=-4.1132 val=-3.9913 best=-3.9913@  5 wait=0/15 (12.7s) *
+[A2.1] f3 ep  6/75 lr=5.0e-05 train=-4.1194 val=-3.9793 best=-3.9913@  5 wait=1/15 (12.3s)  
+[A2.1] f3 ep  7/75 lr=5.0e-05 train=-4.1245 val=-3.9890 best=-3.9913@  5 wait=2/15 (11.9s)  
+[A2.1] f3 ep  8/75 lr=5.0e-05 train=-4.1289 val=-3.9920 best=-3.9920@  8 wait=0/15 (13.3s) *
+[A2.1] f3 ep  9/75 lr=5.0e-05 train=-4.1326 val=-3.9750 best=-3.9920@  8 wait=1/15 (13.6s)  
+[A2.1] f3 ep 10/75 lr=5.0e-05 train=-4.1359 val=-3.9867 best=-3.9920@  8 wait=2/15 (13.0s)  
+[A2.1] f3 ep 11/75 lr=4.9e-05 train=-4.1385 val=-3.9873 best=-3.9920@  8 wait=3/15 (13.3s)  
+[A2.1] f3 ep 12/75 lr=4.9e-05 train=-4.1408 val=-3.9776 best=-3.9920@  8 wait=4/15 (12.5s)  
+[A2.1] f3 ep 13/75 lr=4.9e-05 train=-4.1437 val=-3.9687 best=-3.9920@  8 wait=5/15 (12.0s)  
+[A2.1] f3 ep 14/75 lr=4.8e-05 train=-4.1458 val=-3.9816 best=-3.9920@  8 wait=6/15 (12.3s)  
+[A2.1] f3 ep 15/75 lr=4.8e-05 train=-4.1479 val=-3.9821 best=-3.9920@  8 wait=7/15 (13.5s)  
+[A2.1] f3 ep 16/75 lr=4.8e-05 train=-4.1497 val=-3.9772 best=-3.9920@  8 wait=8/15 (12.6s)  
+[A2.1] f3 ep 17/75 lr=4.7e-05 train=-4.1511 val=-3.9814 best=-3.9920@  8 wait=9/15 (12.2s)  
+[A2.1] f3 ep 18/75 lr=4.6e-05 train=-4.1528 val=-3.9789 best=-3.9920@  8 wait=10/15 (13.6s)  
+[A2.1] f3 ep 19/75 lr=4.6e-05 train=-4.1544 val=-3.9800 best=-3.9920@  8 wait=11/15 (13.2s)  
+[A2.1] f3 ep 20/75 lr=4.5e-05 train=-4.1557 val=-3.9734 best=-3.9920@  8 wait=12/15 (12.3s)  
+[A2.1] f3 ep 21/75 lr=4.5e-05 train=-4.1566 val=-3.9652 best=-3.9920@  8 wait=13/15 (13.6s)  
+[A2.1] f3 ep 22/75 lr=4.4e-05 train=-4.1580 val=-3.9734 best=-3.9920@  8 wait=14/15 (13.0s)  
+[A2.1] f3 ep 23/75 lr=4.3e-05 train=-4.1596 val=-3.9762 best=-3.9920@  8 wait=15/15 (12.3s)  
+[A2.1] f3 early-stop at ep23 (best=-3.9920 @ ep8)
+[A2.1] fold 3 done | best_val=-3.9920 @ ep8 elapsed=294.7s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.1] fold 4/5 starting | N_train=259924 N_val=65053 batches/epoch=2029
-[A2.1] f4 ep  1/75 lr=1.0e-05 train=-2.1846 val=-3.8974 best=-3.8974@  1 wait=0/15 (20.7s) *
-[A2.1] f4 ep  2/75 lr=2.0e-05 train=-3.9986 val=-4.0836 best=-4.0836@  2 wait=0/15 (22.9s) *
-[A2.1] f4 ep  3/75 lr=3.0e-05 train=-4.0449 val=-4.0875 best=-4.0875@  3 wait=0/15 (20.4s) *
-[A2.1] f4 ep  4/75 lr=4.0e-05 train=-4.0569 val=-4.0900 best=-4.0900@  4 wait=0/15 (25.5s) *
-[A2.1] f4 ep  5/75 lr=5.0e-05 train=-4.0649 val=-4.0869 best=-4.0900@  4 wait=1/15 (20.8s)  
-[A2.1] f4 ep  6/75 lr=5.0e-05 train=-4.0728 val=-4.0872 best=-4.0900@  4 wait=2/15 (24.1s)  
-[A2.1] f4 ep  7/75 lr=5.0e-05 train=-4.0790 val=-4.0898 best=-4.0900@  4 wait=3/15 (18.8s)  
-[A2.1] f4 ep  8/75 lr=5.0e-05 train=-4.0844 val=-4.0900 best=-4.0900@  4 wait=4/15 (23.6s)  
-[A2.1] f4 ep  9/75 lr=5.0e-05 train=-4.0887 val=-4.0907 best=-4.0907@  9 wait=0/15 (21.7s) *
-[A2.1] f4 ep 10/75 lr=5.0e-05 train=-4.0919 val=-4.0909 best=-4.0909@ 10 wait=0/15 (21.9s) *
-[A2.1] f4 ep 11/75 lr=4.9e-05 train=-4.0954 val=-4.0891 best=-4.0909@ 10 wait=1/15 (23.6s)  
-[A2.1] f4 ep 12/75 lr=4.9e-05 train=-4.0977 val=-4.0876 best=-4.0909@ 10 wait=2/15 (23.1s)  
-[A2.1] f4 ep 13/75 lr=4.9e-05 train=-4.1001 val=-4.0889 best=-4.0909@ 10 wait=3/15 (25.3s)  
-[A2.1] f4 ep 14/75 lr=4.8e-05 train=-4.1023 val=-4.0888 best=-4.0909@ 10 wait=4/15 (21.7s)  
-[A2.1] f4 ep 15/75 lr=4.8e-05 train=-4.1039 val=-4.0882 best=-4.0909@ 10 wait=5/15 (20.5s)  
-[A2.1] f4 ep 16/75 lr=4.8e-05 train=-4.1054 val=-4.0873 best=-4.0909@ 10 wait=6/15 (23.6s)  
-[A2.1] f4 ep 17/75 lr=4.7e-05 train=-4.1068 val=-4.0861 best=-4.0909@ 10 wait=7/15 (21.6s)  
-[A2.1] f4 ep 18/75 lr=4.6e-05 train=-4.1085 val=-4.0835 best=-4.0909@ 10 wait=8/15 (20.3s)  
-[A2.1] f4 ep 19/75 lr=4.6e-05 train=-4.1098 val=-4.0825 best=-4.0909@ 10 wait=9/15 (24.0s)  
-[A2.1] f4 ep 20/75 lr=4.5e-05 train=-4.1114 val=-4.0812 best=-4.0909@ 10 wait=10/15 (25.8s)  
-[A2.1] f4 ep 21/75 lr=4.5e-05 train=-4.1124 val=-4.0807 best=-4.0909@ 10 wait=11/15 (25.0s)  
-[A2.1] f4 ep 22/75 lr=4.4e-05 train=-4.1134 val=-4.0735 best=-4.0909@ 10 wait=12/15 (23.8s)  
-[A2.1] f4 ep 23/75 lr=4.3e-05 train=-4.1146 val=-4.0730 best=-4.0909@ 10 wait=13/15 (20.4s)  
-[A2.1] f4 ep 24/75 lr=4.2e-05 train=-4.1160 val=-4.0717 best=-4.0909@ 10 wait=14/15 (29.3s)  
-[A2.1] f4 ep 25/75 lr=4.1e-05 train=-4.1170 val=-4.0719 best=-4.0909@ 10 wait=15/15 (22.1s)  
-[A2.1] f4 early-stop at ep25 (best=-4.0909 @ ep10)
-[A2.1] fold 4 done | best_val=-4.0909 @ ep10 elapsed=570.5s
+[A2.1] f4 ep  1/75 lr=1.0e-05 train=-2.3134 val=-3.8744 best=-3.8744@  1 wait=0/15 (16.6s) *
+[A2.1] f4 ep  2/75 lr=2.0e-05 train=-4.0045 val=-4.0809 best=-4.0809@  2 wait=0/15 (16.2s) *
+[A2.1] f4 ep  3/75 lr=3.0e-05 train=-4.0497 val=-4.0860 best=-4.0860@  3 wait=0/15 (17.4s) *
+[A2.1] f4 ep  4/75 lr=4.0e-05 train=-4.0615 val=-4.0878 best=-4.0878@  4 wait=0/15 (15.9s) *
+[A2.1] f4 ep  5/75 lr=5.0e-05 train=-4.0692 val=-4.0894 best=-4.0894@  5 wait=0/15 (15.5s) *
+[A2.1] f4 ep  6/75 lr=5.0e-05 train=-4.0762 val=-4.0805 best=-4.0894@  5 wait=1/15 (15.6s)  
+[A2.1] f4 ep  7/75 lr=5.0e-05 train=-4.0812 val=-4.0906 best=-4.0906@  7 wait=0/15 (16.3s) *
+[A2.1] f4 ep  8/75 lr=5.0e-05 train=-4.0863 val=-4.0897 best=-4.0906@  7 wait=1/15 (16.4s)  
+[A2.1] f4 ep  9/75 lr=5.0e-05 train=-4.0902 val=-4.0903 best=-4.0906@  7 wait=2/15 (16.2s)  
+[A2.1] f4 ep 10/75 lr=5.0e-05 train=-4.0934 val=-4.0905 best=-4.0906@  7 wait=3/15 (15.4s)  
+[A2.1] f4 ep 11/75 lr=4.9e-05 train=-4.0961 val=-4.0883 best=-4.0906@  7 wait=4/15 (15.1s)  
+[A2.1] f4 ep 12/75 lr=4.9e-05 train=-4.0986 val=-4.0898 best=-4.0906@  7 wait=5/15 (14.9s)  
+[A2.1] f4 ep 13/75 lr=4.9e-05 train=-4.1007 val=-4.0885 best=-4.0906@  7 wait=6/15 (16.9s)  
+[A2.1] f4 ep 14/75 lr=4.8e-05 train=-4.1027 val=-4.0867 best=-4.0906@  7 wait=7/15 (17.8s)  
+[A2.1] f4 ep 15/75 lr=4.8e-05 train=-4.1044 val=-4.0865 best=-4.0906@  7 wait=8/15 (15.8s)  
+[A2.1] f4 ep 16/75 lr=4.8e-05 train=-4.1056 val=-4.0873 best=-4.0906@  7 wait=9/15 (16.8s)  
+[A2.1] f4 ep 17/75 lr=4.7e-05 train=-4.1077 val=-4.0866 best=-4.0906@  7 wait=10/15 (17.0s)  
+[A2.1] f4 ep 18/75 lr=4.6e-05 train=-4.1091 val=-4.0854 best=-4.0906@  7 wait=11/15 (17.0s)  
+[A2.1] f4 ep 19/75 lr=4.6e-05 train=-4.1104 val=-4.0841 best=-4.0906@  7 wait=12/15 (17.0s)  
+[A2.1] f4 ep 20/75 lr=4.5e-05 train=-4.1117 val=-4.0802 best=-4.0906@  7 wait=13/15 (17.6s)  
+[A2.1] f4 ep 21/75 lr=4.5e-05 train=-4.1124 val=-4.0800 best=-4.0906@  7 wait=14/15 (16.4s)  
+[A2.1] f4 ep 22/75 lr=4.4e-05 train=-4.1139 val=-4.0827 best=-4.0906@  7 wait=15/15 (16.5s)  
+[A2.1] f4 early-stop at ep22 (best=-4.0906 @ ep7)
+[A2.1] fold 4 done | best_val=-4.0906 @ ep7 elapsed=360.4s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.1] fold 5/5 starting | N_train=324977 N_val=65058 batches/epoch=2538
-[A2.1] f5 ep  1/75 lr=1.0e-05 train=-2.6270 val=-4.3159 best=-4.3159@  1 wait=0/15 (28.2s) *
-[A2.1] f5 ep  2/75 lr=2.0e-05 train=-4.0160 val=-4.3616 best=-4.3616@  2 wait=0/15 (35.3s) *
-[A2.1] f5 ep  3/75 lr=3.0e-05 train=-4.0445 val=-4.3632 best=-4.3632@  3 wait=0/15 (33.6s) *
-[A2.1] f5 ep  4/75 lr=4.0e-05 train=-4.0556 val=-4.3647 best=-4.3647@  4 wait=0/15 (32.1s) *
-[A2.1] f5 ep  5/75 lr=5.0e-05 train=-4.0646 val=-4.3610 best=-4.3647@  4 wait=1/15 (33.4s)  
-[A2.1] f5 ep  6/75 lr=5.0e-05 train=-4.0714 val=-4.3714 best=-4.3714@  6 wait=0/15 (27.4s) *
-[A2.1] f5 ep  7/75 lr=5.0e-05 train=-4.0774 val=-4.3714 best=-4.3714@  6 wait=1/15 (32.2s)  
-[A2.1] f5 ep  8/75 lr=5.0e-05 train=-4.0816 val=-4.3706 best=-4.3714@  6 wait=2/15 (25.0s)  
-[A2.1] f5 ep  9/75 lr=5.0e-05 train=-4.0850 val=-4.3716 best=-4.3716@  9 wait=0/15 (31.6s) *
-[A2.1] f5 ep 10/75 lr=5.0e-05 train=-4.0887 val=-4.3715 best=-4.3716@  9 wait=1/15 (30.3s)  
-[A2.1] f5 ep 11/75 lr=4.9e-05 train=-4.0907 val=-4.3717 best=-4.3717@ 11 wait=0/15 (34.5s) *
-[A2.1] f5 ep 12/75 lr=4.9e-05 train=-4.0925 val=-4.3716 best=-4.3717@ 11 wait=1/15 (30.3s)  
-[A2.1] f5 ep 13/75 lr=4.9e-05 train=-4.0944 val=-4.3700 best=-4.3717@ 11 wait=2/15 (33.6s)  
-[A2.1] f5 ep 14/75 lr=4.8e-05 train=-4.0964 val=-4.3714 best=-4.3717@ 11 wait=3/15 (26.8s)  
-[A2.1] f5 ep 15/75 lr=4.8e-05 train=-4.0980 val=-4.3709 best=-4.3717@ 11 wait=4/15 (30.2s)  
-[A2.1] f5 ep 16/75 lr=4.8e-05 train=-4.1000 val=-4.3710 best=-4.3717@ 11 wait=5/15 (27.4s)  
-[A2.1] f5 ep 17/75 lr=4.7e-05 train=-4.1007 val=-4.3699 best=-4.3717@ 11 wait=6/15 (30.7s)  
-[A2.1] f5 ep 18/75 lr=4.6e-05 train=-4.1020 val=-4.3691 best=-4.3717@ 11 wait=7/15 (28.2s)  
-[A2.1] f5 ep 19/75 lr=4.6e-05 train=-4.1036 val=-4.3692 best=-4.3717@ 11 wait=8/15 (28.7s)  
-[A2.1] f5 ep 20/75 lr=4.5e-05 train=-4.1043 val=-4.3676 best=-4.3717@ 11 wait=9/15 (31.6s)  
-[A2.1] f5 ep 21/75 lr=4.5e-05 train=-4.1058 val=-4.3688 best=-4.3717@ 11 wait=10/15 (31.1s)  
-[A2.1] f5 ep 22/75 lr=4.4e-05 train=-4.1069 val=-4.3685 best=-4.3717@ 11 wait=11/15 (29.1s)  
-[A2.1] f5 ep 23/75 lr=4.3e-05 train=-4.1079 val=-4.3671 best=-4.3717@ 11 wait=12/15 (34.5s)  
-[A2.1] f5 ep 24/75 lr=4.2e-05 train=-4.1091 val=-4.3671 best=-4.3717@ 11 wait=13/15 (26.6s)  
-[A2.1] f5 ep 25/75 lr=4.1e-05 train=-4.1097 val=-4.3649 best=-4.3717@ 11 wait=14/15 (29.2s)  
-[A2.1] f5 ep 26/75 lr=4.1e-05 train=-4.1117 val=-4.3630 best=-4.3717@ 11 wait=15/15 (31.6s)  
-[A2.1] f5 early-stop at ep26 (best=-4.3717 @ ep11)
-[A2.1] fold 5 done | best_val=-4.3717 @ ep11 elapsed=793.1s
+[A2.1] f5 ep  1/75 lr=1.0e-05 train=-2.2506 val=-4.2563 best=-4.2563@  1 wait=0/15 (20.8s) *
+[A2.1] f5 ep  2/75 lr=2.0e-05 train=-4.0039 val=-4.3609 best=-4.3609@  2 wait=0/15 (20.5s) *
+[A2.1] f5 ep  3/75 lr=3.0e-05 train=-4.0353 val=-4.3680 best=-4.3680@  3 wait=0/15 (19.4s) *
+[A2.1] f5 ep  4/75 lr=4.0e-05 train=-4.0468 val=-4.3696 best=-4.3696@  4 wait=0/15 (20.4s) *
+[A2.1] f5 ep  5/75 lr=5.0e-05 train=-4.0571 val=-4.3684 best=-4.3696@  4 wait=1/15 (18.6s)  
+[A2.1] f5 ep  6/75 lr=5.0e-05 train=-4.0658 val=-4.3671 best=-4.3696@  4 wait=2/15 (18.4s)  
+[A2.1] f5 ep  7/75 lr=5.0e-05 train=-4.0729 val=-4.3702 best=-4.3702@  7 wait=0/15 (18.4s) *
+[A2.1] f5 ep  8/75 lr=5.0e-05 train=-4.0783 val=-4.3658 best=-4.3702@  7 wait=1/15 (18.7s)  
+[A2.1] f5 ep  9/75 lr=5.0e-05 train=-4.0823 val=-4.3721 best=-4.3721@  9 wait=0/15 (20.5s) *
+[A2.1] f5 ep 10/75 lr=5.0e-05 train=-4.0858 val=-4.3710 best=-4.3721@  9 wait=1/15 (20.2s)  
+[A2.1] f5 ep 11/75 lr=4.9e-05 train=-4.0887 val=-4.3716 best=-4.3721@  9 wait=2/15 (19.8s)  
+[A2.1] f5 ep 12/75 lr=4.9e-05 train=-4.0907 val=-4.3716 best=-4.3721@  9 wait=3/15 (20.3s)  
+[A2.1] f5 ep 13/75 lr=4.9e-05 train=-4.0925 val=-4.3702 best=-4.3721@  9 wait=4/15 (19.7s)  
+[A2.1] f5 ep 14/75 lr=4.8e-05 train=-4.0947 val=-4.3714 best=-4.3721@  9 wait=5/15 (21.2s)  
+[A2.1] f5 ep 15/75 lr=4.8e-05 train=-4.0960 val=-4.3712 best=-4.3721@  9 wait=6/15 (20.4s)  
+[A2.1] f5 ep 16/75 lr=4.8e-05 train=-4.0972 val=-4.3696 best=-4.3721@  9 wait=7/15 (20.8s)  
+[A2.1] f5 ep 17/75 lr=4.7e-05 train=-4.0988 val=-4.3673 best=-4.3721@  9 wait=8/15 (20.6s)  
+[A2.1] f5 ep 18/75 lr=4.6e-05 train=-4.1000 val=-4.3674 best=-4.3721@  9 wait=9/15 (20.6s)  
+[A2.1] f5 ep 19/75 lr=4.6e-05 train=-4.1015 val=-4.3693 best=-4.3721@  9 wait=10/15 (20.8s)  
+[A2.1] f5 ep 20/75 lr=4.5e-05 train=-4.1030 val=-4.3664 best=-4.3721@  9 wait=11/15 (19.2s)  
+[A2.1] f5 ep 21/75 lr=4.5e-05 train=-4.1038 val=-4.3673 best=-4.3721@  9 wait=12/15 (20.2s)  
+[A2.1] f5 ep 22/75 lr=4.4e-05 train=-4.1053 val=-4.3648 best=-4.3721@  9 wait=13/15 (20.5s)  
+[A2.1] f5 ep 23/75 lr=4.3e-05 train=-4.1061 val=-4.3667 best=-4.3721@  9 wait=14/15 (20.4s)  
+[A2.1] f5 ep 24/75 lr=4.2e-05 train=-4.1065 val=-4.3669 best=-4.3721@  9 wait=15/15 (20.7s)  
+[A2.1] f5 early-stop at ep24 (best=-4.3721 @ ep9)
+[A2.1] fold 5 done | best_val=-4.3721 @ ep9 elapsed=481.0s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
-[15:32:19] [3/5] ( 60%) Running A2.2 (har_none)
+[00:18:02] [3/5] ( 60%) Running A2.2 (har_none)
 [A2.2] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=none loss=rv_log_aware(alpha=0.00) hw=equal | features=21 horizons=4 folds=5 device=cuda
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.2] fold 1/5 starting | N_train=64765 N_val=65053 batches/epoch=505
-[A2.2] f1 ep  1/75 lr=1.0e-05 train=-0.7417 val=-1.4927 best=-1.4927@  1 wait=0/15 (9.8s) *
-[A2.2] f1 ep  2/75 lr=2.0e-05 train=-2.3402 val=-3.5011 best=-3.5011@  2 wait=0/15 (9.9s) *
-[A2.2] f1 ep  3/75 lr=3.0e-05 train=-3.6356 val=-4.2358 best=-4.2358@  3 wait=0/15 (6.2s) *
-[A2.2] f1 ep  4/75 lr=4.0e-05 train=-3.7348 val=-4.2797 best=-4.2797@  4 wait=0/15 (7.6s) *
-[A2.2] f1 ep  5/75 lr=5.0e-05 train=-3.7536 val=-4.2916 best=-4.2916@  5 wait=0/15 (9.6s) *
-[A2.2] f1 ep  6/75 lr=5.0e-05 train=-3.7642 val=-4.2945 best=-4.2945@  6 wait=0/15 (6.6s) *
-[A2.2] f1 ep  7/75 lr=5.0e-05 train=-3.7690 val=-4.2999 best=-4.2999@  7 wait=0/15 (8.4s) *
-[A2.2] f1 ep  8/75 lr=5.0e-05 train=-3.7738 val=-4.2983 best=-4.2999@  7 wait=1/15 (9.6s)  
-[A2.2] f1 ep  9/75 lr=5.0e-05 train=-3.7756 val=-4.2967 best=-4.2999@  7 wait=2/15 (7.2s)  
-[A2.2] f1 ep 10/75 lr=5.0e-05 train=-3.7783 val=-4.2974 best=-4.2999@  7 wait=3/15 (9.9s)  
-[A2.2] f1 ep 11/75 lr=4.9e-05 train=-3.7813 val=-4.2919 best=-4.2999@  7 wait=4/15 (8.1s)  
-[A2.2] f1 ep 12/75 lr=4.9e-05 train=-3.7837 val=-4.2897 best=-4.2999@  7 wait=5/15 (7.7s)  
-[A2.2] f1 ep 13/75 lr=4.9e-05 train=-3.7857 val=-4.2930 best=-4.2999@  7 wait=6/15 (9.5s)  
-[A2.2] f1 ep 14/75 lr=4.8e-05 train=-3.7885 val=-4.2863 best=-4.2999@  7 wait=7/15 (9.4s)  
-[A2.2] f1 ep 15/75 lr=4.8e-05 train=-3.7907 val=-4.2793 best=-4.2999@  7 wait=8/15 (6.5s)  
-[A2.2] f1 ep 16/75 lr=4.8e-05 train=-3.7913 val=-4.2903 best=-4.2999@  7 wait=9/15 (5.9s)  
-[A2.2] f1 ep 17/75 lr=4.7e-05 train=-3.7944 val=-4.2721 best=-4.2999@  7 wait=10/15 (5.4s)  
-[A2.2] f1 ep 18/75 lr=4.6e-05 train=-3.7953 val=-4.2684 best=-4.2999@  7 wait=11/15 (5.6s)  
-[A2.2] f1 ep 19/75 lr=4.6e-05 train=-3.7982 val=-4.2481 best=-4.2999@  7 wait=12/15 (5.4s)  
-[A2.2] f1 ep 20/75 lr=4.5e-05 train=-3.7998 val=-4.2637 best=-4.2999@  7 wait=13/15 (9.1s)  
-[A2.2] f1 ep 21/75 lr=4.5e-05 train=-3.8013 val=-4.2508 best=-4.2999@  7 wait=14/15 (5.6s)  
-[A2.2] f1 ep 22/75 lr=4.4e-05 train=-3.8023 val=-4.2413 best=-4.2999@  7 wait=15/15 (5.4s)  
-[A2.2] f1 early-stop at ep22 (best=-4.2999 @ ep7)
-[A2.2] fold 1 done | best_val=-4.2999 @ ep7 elapsed=168.3s
+[A2.2] f1 ep  1/75 lr=1.0e-05 train=-0.7429 val=-1.4927 best=-1.4927@  1 wait=0/15 (4.5s) *
+[A2.2] f1 ep  2/75 lr=2.0e-05 train=-2.3410 val=-3.5012 best=-3.5012@  2 wait=0/15 (4.5s) *
+[A2.2] f1 ep  3/75 lr=3.0e-05 train=-3.6370 val=-4.2349 best=-4.2349@  3 wait=0/15 (4.5s) *
+[A2.2] f1 ep  4/75 lr=4.0e-05 train=-3.7339 val=-4.2799 best=-4.2799@  4 wait=0/15 (4.4s) *
+[A2.2] f1 ep  5/75 lr=5.0e-05 train=-3.7534 val=-4.2919 best=-4.2919@  5 wait=0/15 (4.7s) *
+[A2.2] f1 ep  6/75 lr=5.0e-05 train=-3.7643 val=-4.2955 best=-4.2955@  6 wait=0/15 (4.8s) *
+[A2.2] f1 ep  7/75 lr=5.0e-05 train=-3.7688 val=-4.2992 best=-4.2992@  7 wait=0/15 (4.5s) *
+[A2.2] f1 ep  8/75 lr=5.0e-05 train=-3.7737 val=-4.2975 best=-4.2992@  7 wait=1/15 (4.9s)  
+[A2.2] f1 ep  9/75 lr=5.0e-05 train=-3.7769 val=-4.2940 best=-4.2992@  7 wait=2/15 (4.6s)  
+[A2.2] f1 ep 10/75 lr=5.0e-05 train=-3.7781 val=-4.2959 best=-4.2992@  7 wait=3/15 (4.9s)  
+[A2.2] f1 ep 11/75 lr=4.9e-05 train=-3.7807 val=-4.2941 best=-4.2992@  7 wait=4/15 (4.6s)  
+[A2.2] f1 ep 12/75 lr=4.9e-05 train=-3.7841 val=-4.2904 best=-4.2992@  7 wait=5/15 (4.7s)  
+[A2.2] f1 ep 13/75 lr=4.9e-05 train=-3.7853 val=-4.2911 best=-4.2992@  7 wait=6/15 (4.8s)  
+[A2.2] f1 ep 14/75 lr=4.8e-05 train=-3.7884 val=-4.2648 best=-4.2992@  7 wait=7/15 (4.2s)  
+[A2.2] f1 ep 15/75 lr=4.8e-05 train=-3.7910 val=-4.2844 best=-4.2992@  7 wait=8/15 (4.3s)  
+[A2.2] f1 ep 16/75 lr=4.8e-05 train=-3.7914 val=-4.2884 best=-4.2992@  7 wait=9/15 (4.4s)  
+[A2.2] f1 ep 17/75 lr=4.7e-05 train=-3.7941 val=-4.2577 best=-4.2992@  7 wait=10/15 (4.6s)  
+[A2.2] f1 ep 18/75 lr=4.6e-05 train=-3.7962 val=-4.2682 best=-4.2992@  7 wait=11/15 (4.7s)  
+[A2.2] f1 ep 19/75 lr=4.6e-05 train=-3.7979 val=-4.2652 best=-4.2992@  7 wait=12/15 (4.3s)  
+[A2.2] f1 ep 20/75 lr=4.5e-05 train=-3.7997 val=-4.2732 best=-4.2992@  7 wait=13/15 (4.6s)  
+[A2.2] f1 ep 21/75 lr=4.5e-05 train=-3.8020 val=-4.2634 best=-4.2992@  7 wait=14/15 (4.6s)  
+[A2.2] f1 ep 22/75 lr=4.4e-05 train=-3.8023 val=-4.2678 best=-4.2992@  7 wait=15/15 (4.5s)  
+[A2.2] f1 early-stop at ep22 (best=-4.2992 @ ep7)
+[A2.2] fold 1 done | best_val=-4.2992 @ ep7 elapsed=100.5s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.2] fold 2/5 starting | N_train=129818 N_val=65053 batches/epoch=1013
-[A2.2] f2 ep  1/75 lr=1.0e-05 train=-1.1697 val=-2.2835 best=-2.2835@  1 wait=0/15 (10.5s) *
-[A2.2] f2 ep  2/75 lr=2.0e-05 train=-3.4572 val=-4.3157 best=-4.3157@  2 wait=0/15 (16.7s) *
-[A2.2] f2 ep  3/75 lr=3.0e-05 train=-3.9647 val=-4.3697 best=-4.3697@  3 wait=0/15 (13.0s) *
-[A2.2] f2 ep  4/75 lr=4.0e-05 train=-3.9863 val=-4.3794 best=-4.3794@  4 wait=0/15 (13.6s) *
-[A2.2] f2 ep  5/75 lr=5.0e-05 train=-3.9961 val=-4.3816 best=-4.3816@  5 wait=0/15 (12.8s) *
-[A2.2] f2 ep  6/75 lr=5.0e-05 train=-4.0021 val=-4.3816 best=-4.3816@  5 wait=1/15 (13.4s)  
-[A2.2] f2 ep  7/75 lr=5.0e-05 train=-4.0050 val=-4.3836 best=-4.3836@  7 wait=0/15 (16.3s) *
-[A2.2] f2 ep  8/75 lr=5.0e-05 train=-4.0103 val=-4.3845 best=-4.3845@  8 wait=0/15 (11.9s) *
-[A2.2] f2 ep  9/75 lr=5.0e-05 train=-4.0137 val=-4.3843 best=-4.3845@  8 wait=1/15 (13.5s)  
-[A2.2] f2 ep 10/75 lr=5.0e-05 train=-4.0175 val=-4.3806 best=-4.3845@  8 wait=2/15 (12.7s)  
-[A2.2] f2 ep 11/75 lr=4.9e-05 train=-4.0208 val=-4.3772 best=-4.3845@  8 wait=3/15 (13.9s)  
-[A2.2] f2 ep 12/75 lr=4.9e-05 train=-4.0235 val=-4.3823 best=-4.3845@  8 wait=4/15 (13.9s)  
-[A2.2] f2 ep 13/75 lr=4.9e-05 train=-4.0266 val=-4.3805 best=-4.3845@  8 wait=5/15 (10.2s)  
-[A2.2] f2 ep 14/75 lr=4.8e-05 train=-4.0289 val=-4.3768 best=-4.3845@  8 wait=6/15 (11.7s)  
-[A2.2] f2 ep 15/75 lr=4.8e-05 train=-4.0318 val=-4.3837 best=-4.3845@  8 wait=7/15 (13.4s)  
-[A2.2] f2 ep 16/75 lr=4.8e-05 train=-4.0341 val=-4.3811 best=-4.3845@  8 wait=8/15 (12.0s)  
-[A2.2] f2 ep 17/75 lr=4.7e-05 train=-4.0357 val=-4.3818 best=-4.3845@  8 wait=9/15 (14.1s)  
-[A2.2] f2 ep 18/75 lr=4.6e-05 train=-4.0375 val=-4.3770 best=-4.3845@  8 wait=10/15 (10.2s)  
-[A2.2] f2 ep 19/75 lr=4.6e-05 train=-4.0398 val=-4.3826 best=-4.3845@  8 wait=11/15 (14.8s)  
-[A2.2] f2 ep 20/75 lr=4.5e-05 train=-4.0414 val=-4.3807 best=-4.3845@  8 wait=12/15 (10.8s)  
-[A2.2] f2 ep 21/75 lr=4.5e-05 train=-4.0428 val=-4.3779 best=-4.3845@  8 wait=13/15 (13.5s)  
-[A2.2] f2 ep 22/75 lr=4.4e-05 train=-4.0445 val=-4.3730 best=-4.3845@  8 wait=14/15 (13.8s)  
-[A2.2] f2 ep 23/75 lr=4.3e-05 train=-4.0458 val=-4.3719 best=-4.3845@  8 wait=15/15 (11.1s)  
-[A2.2] f2 early-stop at ep23 (best=-4.3845 @ ep8)
-[A2.2] fold 2 done | best_val=-4.3845 @ ep8 elapsed=297.9s
+[A2.2] f2 ep  1/75 lr=1.0e-05 train=-1.1691 val=-2.2840 best=-2.2840@  1 wait=0/15 (8.0s) *
+[A2.2] f2 ep  2/75 lr=2.0e-05 train=-3.4576 val=-4.3140 best=-4.3140@  2 wait=0/15 (8.6s) *
+[A2.2] f2 ep  3/75 lr=3.0e-05 train=-3.9647 val=-4.3666 best=-4.3666@  3 wait=0/15 (8.1s) *
+[A2.2] f2 ep  4/75 lr=4.0e-05 train=-3.9875 val=-4.3790 best=-4.3790@  4 wait=0/15 (8.1s) *
+[A2.2] f2 ep  5/75 lr=5.0e-05 train=-3.9959 val=-4.3809 best=-4.3809@  5 wait=0/15 (8.0s) *
+[A2.2] f2 ep  6/75 lr=5.0e-05 train=-4.0015 val=-4.3840 best=-4.3840@  6 wait=0/15 (8.3s) *
+[A2.2] f2 ep  7/75 lr=5.0e-05 train=-4.0056 val=-4.3881 best=-4.3881@  7 wait=0/15 (8.3s) *
+[A2.2] f2 ep  8/75 lr=5.0e-05 train=-4.0099 val=-4.3852 best=-4.3881@  7 wait=1/15 (7.8s)  
+[A2.2] f2 ep  9/75 lr=5.0e-05 train=-4.0140 val=-4.3862 best=-4.3881@  7 wait=2/15 (9.1s)  
+[A2.2] f2 ep 10/75 lr=5.0e-05 train=-4.0175 val=-4.3809 best=-4.3881@  7 wait=3/15 (8.5s)  
+[A2.2] f2 ep 11/75 lr=4.9e-05 train=-4.0207 val=-4.3805 best=-4.3881@  7 wait=4/15 (9.7s)  
+[A2.2] f2 ep 12/75 lr=4.9e-05 train=-4.0241 val=-4.3832 best=-4.3881@  7 wait=5/15 (8.1s)  
+[A2.2] f2 ep 13/75 lr=4.9e-05 train=-4.0267 val=-4.3831 best=-4.3881@  7 wait=6/15 (8.9s)  
+[A2.2] f2 ep 14/75 lr=4.8e-05 train=-4.0288 val=-4.3799 best=-4.3881@  7 wait=7/15 (9.4s)  
+[A2.2] f2 ep 15/75 lr=4.8e-05 train=-4.0314 val=-4.3837 best=-4.3881@  7 wait=8/15 (8.0s)  
+[A2.2] f2 ep 16/75 lr=4.8e-05 train=-4.0338 val=-4.3818 best=-4.3881@  7 wait=9/15 (7.7s)  
+[A2.2] f2 ep 17/75 lr=4.7e-05 train=-4.0356 val=-4.3821 best=-4.3881@  7 wait=10/15 (7.9s)  
+[A2.2] f2 ep 18/75 lr=4.6e-05 train=-4.0375 val=-4.3721 best=-4.3881@  7 wait=11/15 (8.4s)  
+[A2.2] f2 ep 19/75 lr=4.6e-05 train=-4.0400 val=-4.3824 best=-4.3881@  7 wait=12/15 (8.0s)  
+[A2.2] f2 ep 20/75 lr=4.5e-05 train=-4.0413 val=-4.3816 best=-4.3881@  7 wait=13/15 (9.2s)  
+[A2.2] f2 ep 21/75 lr=4.5e-05 train=-4.0434 val=-4.3805 best=-4.3881@  7 wait=14/15 (7.6s)  
+[A2.2] f2 ep 22/75 lr=4.4e-05 train=-4.0445 val=-4.3736 best=-4.3881@  7 wait=15/15 (7.6s)  
+[A2.2] f2 early-stop at ep22 (best=-4.3881 @ ep7)
+[A2.2] fold 2 done | best_val=-4.3881 @ ep7 elapsed=183.2s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.2] fold 3/5 starting | N_train=194871 N_val=65053 batches/epoch=1521
-[A2.2] f3 ep  1/75 lr=1.0e-05 train=-1.5900 val=-3.0051 best=-3.0051@  1 wait=0/15 (17.2s) *
-[A2.2] f3 ep  2/75 lr=2.0e-05 train=-3.8851 val=-3.9836 best=-3.9836@  2 wait=0/15 (19.9s) *
-[A2.2] f3 ep  3/75 lr=3.0e-05 train=-4.0777 val=-3.9890 best=-3.9890@  3 wait=0/15 (20.6s) *
-[A2.2] f3 ep  4/75 lr=4.0e-05 train=-4.0938 val=-3.9908 best=-3.9908@  4 wait=0/15 (17.2s) *
-[A2.2] f3 ep  5/75 lr=5.0e-05 train=-4.1025 val=-3.9917 best=-3.9917@  5 wait=0/15 (17.2s) *
-[A2.2] f3 ep  6/75 lr=5.0e-05 train=-4.1114 val=-3.9940 best=-3.9940@  6 wait=0/15 (19.9s) *
-[A2.2] f3 ep  7/75 lr=5.0e-05 train=-4.1171 val=-3.9913 best=-3.9940@  6 wait=1/15 (18.5s)  
-[A2.2] f3 ep  8/75 lr=5.0e-05 train=-4.1225 val=-3.9887 best=-3.9940@  6 wait=2/15 (19.0s)  
-[A2.2] f3 ep  9/75 lr=5.0e-05 train=-4.1273 val=-3.9906 best=-3.9940@  6 wait=3/15 (20.2s)  
-[A2.2] f3 ep 10/75 lr=5.0e-05 train=-4.1308 val=-3.9854 best=-3.9940@  6 wait=4/15 (18.1s)  
-[A2.2] f3 ep 11/75 lr=4.9e-05 train=-4.1353 val=-3.9911 best=-3.9940@  6 wait=5/15 (19.2s)  
-[A2.2] f3 ep 12/75 lr=4.9e-05 train=-4.1377 val=-3.9862 best=-3.9940@  6 wait=6/15 (16.0s)  
-[A2.2] f3 ep 13/75 lr=4.9e-05 train=-4.1408 val=-3.9879 best=-3.9940@  6 wait=7/15 (16.9s)  
-[A2.2] f3 ep 14/75 lr=4.8e-05 train=-4.1430 val=-3.9828 best=-3.9940@  6 wait=8/15 (15.6s)  
-[A2.2] f3 ep 15/75 lr=4.8e-05 train=-4.1452 val=-3.9853 best=-3.9940@  6 wait=9/15 (16.3s)  
-[A2.2] f3 ep 16/75 lr=4.8e-05 train=-4.1473 val=-3.9869 best=-3.9940@  6 wait=10/15 (19.1s)  
-[A2.2] f3 ep 17/75 lr=4.7e-05 train=-4.1490 val=-3.9840 best=-3.9940@  6 wait=11/15 (16.5s)  
-[A2.2] f3 ep 18/75 lr=4.6e-05 train=-4.1508 val=-3.9755 best=-3.9940@  6 wait=12/15 (18.5s)  
-[A2.2] f3 ep 19/75 lr=4.6e-05 train=-4.1523 val=-3.9846 best=-3.9940@  6 wait=13/15 (19.3s)  
-[A2.2] f3 ep 20/75 lr=4.5e-05 train=-4.1535 val=-3.9832 best=-3.9940@  6 wait=14/15 (17.6s)  
-[A2.2] f3 ep 21/75 lr=4.5e-05 train=-4.1552 val=-3.9801 best=-3.9940@  6 wait=15/15 (19.3s)  
-[A2.2] f3 early-stop at ep21 (best=-3.9940 @ ep6)
-[A2.2] fold 3 done | best_val=-3.9940 @ ep6 elapsed=382.0s
+[A2.2] f3 ep  1/75 lr=1.0e-05 train=-1.4434 val=-2.8399 best=-2.8399@  1 wait=0/15 (12.0s) *
+[A2.2] f3 ep  2/75 lr=2.0e-05 train=-3.8535 val=-3.9716 best=-3.9716@  2 wait=0/15 (13.1s) *
+[A2.2] f3 ep  3/75 lr=3.0e-05 train=-4.0756 val=-3.9873 best=-3.9873@  3 wait=0/15 (11.9s) *
+[A2.2] f3 ep  4/75 lr=4.0e-05 train=-4.0926 val=-3.9904 best=-3.9904@  4 wait=0/15 (11.3s) *
+[A2.2] f3 ep  5/75 lr=5.0e-05 train=-4.1033 val=-3.9872 best=-3.9904@  4 wait=1/15 (12.1s)  
+[A2.2] f3 ep  6/75 lr=5.0e-05 train=-4.1110 val=-3.9903 best=-3.9904@  4 wait=2/15 (12.4s)  
+[A2.2] f3 ep  7/75 lr=5.0e-05 train=-4.1169 val=-3.9927 best=-3.9927@  7 wait=0/15 (13.4s) *
+[A2.2] f3 ep  8/75 lr=5.0e-05 train=-4.1221 val=-3.9810 best=-3.9927@  7 wait=1/15 (13.1s)  
+[A2.2] f3 ep  9/75 lr=5.0e-05 train=-4.1268 val=-3.9810 best=-3.9927@  7 wait=2/15 (11.6s)  
+[A2.2] f3 ep 10/75 lr=5.0e-05 train=-4.1307 val=-3.9741 best=-3.9927@  7 wait=3/15 (12.2s)  
+[A2.2] f3 ep 11/75 lr=4.9e-05 train=-4.1337 val=-3.9821 best=-3.9927@  7 wait=4/15 (11.5s)  
+[A2.2] f3 ep 12/75 lr=4.9e-05 train=-4.1373 val=-3.9817 best=-3.9927@  7 wait=5/15 (12.6s)  
+[A2.2] f3 ep 13/75 lr=4.9e-05 train=-4.1398 val=-3.9858 best=-3.9927@  7 wait=6/15 (11.7s)  
+[A2.2] f3 ep 14/75 lr=4.8e-05 train=-4.1423 val=-3.9826 best=-3.9927@  7 wait=7/15 (12.4s)  
+[A2.2] f3 ep 15/75 lr=4.8e-05 train=-4.1442 val=-3.9305 best=-3.9927@  7 wait=8/15 (11.4s)  
+[A2.2] f3 ep 16/75 lr=4.8e-05 train=-4.1467 val=-3.9858 best=-3.9927@  7 wait=9/15 (11.8s)  
+[A2.2] f3 ep 17/75 lr=4.7e-05 train=-4.1483 val=-3.9701 best=-3.9927@  7 wait=10/15 (11.5s)  
+[A2.2] f3 ep 18/75 lr=4.6e-05 train=-4.1496 val=-3.9819 best=-3.9927@  7 wait=11/15 (12.1s)  
+[A2.2] f3 ep 19/75 lr=4.6e-05 train=-4.1513 val=-3.9731 best=-3.9927@  7 wait=12/15 (12.4s)  
+[A2.2] f3 ep 20/75 lr=4.5e-05 train=-4.1526 val=-3.9757 best=-3.9927@  7 wait=13/15 (12.3s)  
+[A2.2] f3 ep 21/75 lr=4.5e-05 train=-4.1541 val=-3.9802 best=-3.9927@  7 wait=14/15 (11.7s)  
+[A2.2] f3 ep 22/75 lr=4.4e-05 train=-4.1555 val=-3.9783 best=-3.9927@  7 wait=15/15 (12.9s)  
+[A2.2] f3 early-stop at ep22 (best=-3.9927 @ ep7)
+[A2.2] fold 3 done | best_val=-3.9927 @ ep7 elapsed=267.3s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.2] fold 4/5 starting | N_train=259924 N_val=65053 batches/epoch=2029
-[A2.2] f4 ep  1/75 lr=1.0e-05 train=-2.0315 val=-3.7535 best=-3.7535@  1 wait=0/15 (23.1s) *
-[A2.2] f4 ep  2/75 lr=2.0e-05 train=-3.9873 val=-4.0829 best=-4.0829@  2 wait=0/15 (29.9s) *
-[A2.2] f4 ep  3/75 lr=3.0e-05 train=-4.0452 val=-4.0873 best=-4.0873@  3 wait=0/15 (21.5s) *
-[A2.2] f4 ep  4/75 lr=4.0e-05 train=-4.0564 val=-4.0886 best=-4.0886@  4 wait=0/15 (23.0s) *
-[A2.2] f4 ep  5/75 lr=5.0e-05 train=-4.0643 val=-4.0882 best=-4.0886@  4 wait=1/15 (23.5s)  
-[A2.2] f4 ep  6/75 lr=5.0e-05 train=-4.0719 val=-4.0899 best=-4.0899@  6 wait=0/15 (25.0s) *
-[A2.2] f4 ep  7/75 lr=5.0e-05 train=-4.0781 val=-4.0907 best=-4.0907@  7 wait=0/15 (26.9s) *
-[A2.2] f4 ep  8/75 lr=5.0e-05 train=-4.0836 val=-4.0880 best=-4.0907@  7 wait=1/15 (25.8s)  
-[A2.2] f4 ep  9/75 lr=5.0e-05 train=-4.0872 val=-4.0902 best=-4.0907@  7 wait=2/15 (23.7s)  
-[A2.2] f4 ep 10/75 lr=5.0e-05 train=-4.0908 val=-4.0896 best=-4.0907@  7 wait=3/15 (22.4s)  
-[A2.2] f4 ep 11/75 lr=4.9e-05 train=-4.0940 val=-4.0883 best=-4.0907@  7 wait=4/15 (25.0s)  
-[A2.2] f4 ep 12/75 lr=4.9e-05 train=-4.0964 val=-4.0914 best=-4.0914@ 12 wait=0/15 (27.7s) *
-[A2.2] f4 ep 13/75 lr=4.9e-05 train=-4.0987 val=-4.0881 best=-4.0914@ 12 wait=1/15 (23.7s)  
-[A2.2] f4 ep 14/75 lr=4.8e-05 train=-4.1010 val=-4.0876 best=-4.0914@ 12 wait=2/15 (20.6s)  
-[A2.2] f4 ep 15/75 lr=4.8e-05 train=-4.1025 val=-4.0902 best=-4.0914@ 12 wait=3/15 (25.4s)  
-[A2.2] f4 ep 16/75 lr=4.8e-05 train=-4.1040 val=-4.0902 best=-4.0914@ 12 wait=4/15 (22.3s)  
-[A2.2] f4 ep 17/75 lr=4.7e-05 train=-4.1053 val=-4.0887 best=-4.0914@ 12 wait=5/15 (24.4s)  
-[A2.2] f4 ep 18/75 lr=4.6e-05 train=-4.1071 val=-4.0883 best=-4.0914@ 12 wait=6/15 (23.1s)  
-[A2.2] f4 ep 19/75 lr=4.6e-05 train=-4.1083 val=-4.0894 best=-4.0914@ 12 wait=7/15 (24.8s)  
-[A2.2] f4 ep 20/75 lr=4.5e-05 train=-4.1099 val=-4.0884 best=-4.0914@ 12 wait=8/15 (24.3s)  
-[A2.2] f4 ep 21/75 lr=4.5e-05 train=-4.1105 val=-4.0873 best=-4.0914@ 12 wait=9/15 (24.1s)  
-[A2.2] f4 ep 22/75 lr=4.4e-05 train=-4.1119 val=-4.0902 best=-4.0914@ 12 wait=10/15 (23.2s)  
-[A2.2] f4 ep 23/75 lr=4.3e-05 train=-4.1135 val=-4.0852 best=-4.0914@ 12 wait=11/15 (27.5s)  
-[A2.2] f4 ep 24/75 lr=4.2e-05 train=-4.1145 val=-4.0883 best=-4.0914@ 12 wait=12/15 (22.6s)  
-[A2.2] f4 ep 25/75 lr=4.1e-05 train=-4.1153 val=-4.0865 best=-4.0914@ 12 wait=13/15 (29.1s)  
-[A2.2] f4 ep 26/75 lr=4.1e-05 train=-4.1162 val=-4.0881 best=-4.0914@ 12 wait=14/15 (18.6s)  
-[A2.2] f4 ep 27/75 lr=4.0e-05 train=-4.1172 val=-4.0860 best=-4.0914@ 12 wait=15/15 (27.9s)  
-[A2.2] f4 early-stop at ep27 (best=-4.0914 @ ep12)
-[A2.2] fold 4 done | best_val=-4.0914 @ ep12 elapsed=659.2s
+[A2.2] f4 ep  1/75 lr=1.0e-05 train=-2.0299 val=-3.7527 best=-3.7527@  1 wait=0/15 (16.6s) *
+[A2.2] f4 ep  2/75 lr=2.0e-05 train=-3.9880 val=-4.0836 best=-4.0836@  2 wait=0/15 (16.6s) *
+[A2.2] f4 ep  3/75 lr=3.0e-05 train=-4.0460 val=-4.0862 best=-4.0862@  3 wait=0/15 (17.2s) *
+[A2.2] f4 ep  4/75 lr=4.0e-05 train=-4.0561 val=-4.0881 best=-4.0881@  4 wait=0/15 (19.5s) *
+[A2.2] f4 ep  5/75 lr=5.0e-05 train=-4.0647 val=-4.0876 best=-4.0881@  4 wait=1/15 (17.6s)  
+[A2.2] f4 ep  6/75 lr=5.0e-05 train=-4.0721 val=-4.0908 best=-4.0908@  6 wait=0/15 (18.2s) *
+[A2.2] f4 ep  7/75 lr=5.0e-05 train=-4.0783 val=-4.0900 best=-4.0908@  6 wait=1/15 (17.4s)  
+[A2.2] f4 ep  8/75 lr=5.0e-05 train=-4.0836 val=-4.0866 best=-4.0908@  6 wait=2/15 (16.1s)  
+[A2.2] f4 ep  9/75 lr=5.0e-05 train=-4.0870 val=-4.0896 best=-4.0908@  6 wait=3/15 (18.0s)  
+[A2.2] f4 ep 10/75 lr=5.0e-05 train=-4.0908 val=-4.0899 best=-4.0908@  6 wait=4/15 (16.7s)  
+[A2.2] f4 ep 11/75 lr=4.9e-05 train=-4.0941 val=-4.0895 best=-4.0908@  6 wait=5/15 (15.4s)  
+[A2.2] f4 ep 12/75 lr=4.9e-05 train=-4.0967 val=-4.0899 best=-4.0908@  6 wait=6/15 (15.3s)  
+[A2.2] f4 ep 13/75 lr=4.9e-05 train=-4.0987 val=-4.0905 best=-4.0908@  6 wait=7/15 (17.4s)  
+[A2.2] f4 ep 14/75 lr=4.8e-05 train=-4.1009 val=-4.0856 best=-4.0908@  6 wait=8/15 (15.1s)  
+[A2.2] f4 ep 15/75 lr=4.8e-05 train=-4.1027 val=-4.0907 best=-4.0908@  6 wait=9/15 (16.1s)  
+[A2.2] f4 ep 16/75 lr=4.8e-05 train=-4.1039 val=-4.0907 best=-4.0908@  6 wait=10/15 (16.0s)  
+[A2.2] f4 ep 17/75 lr=4.7e-05 train=-4.1053 val=-4.0904 best=-4.0908@  6 wait=11/15 (14.9s)  
+[A2.2] f4 ep 18/75 lr=4.6e-05 train=-4.1069 val=-4.0872 best=-4.0908@  6 wait=12/15 (15.1s)  
+[A2.2] f4 ep 19/75 lr=4.6e-05 train=-4.1083 val=-4.0902 best=-4.0908@  6 wait=13/15 (16.2s)  
+[A2.2] f4 ep 20/75 lr=4.5e-05 train=-4.1095 val=-4.0901 best=-4.0908@  6 wait=14/15 (15.2s)  
+[A2.2] f4 ep 21/75 lr=4.5e-05 train=-4.1105 val=-4.0856 best=-4.0908@  6 wait=15/15 (14.3s)  
+[A2.2] f4 early-stop at ep21 (best=-4.0908 @ ep6)
+[A2.2] fold 4 done | best_val=-4.0908 @ ep6 elapsed=344.9s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.2] fold 5/5 starting | N_train=324977 N_val=65058 batches/epoch=2538
-[A2.2] f5 ep  1/75 lr=1.0e-05 train=-2.2851 val=-4.1510 best=-4.1510@  1 wait=0/15 (29.1s) *
-[A2.2] f5 ep  2/75 lr=2.0e-05 train=-3.9959 val=-4.3595 best=-4.3595@  2 wait=0/15 (26.0s) *
-[A2.2] f5 ep  3/75 lr=3.0e-05 train=-4.0336 val=-4.3670 best=-4.3670@  3 wait=0/15 (26.9s) *
-[A2.2] f5 ep  4/75 lr=4.0e-05 train=-4.0457 val=-4.3608 best=-4.3670@  3 wait=1/15 (25.2s)  
-[A2.2] f5 ep  5/75 lr=5.0e-05 train=-4.0560 val=-4.3688 best=-4.3688@  5 wait=0/15 (25.6s) *
-[A2.2] f5 ep  6/75 lr=5.0e-05 train=-4.0654 val=-4.3710 best=-4.3710@  6 wait=0/15 (23.6s) *
-[A2.2] f5 ep  7/75 lr=5.0e-05 train=-4.0725 val=-4.3695 best=-4.3710@  6 wait=1/15 (29.9s)  
-[A2.2] f5 ep  8/75 lr=5.0e-05 train=-4.0783 val=-4.3710 best=-4.3710@  8 wait=0/15 (32.0s) *
-[A2.2] f5 ep  9/75 lr=5.0e-05 train=-4.0826 val=-4.3680 best=-4.3710@  8 wait=1/15 (29.0s)  
-[A2.2] f5 ep 10/75 lr=5.0e-05 train=-4.0865 val=-4.3718 best=-4.3718@ 10 wait=0/15 (25.8s) *
-[A2.2] f5 ep 11/75 lr=4.9e-05 train=-4.0890 val=-4.3715 best=-4.3718@ 10 wait=1/15 (36.2s)  
-[A2.2] f5 ep 12/75 lr=4.9e-05 train=-4.0910 val=-4.3716 best=-4.3718@ 10 wait=2/15 (36.2s)  
-[A2.2] f5 ep 13/75 lr=4.9e-05 train=-4.0932 val=-4.3697 best=-4.3718@ 10 wait=3/15 (32.5s)  
-[A2.2] f5 ep 14/75 lr=4.8e-05 train=-4.0953 val=-4.3716 best=-4.3718@ 10 wait=4/15 (34.8s)  
-[A2.2] f5 ep 15/75 lr=4.8e-05 train=-4.0965 val=-4.3715 best=-4.3718@ 10 wait=5/15 (35.4s)  
-[A2.2] f5 ep 16/75 lr=4.8e-05 train=-4.0979 val=-4.3712 best=-4.3718@ 10 wait=6/15 (30.0s)  
-[A2.2] f5 ep 17/75 lr=4.7e-05 train=-4.0990 val=-4.3699 best=-4.3718@ 10 wait=7/15 (28.5s)  
-[A2.2] f5 ep 18/75 lr=4.6e-05 train=-4.1001 val=-4.3702 best=-4.3718@ 10 wait=8/15 (27.7s)  
-[A2.2] f5 ep 19/75 lr=4.6e-05 train=-4.1014 val=-4.3669 best=-4.3718@ 10 wait=9/15 (32.6s)  
-[A2.2] f5 ep 20/75 lr=4.5e-05 train=-4.1022 val=-4.3690 best=-4.3718@ 10 wait=10/15 (25.3s)  
-[A2.2] f5 ep 21/75 lr=4.5e-05 train=-4.1034 val=-4.3700 best=-4.3718@ 10 wait=11/15 (27.9s)  
-[A2.2] f5 ep 22/75 lr=4.4e-05 train=-4.1046 val=-4.3690 best=-4.3718@ 10 wait=12/15 (24.7s)  
-[A2.2] f5 ep 23/75 lr=4.3e-05 train=-4.1059 val=-4.3683 best=-4.3718@ 10 wait=13/15 (29.6s)  
-[A2.2] f5 ep 24/75 lr=4.2e-05 train=-4.1065 val=-4.3687 best=-4.3718@ 10 wait=14/15 (35.6s)  
-[A2.2] f5 ep 25/75 lr=4.1e-05 train=-4.1074 val=-4.3681 best=-4.3718@ 10 wait=15/15 (29.9s)  
-[A2.2] f5 early-stop at ep25 (best=-4.3718 @ ep10)
-[A2.2] fold 5 done | best_val=-4.3718 @ ep10 elapsed=740.0s
+[A2.2] f5 ep  1/75 lr=1.0e-05 train=-2.4381 val=-4.2789 best=-4.2789@  1 wait=0/15 (17.7s) *
+[A2.2] f5 ep  2/75 lr=2.0e-05 train=-4.0067 val=-4.3469 best=-4.3469@  2 wait=0/15 (19.6s) *
+[A2.2] f5 ep  3/75 lr=3.0e-05 train=-4.0390 val=-4.3669 best=-4.3669@  3 wait=0/15 (19.3s) *
+[A2.2] f5 ep  4/75 lr=4.0e-05 train=-4.0498 val=-4.3686 best=-4.3686@  4 wait=0/15 (17.7s) *
+[A2.2] f5 ep  5/75 lr=5.0e-05 train=-4.0585 val=-4.3695 best=-4.3695@  5 wait=0/15 (18.4s) *
+[A2.2] f5 ep  6/75 lr=5.0e-05 train=-4.0665 val=-4.3711 best=-4.3711@  6 wait=0/15 (18.2s) *
+[A2.2] f5 ep  7/75 lr=5.0e-05 train=-4.0729 val=-4.3706 best=-4.3711@  6 wait=1/15 (18.0s)  
+[A2.2] f5 ep  8/75 lr=5.0e-05 train=-4.0777 val=-4.3715 best=-4.3715@  8 wait=0/15 (21.1s) *
+[A2.2] f5 ep  9/75 lr=5.0e-05 train=-4.0816 val=-4.3710 best=-4.3715@  8 wait=1/15 (19.5s)  
+[A2.2] f5 ep 10/75 lr=5.0e-05 train=-4.0851 val=-4.3700 best=-4.3715@  8 wait=2/15 (19.0s)  
+[A2.2] f5 ep 11/75 lr=4.9e-05 train=-4.0880 val=-4.3730 best=-4.3730@ 11 wait=0/15 (20.3s) *
+[A2.2] f5 ep 12/75 lr=4.9e-05 train=-4.0905 val=-4.3718 best=-4.3730@ 11 wait=1/15 (20.1s)  
+[A2.2] f5 ep 13/75 lr=4.9e-05 train=-4.0920 val=-4.3718 best=-4.3730@ 11 wait=2/15 (18.8s)  
+[A2.2] f5 ep 14/75 lr=4.8e-05 train=-4.0937 val=-4.3709 best=-4.3730@ 11 wait=3/15 (19.6s)  
+[A2.2] f5 ep 15/75 lr=4.8e-05 train=-4.0951 val=-4.3699 best=-4.3730@ 11 wait=4/15 (21.5s)  
+[A2.2] f5 ep 16/75 lr=4.8e-05 train=-4.0967 val=-4.3710 best=-4.3730@ 11 wait=5/15 (20.3s)  
+[A2.2] f5 ep 17/75 lr=4.7e-05 train=-4.0980 val=-4.3710 best=-4.3730@ 11 wait=6/15 (22.3s)  
+[A2.2] f5 ep 18/75 lr=4.6e-05 train=-4.0989 val=-4.3709 best=-4.3730@ 11 wait=7/15 (22.6s)  
+[A2.2] f5 ep 19/75 lr=4.6e-05 train=-4.1004 val=-4.3666 best=-4.3730@ 11 wait=8/15 (21.5s)  
+[A2.2] f5 ep 20/75 lr=4.5e-05 train=-4.1021 val=-4.3689 best=-4.3730@ 11 wait=9/15 (21.1s)  
+[A2.2] f5 ep 21/75 lr=4.5e-05 train=-4.1028 val=-4.3670 best=-4.3730@ 11 wait=10/15 (20.7s)  
+[A2.2] f5 ep 22/75 lr=4.4e-05 train=-4.1042 val=-4.3653 best=-4.3730@ 11 wait=11/15 (20.7s)  
+[A2.2] f5 ep 23/75 lr=4.3e-05 train=-4.1050 val=-4.3650 best=-4.3730@ 11 wait=12/15 (20.7s)  
+[A2.2] f5 ep 24/75 lr=4.2e-05 train=-4.1062 val=-4.3656 best=-4.3730@ 11 wait=13/15 (22.5s)  
+[A2.2] f5 ep 25/75 lr=4.1e-05 train=-4.1074 val=-4.3595 best=-4.3730@ 11 wait=14/15 (19.7s)  
+[A2.2] f5 ep 26/75 lr=4.1e-05 train=-4.1083 val=-4.3634 best=-4.3730@ 11 wait=15/15 (20.4s)  
+[A2.2] f5 early-stop at ep26 (best=-4.3730 @ ep11)
+[A2.2] fold 5 done | best_val=-4.3730 @ ep11 elapsed=521.3s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
-[16:09:57] [4/5] ( 80%) Running A2.3 (har_weekly_only)
+[00:41:48] [4/5] ( 80%) Running A2.3 (har_weekly_only)
 [A2.3] start | model=patch_encoder seq_len=240 patch=12 d_model=64 har=weekly_only loss=rv_log_aware(alpha=0.00) hw=equal | features=21 horizons=4 folds=5 device=cuda
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.3] fold 1/5 starting | N_train=64765 N_val=65053 batches/epoch=505
-[A2.3] f1 ep  1/75 lr=1.0e-05 train=-0.6679 val=-1.3371 best=-1.3371@  1 wait=0/15 (9.0s) *
-[A2.3] f1 ep  2/75 lr=2.0e-05 train=-2.2768 val=-3.5066 best=-3.5066@  2 wait=0/15 (8.5s) *
-[A2.3] f1 ep  3/75 lr=3.0e-05 train=-3.6397 val=-4.2457 best=-4.2457@  3 wait=0/15 (7.9s) *
-[A2.3] f1 ep  4/75 lr=4.0e-05 train=-3.7429 val=-4.2804 best=-4.2804@  4 wait=0/15 (7.6s) *
-[A2.3] f1 ep  5/75 lr=5.0e-05 train=-3.7619 val=-4.2937 best=-4.2937@  5 wait=0/15 (8.8s) *
-[A2.3] f1 ep  6/75 lr=5.0e-05 train=-3.7697 val=-4.2937 best=-4.2937@  6 wait=0/15 (9.5s) *
-[A2.3] f1 ep  7/75 lr=5.0e-05 train=-3.7747 val=-4.2968 best=-4.2968@  7 wait=0/15 (5.7s) *
-[A2.3] f1 ep  8/75 lr=5.0e-05 train=-3.7787 val=-4.2988 best=-4.2988@  8 wait=0/15 (6.1s) *
-[A2.3] f1 ep  9/75 lr=5.0e-05 train=-3.7811 val=-4.2983 best=-4.2988@  8 wait=1/15 (7.7s)  
-[A2.3] f1 ep 10/75 lr=5.0e-05 train=-3.7838 val=-4.2910 best=-4.2988@  8 wait=2/15 (8.3s)  
-[A2.3] f1 ep 11/75 lr=4.9e-05 train=-3.7867 val=-4.2960 best=-4.2988@  8 wait=3/15 (5.7s)  
-[A2.3] f1 ep 12/75 lr=4.9e-05 train=-3.7883 val=-4.2955 best=-4.2988@  8 wait=4/15 (5.8s)  
-[A2.3] f1 ep 13/75 lr=4.9e-05 train=-3.7911 val=-4.2897 best=-4.2988@  8 wait=5/15 (8.0s)  
-[A2.3] f1 ep 14/75 lr=4.8e-05 train=-3.7933 val=-4.2920 best=-4.2988@  8 wait=6/15 (10.2s)  
-[A2.3] f1 ep 15/75 lr=4.8e-05 train=-3.7944 val=-4.2818 best=-4.2988@  8 wait=7/15 (6.3s)  
-[A2.3] f1 ep 16/75 lr=4.8e-05 train=-3.7975 val=-4.2782 best=-4.2988@  8 wait=8/15 (9.0s)  
-[A2.3] f1 ep 17/75 lr=4.7e-05 train=-3.7983 val=-4.2742 best=-4.2988@  8 wait=9/15 (6.4s)  
-[A2.3] f1 ep 18/75 lr=4.6e-05 train=-3.8008 val=-4.2803 best=-4.2988@  8 wait=10/15 (8.0s)  
-[A2.3] f1 ep 19/75 lr=4.6e-05 train=-3.8019 val=-4.2657 best=-4.2988@  8 wait=11/15 (9.1s)  
-[A2.3] f1 ep 20/75 lr=4.5e-05 train=-3.8036 val=-4.2836 best=-4.2988@  8 wait=12/15 (7.5s)  
-[A2.3] f1 ep 21/75 lr=4.5e-05 train=-3.8053 val=-4.2684 best=-4.2988@  8 wait=13/15 (9.6s)  
-[A2.3] f1 ep 22/75 lr=4.4e-05 train=-3.8071 val=-4.2680 best=-4.2988@  8 wait=14/15 (8.1s)  
-[A2.3] f1 ep 23/75 lr=4.3e-05 train=-3.8075 val=-4.2358 best=-4.2988@  8 wait=15/15 (9.1s)  
-[A2.3] f1 early-stop at ep23 (best=-4.2988 @ ep8)
-[A2.3] fold 1 done | best_val=-4.2988 @ ep8 elapsed=182.0s
+[A2.3] f1 ep  1/75 lr=1.0e-05 train=-0.6685 val=-1.3380 best=-1.3380@  1 wait=0/15 (4.4s) *
+[A2.3] f1 ep  2/75 lr=2.0e-05 train=-2.2783 val=-3.5077 best=-3.5077@  2 wait=0/15 (4.4s) *
+[A2.3] f1 ep  3/75 lr=3.0e-05 train=-3.6405 val=-4.2460 best=-4.2460@  3 wait=0/15 (4.4s) *
+[A2.3] f1 ep  4/75 lr=4.0e-05 train=-3.7438 val=-4.2818 best=-4.2818@  4 wait=0/15 (4.5s) *
+[A2.3] f1 ep  5/75 lr=5.0e-05 train=-3.7614 val=-4.2941 best=-4.2941@  5 wait=0/15 (4.4s) *
+[A2.3] f1 ep  6/75 lr=5.0e-05 train=-3.7705 val=-4.2917 best=-4.2941@  5 wait=1/15 (4.4s)  
+[A2.3] f1 ep  7/75 lr=5.0e-05 train=-3.7741 val=-4.2985 best=-4.2985@  7 wait=0/15 (4.4s) *
+[A2.3] f1 ep  8/75 lr=5.0e-05 train=-3.7792 val=-4.2962 best=-4.2985@  7 wait=1/15 (4.4s)  
+[A2.3] f1 ep  9/75 lr=5.0e-05 train=-3.7812 val=-4.3006 best=-4.3006@  9 wait=0/15 (4.4s) *
+[A2.3] f1 ep 10/75 lr=5.0e-05 train=-3.7830 val=-4.2895 best=-4.3006@  9 wait=1/15 (4.8s)  
+[A2.3] f1 ep 11/75 lr=4.9e-05 train=-3.7864 val=-4.2914 best=-4.3006@  9 wait=2/15 (5.0s)  
+[A2.3] f1 ep 12/75 lr=4.9e-05 train=-3.7889 val=-4.2988 best=-4.3006@  9 wait=3/15 (5.4s)  
+[A2.3] f1 ep 13/75 lr=4.9e-05 train=-3.7906 val=-4.2918 best=-4.3006@  9 wait=4/15 (5.1s)  
+[A2.3] f1 ep 14/75 lr=4.8e-05 train=-3.7924 val=-4.2767 best=-4.3006@  9 wait=5/15 (4.9s)  
+[A2.3] f1 ep 15/75 lr=4.8e-05 train=-3.7947 val=-4.2760 best=-4.3006@  9 wait=6/15 (5.1s)  
+[A2.3] f1 ep 16/75 lr=4.8e-05 train=-3.7968 val=-4.2900 best=-4.3006@  9 wait=7/15 (5.0s)  
+[A2.3] f1 ep 17/75 lr=4.7e-05 train=-3.7985 val=-4.2631 best=-4.3006@  9 wait=8/15 (5.4s)  
+[A2.3] f1 ep 18/75 lr=4.6e-05 train=-3.8005 val=-4.2828 best=-4.3006@  9 wait=9/15 (4.8s)  
+[A2.3] f1 ep 19/75 lr=4.6e-05 train=-3.8017 val=-4.2646 best=-4.3006@  9 wait=10/15 (5.2s)  
+[A2.3] f1 ep 20/75 lr=4.5e-05 train=-3.8037 val=-4.2795 best=-4.3006@  9 wait=11/15 (5.1s)  
+[A2.3] f1 ep 21/75 lr=4.5e-05 train=-3.8048 val=-4.2502 best=-4.3006@  9 wait=12/15 (4.8s)  
+[A2.3] f1 ep 22/75 lr=4.4e-05 train=-3.8065 val=-4.2617 best=-4.3006@  9 wait=13/15 (4.7s)  
+[A2.3] f1 ep 23/75 lr=4.3e-05 train=-3.8078 val=-4.2420 best=-4.3006@  9 wait=14/15 (4.8s)  
+[A2.3] f1 ep 24/75 lr=4.2e-05 train=-3.8088 val=-4.2396 best=-4.3006@  9 wait=15/15 (5.1s)  
+[A2.3] f1 early-stop at ep24 (best=-4.3006 @ ep9)
+[A2.3] fold 1 done | best_val=-4.3006 @ ep9 elapsed=115.1s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.3] fold 2/5 starting | N_train=129818 N_val=65053 batches/epoch=1013
-[A2.3] f2 ep  1/75 lr=1.0e-05 train=-1.3347 val=-2.5329 best=-2.5329@  1 wait=0/15 (12.3s) *
-[A2.3] f2 ep  2/75 lr=2.0e-05 train=-3.6018 val=-4.3343 best=-4.3343@  2 wait=0/15 (15.7s) *
-[A2.3] f2 ep  3/75 lr=3.0e-05 train=-3.9790 val=-4.3714 best=-4.3714@  3 wait=0/15 (14.4s) *
-[A2.3] f2 ep  4/75 lr=4.0e-05 train=-3.9965 val=-4.3830 best=-4.3830@  4 wait=0/15 (16.9s) *
-[A2.3] f2 ep  5/75 lr=5.0e-05 train=-4.0047 val=-4.3846 best=-4.3846@  5 wait=0/15 (11.5s) *
-[A2.3] f2 ep  6/75 lr=5.0e-05 train=-4.0096 val=-4.3788 best=-4.3846@  5 wait=1/15 (18.0s)  
-[A2.3] f2 ep  7/75 lr=5.0e-05 train=-4.0142 val=-4.3902 best=-4.3902@  7 wait=0/15 (18.7s) *
-[A2.3] f2 ep  8/75 lr=5.0e-05 train=-4.0188 val=-4.3918 best=-4.3918@  8 wait=0/15 (12.6s) *
-[A2.3] f2 ep  9/75 lr=5.0e-05 train=-4.0225 val=-4.3901 best=-4.3918@  8 wait=1/15 (12.6s)  
-[A2.3] f2 ep 10/75 lr=5.0e-05 train=-4.0250 val=-4.3899 best=-4.3918@  8 wait=2/15 (13.3s)  
-[A2.3] f2 ep 11/75 lr=4.9e-05 train=-4.0283 val=-4.3835 best=-4.3918@  8 wait=3/15 (10.4s)  
-[A2.3] f2 ep 12/75 lr=4.9e-05 train=-4.0310 val=-4.3905 best=-4.3918@  8 wait=4/15 (13.5s)  
-[A2.3] f2 ep 13/75 lr=4.9e-05 train=-4.0341 val=-4.3908 best=-4.3918@  8 wait=5/15 (13.9s)  
-[A2.3] f2 ep 14/75 lr=4.8e-05 train=-4.0357 val=-4.3813 best=-4.3918@  8 wait=6/15 (18.9s)  
-[A2.3] f2 ep 15/75 lr=4.8e-05 train=-4.0381 val=-4.3829 best=-4.3918@  8 wait=7/15 (14.7s)  
-[A2.3] f2 ep 16/75 lr=4.8e-05 train=-4.0397 val=-4.3809 best=-4.3918@  8 wait=8/15 (15.8s)  
-[A2.3] f2 ep 17/75 lr=4.7e-05 train=-4.0424 val=-4.3818 best=-4.3918@  8 wait=9/15 (14.3s)  
-[A2.3] f2 ep 18/75 lr=4.6e-05 train=-4.0435 val=-4.3810 best=-4.3918@  8 wait=10/15 (11.5s)  
-[A2.3] f2 ep 19/75 lr=4.6e-05 train=-4.0445 val=-4.3792 best=-4.3918@  8 wait=11/15 (11.3s)  
-[A2.3] f2 ep 20/75 lr=4.5e-05 train=-4.0468 val=-4.3843 best=-4.3918@  8 wait=12/15 (14.5s)  
-[A2.3] f2 ep 21/75 lr=4.5e-05 train=-4.0483 val=-4.3790 best=-4.3918@  8 wait=13/15 (16.0s)  
-[A2.3] f2 ep 22/75 lr=4.4e-05 train=-4.0497 val=-4.3791 best=-4.3918@  8 wait=14/15 (14.8s)  
-[A2.3] f2 ep 23/75 lr=4.3e-05 train=-4.0508 val=-4.3764 best=-4.3918@  8 wait=15/15 (14.5s)  
-[A2.3] f2 early-stop at ep23 (best=-4.3918 @ ep8)
-[A2.3] fold 2 done | best_val=-4.3918 @ ep8 elapsed=330.1s
+[A2.3] f2 ep  1/75 lr=1.0e-05 train=-1.3185 val=-2.4662 best=-2.4662@  1 wait=0/15 (9.1s) *
+[A2.3] f2 ep  2/75 lr=2.0e-05 train=-3.5602 val=-4.3275 best=-4.3275@  2 wait=0/15 (8.8s) *
+[A2.3] f2 ep  3/75 lr=3.0e-05 train=-3.9721 val=-4.3740 best=-4.3740@  3 wait=0/15 (8.9s) *
+[A2.3] f2 ep  4/75 lr=4.0e-05 train=-3.9937 val=-4.3787 best=-4.3787@  4 wait=0/15 (9.2s) *
+[A2.3] f2 ep  5/75 lr=5.0e-05 train=-4.0031 val=-4.3861 best=-4.3861@  5 wait=0/15 (9.3s) *
+[A2.3] f2 ep  6/75 lr=5.0e-05 train=-4.0088 val=-4.3866 best=-4.3866@  6 wait=0/15 (8.4s) *
+[A2.3] f2 ep  7/75 lr=5.0e-05 train=-4.0125 val=-4.3905 best=-4.3905@  7 wait=0/15 (8.4s) *
+[A2.3] f2 ep  8/75 lr=5.0e-05 train=-4.0166 val=-4.3872 best=-4.3905@  7 wait=1/15 (8.9s)  
+[A2.3] f2 ep  9/75 lr=5.0e-05 train=-4.0202 val=-4.3907 best=-4.3907@  9 wait=0/15 (8.2s) *
+[A2.3] f2 ep 10/75 lr=5.0e-05 train=-4.0230 val=-4.3845 best=-4.3907@  9 wait=1/15 (8.4s)  
+[A2.3] f2 ep 11/75 lr=4.9e-05 train=-4.0267 val=-4.3932 best=-4.3932@ 11 wait=0/15 (8.8s) *
+[A2.3] f2 ep 12/75 lr=4.9e-05 train=-4.0296 val=-4.3920 best=-4.3932@ 11 wait=1/15 (8.7s)  
+[A2.3] f2 ep 13/75 lr=4.9e-05 train=-4.0321 val=-4.3828 best=-4.3932@ 11 wait=2/15 (9.2s)  
+[A2.3] f2 ep 14/75 lr=4.8e-05 train=-4.0341 val=-4.3864 best=-4.3932@ 11 wait=3/15 (8.6s)  
+[A2.3] f2 ep 15/75 lr=4.8e-05 train=-4.0370 val=-4.3850 best=-4.3932@ 11 wait=4/15 (8.1s)  
+[A2.3] f2 ep 16/75 lr=4.8e-05 train=-4.0383 val=-4.3854 best=-4.3932@ 11 wait=5/15 (8.0s)  
+[A2.3] f2 ep 17/75 lr=4.7e-05 train=-4.0410 val=-4.3821 best=-4.3932@ 11 wait=6/15 (9.1s)  
+[A2.3] f2 ep 18/75 lr=4.6e-05 train=-4.0428 val=-4.3855 best=-4.3932@ 11 wait=7/15 (8.7s)  
+[A2.3] f2 ep 19/75 lr=4.6e-05 train=-4.0447 val=-4.3785 best=-4.3932@ 11 wait=8/15 (8.3s)  
+[A2.3] f2 ep 20/75 lr=4.5e-05 train=-4.0458 val=-4.3752 best=-4.3932@ 11 wait=9/15 (9.1s)  
+[A2.3] f2 ep 21/75 lr=4.5e-05 train=-4.0476 val=-4.3768 best=-4.3932@ 11 wait=10/15 (8.0s)  
+[A2.3] f2 ep 22/75 lr=4.4e-05 train=-4.0487 val=-4.3669 best=-4.3932@ 11 wait=11/15 (8.1s)  
+[A2.3] f2 ep 23/75 lr=4.3e-05 train=-4.0501 val=-4.3701 best=-4.3932@ 11 wait=12/15 (8.4s)  
+[A2.3] f2 ep 24/75 lr=4.2e-05 train=-4.0513 val=-4.3640 best=-4.3932@ 11 wait=13/15 (9.1s)  
+[A2.3] f2 ep 25/75 lr=4.1e-05 train=-4.0524 val=-4.3606 best=-4.3932@ 11 wait=14/15 (9.3s)  
+[A2.3] f2 ep 26/75 lr=4.1e-05 train=-4.0536 val=-4.3643 best=-4.3932@ 11 wait=15/15 (8.8s)  
+[A2.3] f2 early-stop at ep26 (best=-4.3932 @ ep11)
+[A2.3] fold 2 done | best_val=-4.3932 @ ep11 elapsed=226.2s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.3] fold 3/5 starting | N_train=194871 N_val=65053 batches/epoch=1521
-[A2.3] f3 ep  1/75 lr=1.0e-05 train=-1.6227 val=-3.0924 best=-3.0924@  1 wait=0/15 (18.0s) *
-[A2.3] f3 ep  2/75 lr=2.0e-05 train=-3.9196 val=-3.9786 best=-3.9786@  2 wait=0/15 (26.8s) *
-[A2.3] f3 ep  3/75 lr=3.0e-05 train=-4.0801 val=-3.9852 best=-3.9852@  3 wait=0/15 (20.0s) *
-[A2.3] f3 ep  4/75 lr=4.0e-05 train=-4.0955 val=-3.9889 best=-3.9889@  4 wait=0/15 (18.1s) *
-[A2.3] f3 ep  5/75 lr=5.0e-05 train=-4.1044 val=-3.9924 best=-3.9924@  5 wait=0/15 (19.3s) *
-[A2.3] f3 ep  6/75 lr=5.0e-05 train=-4.1129 val=-3.9893 best=-3.9924@  5 wait=1/15 (19.4s)  
-[A2.3] f3 ep  7/75 lr=5.0e-05 train=-4.1191 val=-3.9928 best=-3.9928@  7 wait=0/15 (16.4s) *
-[A2.3] f3 ep  8/75 lr=5.0e-05 train=-4.1245 val=-3.9890 best=-3.9928@  7 wait=1/15 (20.0s)  
-[A2.3] f3 ep  9/75 lr=5.0e-05 train=-4.1289 val=-3.9918 best=-3.9928@  7 wait=2/15 (27.5s)  
-[A2.3] f3 ep 10/75 lr=5.0e-05 train=-4.1324 val=-3.9930 best=-3.9930@ 10 wait=0/15 (21.6s) *
-[A2.3] f3 ep 11/75 lr=4.9e-05 train=-4.1359 val=-3.9850 best=-3.9930@ 10 wait=1/15 (19.4s)  
-[A2.3] f3 ep 12/75 lr=4.9e-05 train=-4.1391 val=-3.9890 best=-3.9930@ 10 wait=2/15 (16.5s)  
-[A2.3] f3 ep 13/75 lr=4.9e-05 train=-4.1419 val=-3.9883 best=-3.9930@ 10 wait=3/15 (21.3s)  
-[A2.3] f3 ep 14/75 lr=4.8e-05 train=-4.1442 val=-3.9867 best=-3.9930@ 10 wait=4/15 (18.2s)  
-[A2.3] f3 ep 15/75 lr=4.8e-05 train=-4.1459 val=-3.9874 best=-3.9930@ 10 wait=5/15 (17.3s)  
-[A2.3] f3 ep 16/75 lr=4.8e-05 train=-4.1484 val=-3.9813 best=-3.9930@ 10 wait=6/15 (21.2s)  
-[A2.3] f3 ep 17/75 lr=4.7e-05 train=-4.1497 val=-3.9855 best=-3.9930@ 10 wait=7/15 (18.6s)  
-[A2.3] f3 ep 18/75 lr=4.6e-05 train=-4.1513 val=-3.9769 best=-3.9930@ 10 wait=8/15 (19.9s)  
-[A2.3] f3 ep 19/75 lr=4.6e-05 train=-4.1528 val=-3.9594 best=-3.9930@ 10 wait=9/15 (23.0s)  
-[A2.3] f3 ep 20/75 lr=4.5e-05 train=-4.1540 val=-3.9646 best=-3.9930@ 10 wait=10/15 (18.6s)  
-[A2.3] f3 ep 21/75 lr=4.5e-05 train=-4.1556 val=-3.9811 best=-3.9930@ 10 wait=11/15 (19.0s)  
-[A2.3] f3 ep 22/75 lr=4.4e-05 train=-4.1568 val=-3.9587 best=-3.9930@ 10 wait=12/15 (25.7s)  
-[A2.3] f3 ep 23/75 lr=4.3e-05 train=-4.1582 val=-3.9714 best=-3.9930@ 10 wait=13/15 (21.3s)  
-[A2.3] f3 ep 24/75 lr=4.2e-05 train=-4.1590 val=-3.9850 best=-3.9930@ 10 wait=14/15 (20.4s)  
-[A2.3] f3 ep 25/75 lr=4.1e-05 train=-4.1603 val=-3.9642 best=-3.9930@ 10 wait=15/15 (20.3s)  
-[A2.3] f3 early-stop at ep25 (best=-3.9930 @ ep10)
-[A2.3] fold 3 done | best_val=-3.9930 @ ep10 elapsed=507.7s
+[A2.3] f3 ep  1/75 lr=1.0e-05 train=-1.7841 val=-3.2943 best=-3.2943@  1 wait=0/15 (12.1s) *
+[A2.3] f3 ep  2/75 lr=2.0e-05 train=-3.9645 val=-3.9757 best=-3.9757@  2 wait=0/15 (11.7s) *
+[A2.3] f3 ep  3/75 lr=3.0e-05 train=-4.0841 val=-3.9872 best=-3.9872@  3 wait=0/15 (12.2s) *
+[A2.3] f3 ep  4/75 lr=4.0e-05 train=-4.0987 val=-3.9853 best=-3.9872@  3 wait=1/15 (11.9s)  
+[A2.3] f3 ep  5/75 lr=5.0e-05 train=-4.1076 val=-3.9933 best=-3.9933@  5 wait=0/15 (12.8s) *
+[A2.3] f3 ep  6/75 lr=5.0e-05 train=-4.1151 val=-3.9875 best=-3.9933@  5 wait=1/15 (13.4s)  
+[A2.3] f3 ep  7/75 lr=5.0e-05 train=-4.1200 val=-3.9886 best=-3.9933@  5 wait=2/15 (13.5s)  
+[A2.3] f3 ep  8/75 lr=5.0e-05 train=-4.1254 val=-3.9888 best=-3.9933@  5 wait=3/15 (13.2s)  
+[A2.3] f3 ep  9/75 lr=5.0e-05 train=-4.1298 val=-3.9854 best=-3.9933@  5 wait=4/15 (13.6s)  
+[A2.3] f3 ep 10/75 lr=5.0e-05 train=-4.1339 val=-3.9862 best=-3.9933@  5 wait=5/15 (13.3s)  
+[A2.3] f3 ep 11/75 lr=4.9e-05 train=-4.1372 val=-3.9874 best=-3.9933@  5 wait=6/15 (13.5s)  
+[A2.3] f3 ep 12/75 lr=4.9e-05 train=-4.1405 val=-3.9904 best=-3.9933@  5 wait=7/15 (12.6s)  
+[A2.3] f3 ep 13/75 lr=4.9e-05 train=-4.1427 val=-3.9871 best=-3.9933@  5 wait=8/15 (13.5s)  
+[A2.3] f3 ep 14/75 lr=4.8e-05 train=-4.1447 val=-3.9811 best=-3.9933@  5 wait=9/15 (13.5s)  
+[A2.3] f3 ep 15/75 lr=4.8e-05 train=-4.1471 val=-3.9722 best=-3.9933@  5 wait=10/15 (13.5s)  
+[A2.3] f3 ep 16/75 lr=4.8e-05 train=-4.1495 val=-3.9788 best=-3.9933@  5 wait=11/15 (13.0s)  
+[A2.3] f3 ep 17/75 lr=4.7e-05 train=-4.1510 val=-3.9768 best=-3.9933@  5 wait=12/15 (12.5s)  
+[A2.3] f3 ep 18/75 lr=4.6e-05 train=-4.1532 val=-3.9652 best=-3.9933@  5 wait=13/15 (12.4s)  
+[A2.3] f3 ep 19/75 lr=4.6e-05 train=-4.1546 val=-3.9822 best=-3.9933@  5 wait=14/15 (13.3s)  
+[A2.3] f3 ep 20/75 lr=4.5e-05 train=-4.1560 val=-3.9791 best=-3.9933@  5 wait=15/15 (12.5s)  
+[A2.3] f3 early-stop at ep20 (best=-3.9933 @ ep5)
+[A2.3] fold 3 done | best_val=-3.9933 @ ep5 elapsed=258.1s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.3] fold 4/5 starting | N_train=259924 N_val=65053 batches/epoch=2029
-[A2.3] f4 ep  1/75 lr=1.0e-05 train=-2.0961 val=-3.8011 best=-3.8011@  1 wait=0/15 (26.6s) *
-[A2.3] f4 ep  2/75 lr=2.0e-05 train=-3.9884 val=-4.0761 best=-4.0761@  2 wait=0/15 (24.1s) *
-[A2.3] f4 ep  3/75 lr=3.0e-05 train=-4.0415 val=-4.0847 best=-4.0847@  3 wait=0/15 (21.0s) *
-[A2.3] f4 ep  4/75 lr=4.0e-05 train=-4.0537 val=-4.0867 best=-4.0867@  4 wait=0/15 (29.1s) *
-[A2.3] f4 ep  5/75 lr=5.0e-05 train=-4.0633 val=-4.0868 best=-4.0868@  5 wait=0/15 (22.1s) *
-[A2.3] f4 ep  6/75 lr=5.0e-05 train=-4.0712 val=-4.0888 best=-4.0888@  6 wait=0/15 (25.8s) *
-[A2.3] f4 ep  7/75 lr=5.0e-05 train=-4.0776 val=-4.0904 best=-4.0904@  7 wait=0/15 (24.3s) *
-[A2.3] f4 ep  8/75 lr=5.0e-05 train=-4.0827 val=-4.0893 best=-4.0904@  7 wait=1/15 (28.1s)  
-[A2.3] f4 ep  9/75 lr=5.0e-05 train=-4.0873 val=-4.0766 best=-4.0904@  7 wait=2/15 (27.7s)  
-[A2.3] f4 ep 10/75 lr=5.0e-05 train=-4.0911 val=-4.0902 best=-4.0904@  7 wait=3/15 (25.9s)  
-[A2.3] f4 ep 11/75 lr=4.9e-05 train=-4.0941 val=-4.0837 best=-4.0904@  7 wait=4/15 (25.6s)  
-[A2.3] f4 ep 12/75 lr=4.9e-05 train=-4.0965 val=-4.0881 best=-4.0904@  7 wait=5/15 (23.4s)  
-[A2.3] f4 ep 13/75 lr=4.9e-05 train=-4.0987 val=-4.0884 best=-4.0904@  7 wait=6/15 (20.6s)  
-[A2.3] f4 ep 14/75 lr=4.8e-05 train=-4.1007 val=-4.0890 best=-4.0904@  7 wait=7/15 (29.2s)  
-[A2.3] f4 ep 15/75 lr=4.8e-05 train=-4.1024 val=-4.0902 best=-4.0904@  7 wait=8/15 (24.5s)  
-[A2.3] f4 ep 16/75 lr=4.8e-05 train=-4.1043 val=-4.0832 best=-4.0904@  7 wait=9/15 (23.4s)  
-[A2.3] f4 ep 17/75 lr=4.7e-05 train=-4.1052 val=-4.0896 best=-4.0904@  7 wait=10/15 (26.2s)  
-[A2.3] f4 ep 18/75 lr=4.6e-05 train=-4.1071 val=-4.0884 best=-4.0904@  7 wait=11/15 (23.9s)  
-[A2.3] f4 ep 19/75 lr=4.6e-05 train=-4.1084 val=-4.0853 best=-4.0904@  7 wait=12/15 (25.5s)  
-[A2.3] f4 ep 20/75 lr=4.5e-05 train=-4.1095 val=-4.0888 best=-4.0904@  7 wait=13/15 (25.2s)  
-[A2.3] f4 ep 21/75 lr=4.5e-05 train=-4.1109 val=-4.0845 best=-4.0904@  7 wait=14/15 (25.6s)  
-[A2.3] f4 ep 22/75 lr=4.4e-05 train=-4.1121 val=-4.0836 best=-4.0904@  7 wait=15/15 (23.4s)  
-[A2.3] f4 early-stop at ep22 (best=-4.0904 @ ep7)
-[A2.3] fold 4 done | best_val=-4.0904 @ ep7 elapsed=551.2s
+[A2.3] f4 ep  1/75 lr=1.0e-05 train=-2.1928 val=-3.8505 best=-3.8505@  1 wait=0/15 (16.6s) *
+[A2.3] f4 ep  2/75 lr=2.0e-05 train=-3.9911 val=-4.0804 best=-4.0804@  2 wait=0/15 (15.9s) *
+[A2.3] f4 ep  3/75 lr=3.0e-05 train=-4.0398 val=-4.0862 best=-4.0862@  3 wait=0/15 (16.8s) *
+[A2.3] f4 ep  4/75 lr=4.0e-05 train=-4.0532 val=-4.0867 best=-4.0867@  4 wait=0/15 (16.3s) *
+[A2.3] f4 ep  5/75 lr=5.0e-05 train=-4.0623 val=-4.0896 best=-4.0896@  5 wait=0/15 (16.4s) *
+[A2.3] f4 ep  6/75 lr=5.0e-05 train=-4.0709 val=-4.0903 best=-4.0903@  6 wait=0/15 (17.7s) *
+[A2.3] f4 ep  7/75 lr=5.0e-05 train=-4.0770 val=-4.0892 best=-4.0903@  6 wait=1/15 (17.4s)  
+[A2.3] f4 ep  8/75 lr=5.0e-05 train=-4.0825 val=-4.0889 best=-4.0903@  6 wait=2/15 (16.8s)  
+[A2.3] f4 ep  9/75 lr=5.0e-05 train=-4.0875 val=-4.0888 best=-4.0903@  6 wait=3/15 (17.6s)  
+[A2.3] f4 ep 10/75 lr=5.0e-05 train=-4.0910 val=-4.0917 best=-4.0917@ 10 wait=0/15 (16.3s) *
+[A2.3] f4 ep 11/75 lr=4.9e-05 train=-4.0944 val=-4.0898 best=-4.0917@ 10 wait=1/15 (16.5s)  
+[A2.3] f4 ep 12/75 lr=4.9e-05 train=-4.0970 val=-4.0899 best=-4.0917@ 10 wait=2/15 (17.3s)  
+[A2.3] f4 ep 13/75 lr=4.9e-05 train=-4.0995 val=-4.0904 best=-4.0917@ 10 wait=3/15 (16.7s)  
+[A2.3] f4 ep 14/75 lr=4.8e-05 train=-4.1019 val=-4.0884 best=-4.0917@ 10 wait=4/15 (17.5s)  
+[A2.3] f4 ep 15/75 lr=4.8e-05 train=-4.1032 val=-4.0900 best=-4.0917@ 10 wait=5/15 (16.4s)  
+[A2.3] f4 ep 16/75 lr=4.8e-05 train=-4.1048 val=-4.0898 best=-4.0917@ 10 wait=6/15 (17.4s)  
+[A2.3] f4 ep 17/75 lr=4.7e-05 train=-4.1068 val=-4.0884 best=-4.0917@ 10 wait=7/15 (16.6s)  
+[A2.3] f4 ep 18/75 lr=4.6e-05 train=-4.1079 val=-4.0890 best=-4.0917@ 10 wait=8/15 (16.3s)  
+[A2.3] f4 ep 19/75 lr=4.6e-05 train=-4.1090 val=-4.0868 best=-4.0917@ 10 wait=9/15 (17.1s)  
+[A2.3] f4 ep 20/75 lr=4.5e-05 train=-4.1104 val=-4.0873 best=-4.0917@ 10 wait=10/15 (16.2s)  
+[A2.3] f4 ep 21/75 lr=4.5e-05 train=-4.1116 val=-4.0813 best=-4.0917@ 10 wait=11/15 (17.3s)  
+[A2.3] f4 ep 22/75 lr=4.4e-05 train=-4.1128 val=-4.0848 best=-4.0917@ 10 wait=12/15 (16.7s)  
+[A2.3] f4 ep 23/75 lr=4.3e-05 train=-4.1141 val=-4.0842 best=-4.0917@ 10 wait=13/15 (16.4s)  
+[A2.3] f4 ep 24/75 lr=4.2e-05 train=-4.1148 val=-4.0839 best=-4.0917@ 10 wait=14/15 (16.9s)  
+[A2.3] f4 ep 25/75 lr=4.1e-05 train=-4.1161 val=-4.0818 best=-4.0917@ 10 wait=15/15 (15.9s)  
+[A2.3] f4 early-stop at ep25 (best=-4.0917 @ ep10)
+[A2.3] fold 4 done | best_val=-4.0917 @ ep10 elapsed=419.0s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.3] fold 5/5 starting | N_train=324977 N_val=65058 batches/epoch=2538
-[A2.3] f5 ep  1/75 lr=1.0e-05 train=-2.4513 val=-4.2878 best=-4.2878@  1 wait=0/15 (27.9s) *
-[A2.3] f5 ep  2/75 lr=2.0e-05 train=-4.0132 val=-4.3615 best=-4.3615@  2 wait=0/15 (28.7s) *
-[A2.3] f5 ep  3/75 lr=3.0e-05 train=-4.0421 val=-4.3663 best=-4.3663@  3 wait=0/15 (27.0s) *
-[A2.3] f5 ep  4/75 lr=4.0e-05 train=-4.0536 val=-4.3663 best=-4.3663@  3 wait=1/15 (33.3s)  
-[A2.3] f5 ep  5/75 lr=5.0e-05 train=-4.0623 val=-4.3709 best=-4.3709@  5 wait=0/15 (26.5s) *
-[A2.3] f5 ep  6/75 lr=5.0e-05 train=-4.0699 val=-4.3704 best=-4.3709@  5 wait=1/15 (28.0s)  
-[A2.3] f5 ep  7/75 lr=5.0e-05 train=-4.0759 val=-4.3705 best=-4.3709@  5 wait=2/15 (26.1s)  
-[A2.3] f5 ep  8/75 lr=5.0e-05 train=-4.0804 val=-4.3713 best=-4.3713@  8 wait=0/15 (29.3s) *
-[A2.3] f5 ep  9/75 lr=5.0e-05 train=-4.0839 val=-4.3709 best=-4.3713@  8 wait=1/15 (29.0s)  
-[A2.3] f5 ep 10/75 lr=5.0e-05 train=-4.0870 val=-4.3685 best=-4.3713@  8 wait=2/15 (33.6s)  
-[A2.3] f5 ep 11/75 lr=4.9e-05 train=-4.0892 val=-4.3710 best=-4.3713@  8 wait=3/15 (32.7s)  
-[A2.3] f5 ep 12/75 lr=4.9e-05 train=-4.0915 val=-4.3727 best=-4.3727@ 12 wait=0/15 (26.9s) *
-[A2.3] f5 ep 13/75 lr=4.9e-05 train=-4.0936 val=-4.3694 best=-4.3727@ 12 wait=1/15 (25.3s)  
-[A2.3] f5 ep 14/75 lr=4.8e-05 train=-4.0949 val=-4.3716 best=-4.3727@ 12 wait=2/15 (30.4s)  
-[A2.3] f5 ep 15/75 lr=4.8e-05 train=-4.0967 val=-4.3713 best=-4.3727@ 12 wait=3/15 (29.3s)  
-[A2.3] f5 ep 16/75 lr=4.8e-05 train=-4.0978 val=-4.3665 best=-4.3727@ 12 wait=4/15 (32.4s)  
-[A2.3] f5 ep 17/75 lr=4.7e-05 train=-4.0989 val=-4.3692 best=-4.3727@ 12 wait=5/15 (29.3s)  
-[A2.3] f5 ep 18/75 lr=4.6e-05 train=-4.1002 val=-4.3691 best=-4.3727@ 12 wait=6/15 (24.1s)  
-[A2.3] f5 ep 19/75 lr=4.6e-05 train=-4.1016 val=-4.3695 best=-4.3727@ 12 wait=7/15 (29.3s)  
-[A2.3] f5 ep 20/75 lr=4.5e-05 train=-4.1027 val=-4.3672 best=-4.3727@ 12 wait=8/15 (29.3s)  
-[A2.3] f5 ep 21/75 lr=4.5e-05 train=-4.1040 val=-4.3678 best=-4.3727@ 12 wait=9/15 (28.3s)  
-[A2.3] f5 ep 22/75 lr=4.4e-05 train=-4.1049 val=-4.3677 best=-4.3727@ 12 wait=10/15 (29.1s)  
-[A2.3] f5 ep 23/75 lr=4.3e-05 train=-4.1059 val=-4.3672 best=-4.3727@ 12 wait=11/15 (29.6s)  
-[A2.3] f5 ep 24/75 lr=4.2e-05 train=-4.1075 val=-4.3663 best=-4.3727@ 12 wait=12/15 (29.0s)  
-[A2.3] f5 ep 25/75 lr=4.1e-05 train=-4.1084 val=-4.3653 best=-4.3727@ 12 wait=13/15 (31.2s)  
-[A2.3] f5 ep 26/75 lr=4.1e-05 train=-4.1093 val=-4.3635 best=-4.3727@ 12 wait=14/15 (34.3s)  
-[A2.3] f5 ep 27/75 lr=4.0e-05 train=-4.1105 val=-4.3655 best=-4.3727@ 12 wait=15/15 (34.0s)  
-[A2.3] f5 early-stop at ep27 (best=-4.3727 @ ep12)
-[A2.3] fold 5 done | best_val=-4.3727 @ ep12 elapsed=793.9s
+[A2.3] f5 ep  1/75 lr=1.0e-05 train=-2.4623 val=-4.2641 best=-4.2641@  1 wait=0/15 (19.7s) *
+[A2.3] f5 ep  2/75 lr=2.0e-05 train=-4.0104 val=-4.3627 best=-4.3627@  2 wait=0/15 (20.1s) *
+[A2.3] f5 ep  3/75 lr=3.0e-05 train=-4.0434 val=-4.3656 best=-4.3656@  3 wait=0/15 (20.8s) *
+[A2.3] f5 ep  4/75 lr=4.0e-05 train=-4.0538 val=-4.3690 best=-4.3690@  4 wait=0/15 (19.4s) *
+[A2.3] f5 ep  5/75 lr=5.0e-05 train=-4.0629 val=-4.3706 best=-4.3706@  5 wait=0/15 (21.6s) *
+[A2.3] f5 ep  6/75 lr=5.0e-05 train=-4.0703 val=-4.3705 best=-4.3706@  5 wait=1/15 (21.3s)  
+[A2.3] f5 ep  7/75 lr=5.0e-05 train=-4.0760 val=-4.3709 best=-4.3709@  7 wait=0/15 (19.8s) *
+[A2.3] f5 ep  8/75 lr=5.0e-05 train=-4.0810 val=-4.3720 best=-4.3720@  8 wait=0/15 (20.6s) *
+[A2.3] f5 ep  9/75 lr=5.0e-05 train=-4.0845 val=-4.3599 best=-4.3720@  8 wait=1/15 (21.7s)  
+[A2.3] f5 ep 10/75 lr=5.0e-05 train=-4.0876 val=-4.3719 best=-4.3720@  8 wait=2/15 (21.8s)  
+[A2.3] f5 ep 11/75 lr=4.9e-05 train=-4.0899 val=-4.3692 best=-4.3720@  8 wait=3/15 (21.9s)  
+[A2.3] f5 ep 12/75 lr=4.9e-05 train=-4.0921 val=-4.3713 best=-4.3720@  8 wait=4/15 (21.1s)  
+[A2.3] f5 ep 13/75 lr=4.9e-05 train=-4.0940 val=-4.3715 best=-4.3720@  8 wait=5/15 (19.8s)  
+[A2.3] f5 ep 14/75 lr=4.8e-05 train=-4.0958 val=-4.3646 best=-4.3720@  8 wait=6/15 (20.5s)  
+[A2.3] f5 ep 15/75 lr=4.8e-05 train=-4.0972 val=-4.3674 best=-4.3720@  8 wait=7/15 (22.9s)  
+[A2.3] f5 ep 16/75 lr=4.8e-05 train=-4.0982 val=-4.3666 best=-4.3720@  8 wait=8/15 (20.3s)  
+[A2.3] f5 ep 17/75 lr=4.7e-05 train=-4.0998 val=-4.3665 best=-4.3720@  8 wait=9/15 (21.6s)  
+[A2.3] f5 ep 18/75 lr=4.6e-05 train=-4.1010 val=-4.3663 best=-4.3720@  8 wait=10/15 (20.5s)  
+[A2.3] f5 ep 19/75 lr=4.6e-05 train=-4.1024 val=-4.3682 best=-4.3720@  8 wait=11/15 (21.3s)  
+[A2.3] f5 ep 20/75 lr=4.5e-05 train=-4.1032 val=-4.3686 best=-4.3720@  8 wait=12/15 (19.4s)  
+[A2.3] f5 ep 21/75 lr=4.5e-05 train=-4.1047 val=-4.3645 best=-4.3720@  8 wait=13/15 (21.9s)  
+[A2.3] f5 ep 22/75 lr=4.4e-05 train=-4.1057 val=-4.3679 best=-4.3720@  8 wait=14/15 (21.6s)  
+[A2.3] f5 ep 23/75 lr=4.3e-05 train=-4.1068 val=-4.3642 best=-4.3720@  8 wait=15/15 (20.5s)  
+[A2.3] f5 early-stop at ep23 (best=-4.3720 @ ep8)
+[A2.3] fold 5 done | best_val=-4.3720 @ ep8 elapsed=480.2s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
-[16:49:34] [5/5] (100%) Running A2.4 (decoder_only_ref)
+[01:06:57] [5/5] (100%) Running A2.4 (decoder_only_ref)
 [A2.4] start | model=decoder_only seq_len=240 patch=12 d_model=64 har=none loss=rv_log_aware(alpha=0.00) hw=equal | features=21 horizons=4 folds=5 device=cuda
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.4] fold 1/5 starting | N_train=64765 N_val=65053 batches/epoch=505
-[A2.4] f1 ep  1/75 lr=1.0e-05 train=-0.3434 val=-0.8026 best=-0.8026@  1 wait=0/15 (7.0s) *
-[A2.4] f1 ep  2/75 lr=2.0e-05 train=-1.3474 val=-2.1600 best=-2.1600@  2 wait=0/15 (6.9s) *
-[A2.4] f1 ep  3/75 lr=3.0e-05 train=-2.9517 val=-4.1051 best=-4.1051@  3 wait=0/15 (6.9s) *
-[A2.4] f1 ep  4/75 lr=4.0e-05 train=-3.6594 val=-4.2687 best=-4.2687@  4 wait=0/15 (6.0s) *
-[A2.4] f1 ep  5/75 lr=5.0e-05 train=-3.6987 val=-4.2897 best=-4.2897@  5 wait=0/15 (6.5s) *
-[A2.4] f1 ep  6/75 lr=5.0e-05 train=-3.7160 val=-4.2920 best=-4.2920@  6 wait=0/15 (6.8s) *
-[A2.4] f1 ep  7/75 lr=5.0e-05 train=-3.7287 val=-4.2967 best=-4.2967@  7 wait=0/15 (6.9s) *
-[A2.4] f1 ep  8/75 lr=5.0e-05 train=-3.7369 val=-4.3004 best=-4.3004@  8 wait=0/15 (5.5s) *
-[A2.4] f1 ep  9/75 lr=5.0e-05 train=-3.7454 val=-4.3012 best=-4.3012@  9 wait=0/15 (5.4s) *
-[A2.4] f1 ep 10/75 lr=5.0e-05 train=-3.7519 val=-4.3043 best=-4.3043@ 10 wait=0/15 (6.9s) *
-[A2.4] f1 ep 11/75 lr=4.9e-05 train=-3.7569 val=-4.3028 best=-4.3043@ 10 wait=1/15 (6.5s)  
-[A2.4] f1 ep 12/75 lr=4.9e-05 train=-3.7626 val=-4.3011 best=-4.3043@ 10 wait=2/15 (6.8s)  
-[A2.4] f1 ep 13/75 lr=4.9e-05 train=-3.7664 val=-4.3004 best=-4.3043@ 10 wait=3/15 (6.9s)  
-[A2.4] f1 ep 14/75 lr=4.8e-05 train=-3.7696 val=-4.2992 best=-4.3043@ 10 wait=4/15 (6.9s)  
-[A2.4] f1 ep 15/75 lr=4.8e-05 train=-3.7732 val=-4.2983 best=-4.3043@ 10 wait=5/15 (6.8s)  
-[A2.4] f1 ep 16/75 lr=4.8e-05 train=-3.7758 val=-4.3022 best=-4.3043@ 10 wait=6/15 (6.4s)  
-[A2.4] f1 ep 17/75 lr=4.7e-05 train=-3.7791 val=-4.3021 best=-4.3043@ 10 wait=7/15 (5.5s)  
-[A2.4] f1 ep 18/75 lr=4.6e-05 train=-3.7810 val=-4.3008 best=-4.3043@ 10 wait=8/15 (7.0s)  
-[A2.4] f1 ep 19/75 lr=4.6e-05 train=-3.7832 val=-4.3027 best=-4.3043@ 10 wait=9/15 (6.5s)  
-[A2.4] f1 ep 20/75 lr=4.5e-05 train=-3.7844 val=-4.2993 best=-4.3043@ 10 wait=10/15 (7.0s)  
-[A2.4] f1 ep 21/75 lr=4.5e-05 train=-3.7874 val=-4.2999 best=-4.3043@ 10 wait=11/15 (6.9s)  
-[A2.4] f1 ep 22/75 lr=4.4e-05 train=-3.7889 val=-4.3029 best=-4.3043@ 10 wait=12/15 (6.9s)  
-[A2.4] f1 ep 23/75 lr=4.3e-05 train=-3.7899 val=-4.2992 best=-4.3043@ 10 wait=13/15 (6.9s)  
-[A2.4] f1 ep 24/75 lr=4.2e-05 train=-3.7923 val=-4.2964 best=-4.3043@ 10 wait=14/15 (6.9s)  
-[A2.4] f1 ep 25/75 lr=4.1e-05 train=-3.7942 val=-4.2951 best=-4.3043@ 10 wait=15/15 (6.9s)  
-[A2.4] f1 early-stop at ep25 (best=-4.3043 @ ep10)
-[A2.4] fold 1 done | best_val=-4.3043 @ ep10 elapsed=165.7s
+[A2.4] f1 ep  1/75 lr=1.0e-05 train=-0.3435 val=-0.8019 best=-0.8019@  1 wait=0/15 (6.4s) *
+[A2.4] f1 ep  2/75 lr=2.0e-05 train=-1.3459 val=-2.1576 best=-2.1576@  2 wait=0/15 (6.4s) *
+[A2.4] f1 ep  3/75 lr=3.0e-05 train=-2.9510 val=-4.1039 best=-4.1039@  3 wait=0/15 (6.4s) *
+[A2.4] f1 ep  4/75 lr=4.0e-05 train=-3.6583 val=-4.2716 best=-4.2716@  4 wait=0/15 (6.4s) *
+[A2.4] f1 ep  5/75 lr=5.0e-05 train=-3.6996 val=-4.2881 best=-4.2881@  5 wait=0/15 (6.4s) *
+[A2.4] f1 ep  6/75 lr=5.0e-05 train=-3.7170 val=-4.2910 best=-4.2910@  6 wait=0/15 (6.4s) *
+[A2.4] f1 ep  7/75 lr=5.0e-05 train=-3.7291 val=-4.2917 best=-4.2917@  7 wait=0/15 (6.4s) *
+[A2.4] f1 ep  8/75 lr=5.0e-05 train=-3.7402 val=-4.3005 best=-4.3005@  8 wait=0/15 (6.4s) *
+[A2.4] f1 ep  9/75 lr=5.0e-05 train=-3.7459 val=-4.3030 best=-4.3030@  9 wait=0/15 (6.4s) *
+[A2.4] f1 ep 10/75 lr=5.0e-05 train=-3.7512 val=-4.3045 best=-4.3045@ 10 wait=0/15 (6.4s) *
+[A2.4] f1 ep 11/75 lr=4.9e-05 train=-3.7578 val=-4.3033 best=-4.3045@ 10 wait=1/15 (6.4s)  
+[A2.4] f1 ep 12/75 lr=4.9e-05 train=-3.7625 val=-4.2983 best=-4.3045@ 10 wait=2/15 (6.4s)  
+[A2.4] f1 ep 13/75 lr=4.9e-05 train=-3.7656 val=-4.3029 best=-4.3045@ 10 wait=3/15 (6.4s)  
+[A2.4] f1 ep 14/75 lr=4.8e-05 train=-3.7704 val=-4.3005 best=-4.3045@ 10 wait=4/15 (6.4s)  
+[A2.4] f1 ep 15/75 lr=4.8e-05 train=-3.7735 val=-4.2967 best=-4.3045@ 10 wait=5/15 (6.4s)  
+[A2.4] f1 ep 16/75 lr=4.8e-05 train=-3.7771 val=-4.3011 best=-4.3045@ 10 wait=6/15 (6.4s)  
+[A2.4] f1 ep 17/75 lr=4.7e-05 train=-3.7797 val=-4.3005 best=-4.3045@ 10 wait=7/15 (6.4s)  
+[A2.4] f1 ep 18/75 lr=4.6e-05 train=-3.7805 val=-4.3027 best=-4.3045@ 10 wait=8/15 (6.5s)  
+[A2.4] f1 ep 19/75 lr=4.6e-05 train=-3.7836 val=-4.2998 best=-4.3045@ 10 wait=9/15 (6.4s)  
+[A2.4] f1 ep 20/75 lr=4.5e-05 train=-3.7858 val=-4.2991 best=-4.3045@ 10 wait=10/15 (6.4s)  
+[A2.4] f1 ep 21/75 lr=4.5e-05 train=-3.7871 val=-4.2998 best=-4.3045@ 10 wait=11/15 (6.4s)  
+[A2.4] f1 ep 22/75 lr=4.4e-05 train=-3.7896 val=-4.2978 best=-4.3045@ 10 wait=12/15 (6.5s)  
+[A2.4] f1 ep 23/75 lr=4.3e-05 train=-3.7910 val=-4.3005 best=-4.3045@ 10 wait=13/15 (6.5s)  
+[A2.4] f1 ep 24/75 lr=4.2e-05 train=-3.7923 val=-4.2922 best=-4.3045@ 10 wait=14/15 (6.4s)  
+[A2.4] f1 ep 25/75 lr=4.1e-05 train=-3.7940 val=-4.2970 best=-4.3045@ 10 wait=15/15 (6.4s)  
+[A2.4] f1 early-stop at ep25 (best=-4.3045 @ ep10)
+[A2.4] fold 1 done | best_val=-4.3045 @ ep10 elapsed=160.8s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.4] fold 2/5 starting | N_train=129818 N_val=65053 batches/epoch=1013
-[A2.4] f2 ep  1/75 lr=1.0e-05 train=-1.0073 val=-1.8054 best=-1.8054@  1 wait=0/15 (9.8s) *
-[A2.4] f2 ep  2/75 lr=2.0e-05 train=-3.0651 val=-4.2663 best=-4.2663@  2 wait=0/15 (12.0s) *
-[A2.4] f2 ep  3/75 lr=3.0e-05 train=-3.8993 val=-4.3612 best=-4.3612@  3 wait=0/15 (11.9s) *
-[A2.4] f2 ep  4/75 lr=4.0e-05 train=-3.9417 val=-4.3705 best=-4.3705@  4 wait=0/15 (11.9s) *
-[A2.4] f2 ep  5/75 lr=5.0e-05 train=-3.9645 val=-4.3765 best=-4.3765@  5 wait=0/15 (10.3s) *
-[A2.4] f2 ep  6/75 lr=5.0e-05 train=-3.9812 val=-4.3785 best=-4.3785@  6 wait=0/15 (11.3s) *
-[A2.4] f2 ep  7/75 lr=5.0e-05 train=-3.9917 val=-4.3833 best=-4.3833@  7 wait=0/15 (12.1s) *
-[A2.4] f2 ep  8/75 lr=5.0e-05 train=-4.0009 val=-4.3808 best=-4.3833@  7 wait=1/15 (12.1s)  
-[A2.4] f2 ep  9/75 lr=5.0e-05 train=-4.0058 val=-4.3816 best=-4.3833@  7 wait=2/15 (11.9s)  
-[A2.4] f2 ep 10/75 lr=5.0e-05 train=-4.0104 val=-4.3818 best=-4.3833@  7 wait=3/15 (12.0s)  
-[A2.4] f2 ep 11/75 lr=4.9e-05 train=-4.0143 val=-4.3812 best=-4.3833@  7 wait=4/15 (11.7s)  
-[A2.4] f2 ep 12/75 lr=4.9e-05 train=-4.0170 val=-4.3825 best=-4.3833@  7 wait=5/15 (11.9s)  
-[A2.4] f2 ep 13/75 lr=4.9e-05 train=-4.0200 val=-4.3843 best=-4.3843@ 13 wait=0/15 (11.7s) *
-[A2.4] f2 ep 14/75 lr=4.8e-05 train=-4.0229 val=-4.3830 best=-4.3843@ 13 wait=1/15 (9.7s)  
-[A2.4] f2 ep 15/75 lr=4.8e-05 train=-4.0257 val=-4.3791 best=-4.3843@ 13 wait=2/15 (9.2s)  
-[A2.4] f2 ep 16/75 lr=4.8e-05 train=-4.0266 val=-4.3845 best=-4.3845@ 16 wait=0/15 (10.9s) *
-[A2.4] f2 ep 17/75 lr=4.7e-05 train=-4.0300 val=-4.3832 best=-4.3845@ 16 wait=1/15 (10.3s)  
-[A2.4] f2 ep 18/75 lr=4.6e-05 train=-4.0307 val=-4.3805 best=-4.3845@ 16 wait=2/15 (11.8s)  
-[A2.4] f2 ep 19/75 lr=4.6e-05 train=-4.0326 val=-4.3787 best=-4.3845@ 16 wait=3/15 (11.8s)  
-[A2.4] f2 ep 20/75 lr=4.5e-05 train=-4.0343 val=-4.3800 best=-4.3845@ 16 wait=4/15 (12.0s)  
-[A2.4] f2 ep 21/75 lr=4.5e-05 train=-4.0346 val=-4.3788 best=-4.3845@ 16 wait=5/15 (11.1s)  
-[A2.4] f2 ep 22/75 lr=4.4e-05 train=-4.0367 val=-4.3830 best=-4.3845@ 16 wait=6/15 (11.6s)  
-[A2.4] f2 ep 23/75 lr=4.3e-05 train=-4.0377 val=-4.3798 best=-4.3845@ 16 wait=7/15 (9.2s)  
-[A2.4] f2 ep 24/75 lr=4.2e-05 train=-4.0389 val=-4.3779 best=-4.3845@ 16 wait=8/15 (11.8s)  
-[A2.4] f2 ep 25/75 lr=4.1e-05 train=-4.0399 val=-4.3815 best=-4.3845@ 16 wait=9/15 (12.0s)  
-[A2.4] f2 ep 26/75 lr=4.1e-05 train=-4.0406 val=-4.3837 best=-4.3845@ 16 wait=10/15 (11.8s)  
-[A2.4] f2 ep 27/75 lr=4.0e-05 train=-4.0415 val=-4.3774 best=-4.3845@ 16 wait=11/15 (11.5s)  
-[A2.4] f2 ep 28/75 lr=3.9e-05 train=-4.0424 val=-4.3835 best=-4.3845@ 16 wait=12/15 (11.8s)  
-[A2.4] f2 ep 29/75 lr=3.8e-05 train=-4.0430 val=-4.3776 best=-4.3845@ 16 wait=13/15 (12.0s)  
-[A2.4] f2 ep 30/75 lr=3.7e-05 train=-4.0438 val=-4.3779 best=-4.3845@ 16 wait=14/15 (11.7s)  
-[A2.4] f2 ep 31/75 lr=3.6e-05 train=-4.0444 val=-4.3830 best=-4.3845@ 16 wait=15/15 (11.9s)  
-[A2.4] f2 early-stop at ep31 (best=-4.3845 @ ep16)
-[A2.4] fold 2 done | best_val=-4.3845 @ ep16 elapsed=352.5s
+[A2.4] f2 ep  1/75 lr=1.0e-05 train=-1.0070 val=-1.8060 best=-1.8060@  1 wait=0/15 (11.0s) *
+[A2.4] f2 ep  2/75 lr=2.0e-05 train=-3.0644 val=-4.2644 best=-4.2644@  2 wait=0/15 (11.0s) *
+[A2.4] f2 ep  3/75 lr=3.0e-05 train=-3.8983 val=-4.3612 best=-4.3612@  3 wait=0/15 (11.0s) *
+[A2.4] f2 ep  4/75 lr=4.0e-05 train=-3.9417 val=-4.3691 best=-4.3691@  4 wait=0/15 (11.0s) *
+[A2.4] f2 ep  5/75 lr=5.0e-05 train=-3.9653 val=-4.3790 best=-4.3790@  5 wait=0/15 (11.0s) *
+[A2.4] f2 ep  6/75 lr=5.0e-05 train=-3.9811 val=-4.3830 best=-4.3830@  6 wait=0/15 (10.9s) *
+[A2.4] f2 ep  7/75 lr=5.0e-05 train=-3.9929 val=-4.3794 best=-4.3830@  6 wait=1/15 (11.0s)  
+[A2.4] f2 ep  8/75 lr=5.0e-05 train=-4.0028 val=-4.3811 best=-4.3830@  6 wait=2/15 (11.0s)  
+[A2.4] f2 ep  9/75 lr=5.0e-05 train=-4.0091 val=-4.3842 best=-4.3842@  9 wait=0/15 (11.0s) *
+[A2.4] f2 ep 10/75 lr=5.0e-05 train=-4.0124 val=-4.3825 best=-4.3842@  9 wait=1/15 (11.0s)  
+[A2.4] f2 ep 11/75 lr=4.9e-05 train=-4.0167 val=-4.3797 best=-4.3842@  9 wait=2/15 (11.0s)  
+[A2.4] f2 ep 12/75 lr=4.9e-05 train=-4.0197 val=-4.3844 best=-4.3844@ 12 wait=0/15 (11.0s) *
+[A2.4] f2 ep 13/75 lr=4.9e-05 train=-4.0217 val=-4.3781 best=-4.3844@ 12 wait=1/15 (10.9s)  
+[A2.4] f2 ep 14/75 lr=4.8e-05 train=-4.0241 val=-4.3845 best=-4.3845@ 14 wait=0/15 (10.9s) *
+[A2.4] f2 ep 15/75 lr=4.8e-05 train=-4.0258 val=-4.3778 best=-4.3845@ 14 wait=1/15 (11.0s)  
+[A2.4] f2 ep 16/75 lr=4.8e-05 train=-4.0280 val=-4.3833 best=-4.3845@ 14 wait=2/15 (11.0s)  
+[A2.4] f2 ep 17/75 lr=4.7e-05 train=-4.0294 val=-4.3788 best=-4.3845@ 14 wait=3/15 (11.0s)  
+[A2.4] f2 ep 18/75 lr=4.6e-05 train=-4.0316 val=-4.3827 best=-4.3845@ 14 wait=4/15 (10.9s)  
+[A2.4] f2 ep 19/75 lr=4.6e-05 train=-4.0326 val=-4.3769 best=-4.3845@ 14 wait=5/15 (11.1s)  
+[A2.4] f2 ep 20/75 lr=4.5e-05 train=-4.0344 val=-4.3833 best=-4.3845@ 14 wait=6/15 (11.0s)  
+[A2.4] f2 ep 21/75 lr=4.5e-05 train=-4.0354 val=-4.3801 best=-4.3845@ 14 wait=7/15 (11.0s)  
+[A2.4] f2 ep 22/75 lr=4.4e-05 train=-4.0369 val=-4.3811 best=-4.3845@ 14 wait=8/15 (11.0s)  
+[A2.4] f2 ep 23/75 lr=4.3e-05 train=-4.0375 val=-4.3767 best=-4.3845@ 14 wait=9/15 (11.0s)  
+[A2.4] f2 ep 24/75 lr=4.2e-05 train=-4.0391 val=-4.3777 best=-4.3845@ 14 wait=10/15 (11.0s)  
+[A2.4] f2 ep 25/75 lr=4.1e-05 train=-4.0401 val=-4.3815 best=-4.3845@ 14 wait=11/15 (11.0s)  
+[A2.4] f2 ep 26/75 lr=4.1e-05 train=-4.0412 val=-4.3823 best=-4.3845@ 14 wait=12/15 (11.0s)  
+[A2.4] f2 ep 27/75 lr=4.0e-05 train=-4.0418 val=-4.3741 best=-4.3845@ 14 wait=13/15 (10.9s)  
+[A2.4] f2 ep 28/75 lr=3.9e-05 train=-4.0420 val=-4.3791 best=-4.3845@ 14 wait=14/15 (10.9s)  
+[A2.4] f2 ep 29/75 lr=3.8e-05 train=-4.0433 val=-4.3826 best=-4.3845@ 14 wait=15/15 (11.0s)  
+[A2.4] f2 early-stop at ep29 (best=-4.3845 @ ep14)
+[A2.4] fold 2 done | best_val=-4.3845 @ ep14 elapsed=318.3s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.4] fold 3/5 starting | N_train=194871 N_val=65053 batches/epoch=1521
-[A2.4] f3 ep  1/75 lr=1.0e-05 train=-1.5841 val=-2.7178 best=-2.7178@  1 wait=0/15 (15.0s) *
-[A2.4] f3 ep  2/75 lr=2.0e-05 train=-3.8371 val=-3.9701 best=-3.9701@  2 wait=0/15 (12.8s) *
-[A2.4] f3 ep  3/75 lr=3.0e-05 train=-4.0454 val=-3.9780 best=-3.9780@  3 wait=0/15 (12.8s) *
-[A2.4] f3 ep  4/75 lr=4.0e-05 train=-4.0713 val=-3.9758 best=-3.9780@  3 wait=1/15 (15.0s)  
-[A2.4] f3 ep  5/75 lr=5.0e-05 train=-4.0890 val=-3.9755 best=-3.9780@  3 wait=2/15 (12.8s)  
-[A2.4] f3 ep  6/75 lr=5.0e-05 train=-4.1014 val=-3.9754 best=-3.9780@  3 wait=3/15 (13.2s)  
-[A2.4] f3 ep  7/75 lr=5.0e-05 train=-4.1094 val=-3.9855 best=-3.9855@  7 wait=0/15 (14.0s) *
-[A2.4] f3 ep  8/75 lr=5.0e-05 train=-4.1145 val=-3.9822 best=-3.9855@  7 wait=1/15 (16.8s)  
-[A2.4] f3 ep  9/75 lr=5.0e-05 train=-4.1187 val=-3.9799 best=-3.9855@  7 wait=2/15 (17.1s)  
-[A2.4] f3 ep 10/75 lr=5.0e-05 train=-4.1217 val=-3.9787 best=-3.9855@  7 wait=3/15 (16.8s)  
-[A2.4] f3 ep 11/75 lr=4.9e-05 train=-4.1262 val=-3.9805 best=-3.9855@  7 wait=4/15 (15.6s)  
-[A2.4] f3 ep 12/75 lr=4.9e-05 train=-4.1291 val=-3.9792 best=-3.9855@  7 wait=5/15 (16.7s)  
-[A2.4] f3 ep 13/75 lr=4.9e-05 train=-4.1313 val=-3.9742 best=-3.9855@  7 wait=6/15 (15.3s)  
-[A2.4] f3 ep 14/75 lr=4.8e-05 train=-4.1335 val=-3.9849 best=-3.9855@  7 wait=7/15 (12.8s)  
-[A2.4] f3 ep 15/75 lr=4.8e-05 train=-4.1362 val=-3.9817 best=-3.9855@  7 wait=8/15 (13.5s)  
-[A2.4] f3 ep 16/75 lr=4.8e-05 train=-4.1372 val=-3.9664 best=-3.9855@  7 wait=9/15 (15.2s)  
-[A2.4] f3 ep 17/75 lr=4.7e-05 train=-4.1395 val=-3.9744 best=-3.9855@  7 wait=10/15 (16.0s)  
-[A2.4] f3 ep 18/75 lr=4.6e-05 train=-4.1411 val=-3.9780 best=-3.9855@  7 wait=11/15 (16.5s)  
-[A2.4] f3 ep 19/75 lr=4.6e-05 train=-4.1426 val=-3.9780 best=-3.9855@  7 wait=12/15 (16.7s)  
-[A2.4] f3 ep 20/75 lr=4.5e-05 train=-4.1442 val=-3.9747 best=-3.9855@  7 wait=13/15 (16.7s)  
-[A2.4] f3 ep 21/75 lr=4.5e-05 train=-4.1447 val=-3.9744 best=-3.9855@  7 wait=14/15 (16.2s)  
-[A2.4] f3 ep 22/75 lr=4.4e-05 train=-4.1459 val=-3.9720 best=-3.9855@  7 wait=15/15 (13.4s)  
-[A2.4] f3 early-stop at ep22 (best=-3.9855 @ ep7)
-[A2.4] fold 3 done | best_val=-3.9855 @ ep7 elapsed=331.0s
+[A2.4] f3 ep  1/75 lr=1.0e-05 train=-1.3826 val=-2.3893 best=-2.3893@  1 wait=0/15 (15.4s) *
+[A2.4] f3 ep  2/75 lr=2.0e-05 train=-3.7822 val=-3.9107 best=-3.9107@  2 wait=0/15 (15.6s) *
+[A2.4] f3 ep  3/75 lr=3.0e-05 train=-4.0385 val=-3.9266 best=-3.9266@  3 wait=0/15 (15.5s) *
+[A2.4] f3 ep  4/75 lr=4.0e-05 train=-4.0684 val=-3.9436 best=-3.9436@  4 wait=0/15 (15.6s) *
+[A2.4] f3 ep  5/75 lr=5.0e-05 train=-4.0871 val=-3.9504 best=-3.9504@  5 wait=0/15 (15.8s) *
+[A2.4] f3 ep  6/75 lr=5.0e-05 train=-4.0995 val=-3.9441 best=-3.9504@  5 wait=1/15 (15.6s)  
+[A2.4] f3 ep  7/75 lr=5.0e-05 train=-4.1070 val=-3.9335 best=-3.9504@  5 wait=2/15 (15.5s)  
+[A2.4] f3 ep  8/75 lr=5.0e-05 train=-4.1130 val=-3.9567 best=-3.9567@  8 wait=0/15 (15.8s) *
+[A2.4] f3 ep  9/75 lr=5.0e-05 train=-4.1186 val=-3.9781 best=-3.9781@  9 wait=0/15 (15.6s) *
+[A2.4] f3 ep 10/75 lr=5.0e-05 train=-4.1217 val=-3.9626 best=-3.9781@  9 wait=1/15 (15.7s)  
+[A2.4] f3 ep 11/75 lr=4.9e-05 train=-4.1259 val=-3.9710 best=-3.9781@  9 wait=2/15 (15.5s)  
+[A2.4] f3 ep 12/75 lr=4.9e-05 train=-4.1287 val=-3.9745 best=-3.9781@  9 wait=3/15 (15.5s)  
+[A2.4] f3 ep 13/75 lr=4.9e-05 train=-4.1315 val=-3.9709 best=-3.9781@  9 wait=4/15 (15.7s)  
+[A2.4] f3 ep 14/75 lr=4.8e-05 train=-4.1338 val=-3.9789 best=-3.9789@ 14 wait=0/15 (15.8s) *
+[A2.4] f3 ep 15/75 lr=4.8e-05 train=-4.1355 val=-3.9734 best=-3.9789@ 14 wait=1/15 (15.5s)  
+[A2.4] f3 ep 16/75 lr=4.8e-05 train=-4.1374 val=-3.9681 best=-3.9789@ 14 wait=2/15 (15.7s)  
+[A2.4] f3 ep 17/75 lr=4.7e-05 train=-4.1389 val=-3.9757 best=-3.9789@ 14 wait=3/15 (15.6s)  
+[A2.4] f3 ep 18/75 lr=4.6e-05 train=-4.1406 val=-3.9649 best=-3.9789@ 14 wait=4/15 (15.7s)  
+[A2.4] f3 ep 19/75 lr=4.6e-05 train=-4.1423 val=-3.9762 best=-3.9789@ 14 wait=5/15 (15.8s)  
+[A2.4] f3 ep 20/75 lr=4.5e-05 train=-4.1433 val=-3.9747 best=-3.9789@ 14 wait=6/15 (15.5s)  
+[A2.4] f3 ep 21/75 lr=4.5e-05 train=-4.1442 val=-3.9661 best=-3.9789@ 14 wait=7/15 (15.6s)  
+[A2.4] f3 ep 22/75 lr=4.4e-05 train=-4.1451 val=-3.9691 best=-3.9789@ 14 wait=8/15 (15.5s)  
+[A2.4] f3 ep 23/75 lr=4.3e-05 train=-4.1465 val=-3.9658 best=-3.9789@ 14 wait=9/15 (15.5s)  
+[A2.4] f3 ep 24/75 lr=4.2e-05 train=-4.1479 val=-3.9656 best=-3.9789@ 14 wait=10/15 (15.6s)  
+[A2.4] f3 ep 25/75 lr=4.1e-05 train=-4.1487 val=-3.9693 best=-3.9789@ 14 wait=11/15 (15.9s)  
+[A2.4] f3 ep 26/75 lr=4.1e-05 train=-4.1499 val=-3.9614 best=-3.9789@ 14 wait=12/15 (15.9s)  
+[A2.4] f3 ep 27/75 lr=4.0e-05 train=-4.1507 val=-3.9708 best=-3.9789@ 14 wait=13/15 (15.6s)  
+[A2.4] f3 ep 28/75 lr=3.9e-05 train=-4.1512 val=-3.9640 best=-3.9789@ 14 wait=14/15 (15.5s)  
+[A2.4] f3 ep 29/75 lr=3.8e-05 train=-4.1519 val=-3.9672 best=-3.9789@ 14 wait=15/15 (15.5s)  
+[A2.4] f3 early-stop at ep29 (best=-3.9789 @ ep14)
+[A2.4] fold 3 done | best_val=-3.9789 @ ep14 elapsed=452.8s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.4] fold 4/5 starting | N_train=259924 N_val=65053 batches/epoch=2029
-[A2.4] f4 ep  1/75 lr=1.0e-05 train=-1.6882 val=-3.2036 best=-3.2036@  1 wait=0/15 (16.5s) *
-[A2.4] f4 ep  2/75 lr=2.0e-05 train=-3.8488 val=-4.0750 best=-4.0750@  2 wait=0/15 (16.4s) *
-[A2.4] f4 ep  3/75 lr=3.0e-05 train=-3.9965 val=-4.0832 best=-4.0832@  3 wait=0/15 (18.0s) *
-[A2.4] f4 ep  4/75 lr=4.0e-05 train=-4.0279 val=-4.0839 best=-4.0839@  4 wait=0/15 (21.4s) *
-[A2.4] f4 ep  5/75 lr=5.0e-05 train=-4.0460 val=-4.0842 best=-4.0842@  5 wait=0/15 (21.5s) *
-[A2.4] f4 ep  6/75 lr=5.0e-05 train=-4.0588 val=-4.0836 best=-4.0842@  5 wait=1/15 (21.1s)  
-[A2.4] f4 ep  7/75 lr=5.0e-05 train=-4.0663 val=-4.0867 best=-4.0867@  7 wait=0/15 (21.2s) *
-[A2.4] f4 ep  8/75 lr=5.0e-05 train=-4.0722 val=-4.0857 best=-4.0867@  7 wait=1/15 (21.4s)  
-[A2.4] f4 ep  9/75 lr=5.0e-05 train=-4.0779 val=-4.0853 best=-4.0867@  7 wait=2/15 (20.1s)  
-[A2.4] f4 ep 10/75 lr=5.0e-05 train=-4.0816 val=-4.0808 best=-4.0867@  7 wait=3/15 (20.8s)  
-[A2.4] f4 ep 11/75 lr=4.9e-05 train=-4.0851 val=-4.0854 best=-4.0867@  7 wait=4/15 (19.9s)  
-[A2.4] f4 ep 12/75 lr=4.9e-05 train=-4.0883 val=-4.0869 best=-4.0869@ 12 wait=0/15 (17.1s) *
-[A2.4] f4 ep 13/75 lr=4.9e-05 train=-4.0906 val=-4.0891 best=-4.0891@ 13 wait=0/15 (20.5s) *
-[A2.4] f4 ep 14/75 lr=4.8e-05 train=-4.0927 val=-4.0872 best=-4.0891@ 13 wait=1/15 (16.7s)  
-[A2.4] f4 ep 15/75 lr=4.8e-05 train=-4.0946 val=-4.0892 best=-4.0892@ 15 wait=0/15 (17.8s) *
-[A2.4] f4 ep 16/75 lr=4.8e-05 train=-4.0966 val=-4.0887 best=-4.0892@ 15 wait=1/15 (21.1s)  
-[A2.4] f4 ep 17/75 lr=4.7e-05 train=-4.0972 val=-4.0867 best=-4.0892@ 15 wait=2/15 (18.6s)  
-[A2.4] f4 ep 18/75 lr=4.6e-05 train=-4.0989 val=-4.0901 best=-4.0901@ 18 wait=0/15 (21.2s) *
-[A2.4] f4 ep 19/75 lr=4.6e-05 train=-4.0996 val=-4.0893 best=-4.0901@ 18 wait=1/15 (21.1s)  
-[A2.4] f4 ep 20/75 lr=4.5e-05 train=-4.1014 val=-4.0863 best=-4.0901@ 18 wait=2/15 (21.2s)  
-[A2.4] f4 ep 21/75 lr=4.5e-05 train=-4.1019 val=-4.0894 best=-4.0901@ 18 wait=3/15 (19.1s)  
-[A2.4] f4 ep 22/75 lr=4.4e-05 train=-4.1035 val=-4.0853 best=-4.0901@ 18 wait=4/15 (20.6s)  
-[A2.4] f4 ep 23/75 lr=4.3e-05 train=-4.1041 val=-4.0887 best=-4.0901@ 18 wait=5/15 (20.2s)  
-[A2.4] f4 ep 24/75 lr=4.2e-05 train=-4.1049 val=-4.0903 best=-4.0903@ 24 wait=0/15 (20.8s) *
-[A2.4] f4 ep 25/75 lr=4.1e-05 train=-4.1060 val=-4.0894 best=-4.0903@ 24 wait=1/15 (20.6s)  
-[A2.4] f4 ep 26/75 lr=4.1e-05 train=-4.1064 val=-4.0862 best=-4.0903@ 24 wait=2/15 (18.7s)  
-[A2.4] f4 ep 27/75 lr=4.0e-05 train=-4.1073 val=-4.0880 best=-4.0903@ 24 wait=3/15 (16.3s)  
-[A2.4] f4 ep 28/75 lr=3.9e-05 train=-4.1080 val=-4.0888 best=-4.0903@ 24 wait=4/15 (16.4s)  
-[A2.4] f4 ep 29/75 lr=3.8e-05 train=-4.1090 val=-4.0894 best=-4.0903@ 24 wait=5/15 (18.5s)  
-[A2.4] f4 ep 30/75 lr=3.7e-05 train=-4.1096 val=-4.0884 best=-4.0903@ 24 wait=6/15 (21.5s)  
-[A2.4] f4 ep 31/75 lr=3.6e-05 train=-4.1097 val=-4.0882 best=-4.0903@ 24 wait=7/15 (18.6s)  
-[A2.4] f4 ep 32/75 lr=3.5e-05 train=-4.1106 val=-4.0870 best=-4.0903@ 24 wait=8/15 (16.8s)  
-[A2.4] f4 ep 33/75 lr=3.4e-05 train=-4.1111 val=-4.0875 best=-4.0903@ 24 wait=9/15 (16.3s)  
-[A2.4] f4 ep 34/75 lr=3.3e-05 train=-4.1116 val=-4.0869 best=-4.0903@ 24 wait=10/15 (21.2s)  
-[A2.4] f4 ep 35/75 lr=3.2e-05 train=-4.1126 val=-4.0857 best=-4.0903@ 24 wait=11/15 (18.4s)  
-[A2.4] f4 ep 36/75 lr=3.1e-05 train=-4.1127 val=-4.0842 best=-4.0903@ 24 wait=12/15 (16.4s)  
-[A2.4] f4 ep 37/75 lr=2.9e-05 train=-4.1135 val=-4.0872 best=-4.0903@ 24 wait=13/15 (16.4s)  
-[A2.4] f4 ep 38/75 lr=2.8e-05 train=-4.1139 val=-4.0863 best=-4.0903@ 24 wait=14/15 (17.3s)  
-[A2.4] f4 ep 39/75 lr=2.7e-05 train=-4.1143 val=-4.0876 best=-4.0903@ 24 wait=15/15 (16.4s)  
-[A2.4] f4 early-stop at ep39 (best=-4.0903 @ ep24)
-[A2.4] fold 4 done | best_val=-4.0903 @ ep24 elapsed=744.1s
+[A2.4] f4 ep  1/75 lr=1.0e-05 train=-1.7292 val=-3.2061 best=-3.2061@  1 wait=0/15 (20.2s) *
+[A2.4] f4 ep  2/75 lr=2.0e-05 train=-3.8402 val=-4.0752 best=-4.0752@  2 wait=0/15 (20.2s) *
+[A2.4] f4 ep  3/75 lr=3.0e-05 train=-3.9970 val=-4.0833 best=-4.0833@  3 wait=0/15 (20.1s) *
+[A2.4] f4 ep  4/75 lr=4.0e-05 train=-4.0295 val=-4.0854 best=-4.0854@  4 wait=0/15 (20.1s) *
+[A2.4] f4 ep  5/75 lr=5.0e-05 train=-4.0494 val=-4.0864 best=-4.0864@  5 wait=0/15 (20.1s) *
+[A2.4] f4 ep  6/75 lr=5.0e-05 train=-4.0611 val=-4.0869 best=-4.0869@  6 wait=0/15 (20.2s) *
+[A2.4] f4 ep  7/75 lr=5.0e-05 train=-4.0681 val=-4.0874 best=-4.0874@  7 wait=0/15 (20.4s) *
+[A2.4] f4 ep  8/75 lr=5.0e-05 train=-4.0733 val=-4.0875 best=-4.0875@  8 wait=0/15 (20.1s) *
+[A2.4] f4 ep  9/75 lr=5.0e-05 train=-4.0775 val=-4.0880 best=-4.0880@  9 wait=0/15 (20.3s) *
+[A2.4] f4 ep 10/75 lr=5.0e-05 train=-4.0809 val=-4.0886 best=-4.0886@ 10 wait=0/15 (20.3s) *
+[A2.4] f4 ep 11/75 lr=4.9e-05 train=-4.0840 val=-4.0880 best=-4.0886@ 10 wait=1/15 (20.1s)  
+[A2.4] f4 ep 12/75 lr=4.9e-05 train=-4.0866 val=-4.0894 best=-4.0894@ 12 wait=0/15 (20.2s) *
+[A2.4] f4 ep 13/75 lr=4.9e-05 train=-4.0891 val=-4.0895 best=-4.0895@ 13 wait=0/15 (20.1s) *
+[A2.4] f4 ep 14/75 lr=4.8e-05 train=-4.0909 val=-4.0902 best=-4.0902@ 14 wait=0/15 (20.2s) *
+[A2.4] f4 ep 15/75 lr=4.8e-05 train=-4.0927 val=-4.0895 best=-4.0902@ 14 wait=1/15 (20.3s)  
+[A2.4] f4 ep 16/75 lr=4.8e-05 train=-4.0942 val=-4.0896 best=-4.0902@ 14 wait=2/15 (20.2s)  
+[A2.4] f4 ep 17/75 lr=4.7e-05 train=-4.0960 val=-4.0899 best=-4.0902@ 14 wait=3/15 (20.5s)  
+[A2.4] f4 ep 18/75 lr=4.6e-05 train=-4.0969 val=-4.0899 best=-4.0902@ 14 wait=4/15 (20.2s)  
+[A2.4] f4 ep 19/75 lr=4.6e-05 train=-4.0983 val=-4.0901 best=-4.0902@ 14 wait=5/15 (20.1s)  
+[A2.4] f4 ep 20/75 lr=4.5e-05 train=-4.0994 val=-4.0908 best=-4.0908@ 20 wait=0/15 (20.0s) *
+[A2.4] f4 ep 21/75 lr=4.5e-05 train=-4.1004 val=-4.0884 best=-4.0908@ 20 wait=1/15 (20.3s)  
+[A2.4] f4 ep 22/75 lr=4.4e-05 train=-4.1016 val=-4.0909 best=-4.0909@ 22 wait=0/15 (20.3s) *
+[A2.4] f4 ep 23/75 lr=4.3e-05 train=-4.1021 val=-4.0906 best=-4.0909@ 22 wait=1/15 (20.2s)  
+[A2.4] f4 ep 24/75 lr=4.2e-05 train=-4.1030 val=-4.0906 best=-4.0909@ 22 wait=2/15 (20.4s)  
+[A2.4] f4 ep 25/75 lr=4.1e-05 train=-4.1038 val=-4.0909 best=-4.0909@ 22 wait=3/15 (20.2s)  
+[A2.4] f4 ep 26/75 lr=4.1e-05 train=-4.1044 val=-4.0908 best=-4.0909@ 22 wait=4/15 (20.2s)  
+[A2.4] f4 ep 27/75 lr=4.0e-05 train=-4.1051 val=-4.0905 best=-4.0909@ 22 wait=5/15 (20.2s)  
+[A2.4] f4 ep 28/75 lr=3.9e-05 train=-4.1058 val=-4.0902 best=-4.0909@ 22 wait=6/15 (20.1s)  
+[A2.4] f4 ep 29/75 lr=3.8e-05 train=-4.1068 val=-4.0879 best=-4.0909@ 22 wait=7/15 (20.2s)  
+[A2.4] f4 ep 30/75 lr=3.7e-05 train=-4.1081 val=-4.0898 best=-4.0909@ 22 wait=8/15 (20.1s)  
+[A2.4] f4 ep 31/75 lr=3.6e-05 train=-4.1082 val=-4.0881 best=-4.0909@ 22 wait=9/15 (20.3s)  
+[A2.4] f4 ep 32/75 lr=3.5e-05 train=-4.1092 val=-4.0909 best=-4.0909@ 22 wait=10/15 (20.4s)  
+[A2.4] f4 ep 33/75 lr=3.4e-05 train=-4.1094 val=-4.0907 best=-4.0909@ 22 wait=11/15 (20.1s)  
+[A2.4] f4 ep 34/75 lr=3.3e-05 train=-4.1102 val=-4.0906 best=-4.0909@ 22 wait=12/15 (20.1s)  
+[A2.4] f4 ep 35/75 lr=3.2e-05 train=-4.1109 val=-4.0906 best=-4.0909@ 22 wait=13/15 (20.3s)  
+[A2.4] f4 ep 36/75 lr=3.1e-05 train=-4.1112 val=-4.0903 best=-4.0909@ 22 wait=14/15 (20.2s)  
+[A2.4] f4 ep 37/75 lr=2.9e-05 train=-4.1117 val=-4.0907 best=-4.0909@ 22 wait=15/15 (20.2s)  
+[A2.4] f4 early-stop at ep37 (best=-4.0909 @ ep22)
+[A2.4] fold 4 done | best_val=-4.0909 @ ep22 elapsed=747.7s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 [A2.4] fold 5/5 starting | N_train=324977 N_val=65058 batches/epoch=2538
-[A2.4] f5 ep  1/75 lr=1.0e-05 train=-2.1478 val=-3.8668 best=-3.8668@  1 wait=0/15 (23.0s) *
-[A2.4] f5 ep  2/75 lr=2.0e-05 train=-3.9083 val=-4.3571 best=-4.3571@  2 wait=0/15 (25.6s) *
-[A2.4] f5 ep  3/75 lr=3.0e-05 train=-3.9975 val=-4.3637 best=-4.3637@  3 wait=0/15 (24.0s) *
-[A2.4] f5 ep  4/75 lr=4.0e-05 train=-4.0309 val=-4.3655 best=-4.3655@  4 wait=0/15 (25.9s) *
-[A2.4] f5 ep  5/75 lr=5.0e-05 train=-4.0489 val=-4.3685 best=-4.3685@  5 wait=0/15 (25.5s) *
-[A2.4] f5 ep  6/75 lr=5.0e-05 train=-4.0596 val=-4.3685 best=-4.3685@  5 wait=1/15 (21.6s)  
-[A2.4] f5 ep  7/75 lr=5.0e-05 train=-4.0662 val=-4.3697 best=-4.3697@  7 wait=0/15 (26.5s) *
-[A2.4] f5 ep  8/75 lr=5.0e-05 train=-4.0716 val=-4.3696 best=-4.3697@  7 wait=1/15 (25.7s)  
-[A2.4] f5 ep  9/75 lr=5.0e-05 train=-4.0756 val=-4.3702 best=-4.3702@  9 wait=0/15 (26.2s) *
-[A2.4] f5 ep 10/75 lr=5.0e-05 train=-4.0799 val=-4.3685 best=-4.3702@  9 wait=1/15 (21.9s)  
-[A2.4] f5 ep 11/75 lr=4.9e-05 train=-4.0820 val=-4.3708 best=-4.3708@ 11 wait=0/15 (24.0s) *
-[A2.4] f5 ep 12/75 lr=4.9e-05 train=-4.0844 val=-4.3695 best=-4.3708@ 11 wait=1/15 (20.0s)  
-[A2.4] f5 ep 13/75 lr=4.9e-05 train=-4.0867 val=-4.3662 best=-4.3708@ 11 wait=2/15 (19.9s)  
-[A2.4] f5 ep 14/75 lr=4.8e-05 train=-4.0888 val=-4.3723 best=-4.3723@ 14 wait=0/15 (20.0s) *
-[A2.4] f5 ep 15/75 lr=4.8e-05 train=-4.0900 val=-4.3719 best=-4.3723@ 14 wait=1/15 (22.0s)  
-[A2.4] f5 ep 16/75 lr=4.8e-05 train=-4.0915 val=-4.3723 best=-4.3723@ 16 wait=0/15 (24.6s) *
-[A2.4] f5 ep 17/75 lr=4.7e-05 train=-4.0923 val=-4.3716 best=-4.3723@ 16 wait=1/15 (26.4s)  
-[A2.4] f5 ep 18/75 lr=4.6e-05 train=-4.0935 val=-4.3679 best=-4.3723@ 16 wait=2/15 (24.3s)  
-[A2.4] f5 ep 19/75 lr=4.6e-05 train=-4.0940 val=-4.3709 best=-4.3723@ 16 wait=3/15 (22.9s)  
-[A2.4] f5 ep 20/75 lr=4.5e-05 train=-4.0954 val=-4.3716 best=-4.3723@ 16 wait=4/15 (26.3s)  
-[A2.4] f5 ep 21/75 lr=4.5e-05 train=-4.0962 val=-4.3716 best=-4.3723@ 16 wait=5/15 (20.7s)  
-[A2.4] f5 ep 22/75 lr=4.4e-05 train=-4.0971 val=-4.3715 best=-4.3723@ 16 wait=6/15 (20.3s)  
-[A2.4] f5 ep 23/75 lr=4.3e-05 train=-4.0984 val=-4.3722 best=-4.3723@ 16 wait=7/15 (20.7s)  
-[A2.4] f5 ep 24/75 lr=4.2e-05 train=-4.0995 val=-4.3722 best=-4.3723@ 16 wait=8/15 (20.1s)  
-[A2.4] f5 ep 25/75 lr=4.1e-05 train=-4.0995 val=-4.3716 best=-4.3723@ 16 wait=9/15 (20.1s)  
-[A2.4] f5 ep 26/75 lr=4.1e-05 train=-4.1004 val=-4.3696 best=-4.3723@ 16 wait=10/15 (21.2s)  
-[A2.4] f5 ep 27/75 lr=4.0e-05 train=-4.1013 val=-4.3714 best=-4.3723@ 16 wait=11/15 (22.9s)  
-[A2.4] f5 ep 28/75 lr=3.9e-05 train=-4.1021 val=-4.3711 best=-4.3723@ 16 wait=12/15 (21.2s)  
-[A2.4] f5 ep 29/75 lr=3.8e-05 train=-4.1029 val=-4.3717 best=-4.3723@ 16 wait=13/15 (26.7s)  
-[A2.4] f5 ep 30/75 lr=3.7e-05 train=-4.1031 val=-4.3723 best=-4.3723@ 16 wait=14/15 (25.7s)  
-[A2.4] f5 ep 31/75 lr=3.6e-05 train=-4.1046 val=-4.3718 best=-4.3723@ 16 wait=15/15 (20.3s)  
-[A2.4] f5 early-stop at ep31 (best=-4.3723 @ ep16)
-[A2.4] fold 5 done | best_val=-4.3723 @ ep16 elapsed=715.9s
+[A2.4] f5 ep  1/75 lr=1.0e-05 train=-2.1163 val=-3.9092 best=-3.9092@  1 wait=0/15 (24.6s) *
+[A2.4] f5 ep  2/75 lr=2.0e-05 train=-3.9101 val=-4.3600 best=-4.3600@  2 wait=0/15 (24.6s) *
+[A2.4] f5 ep  3/75 lr=3.0e-05 train=-3.9934 val=-4.3643 best=-4.3643@  3 wait=0/15 (24.6s) *
+[A2.4] f5 ep  4/75 lr=4.0e-05 train=-4.0264 val=-4.3652 best=-4.3652@  4 wait=0/15 (24.8s) *
+[A2.4] f5 ep  5/75 lr=5.0e-05 train=-4.0446 val=-4.3662 best=-4.3662@  5 wait=0/15 (24.7s) *
+[A2.4] f5 ep  6/75 lr=5.0e-05 train=-4.0567 val=-4.3669 best=-4.3669@  6 wait=0/15 (24.8s) *
+[A2.4] f5 ep  7/75 lr=5.0e-05 train=-4.0638 val=-4.3671 best=-4.3671@  7 wait=0/15 (24.6s) *
+[A2.4] f5 ep  8/75 lr=5.0e-05 train=-4.0694 val=-4.3685 best=-4.3685@  8 wait=0/15 (24.6s) *
+[A2.4] f5 ep  9/75 lr=5.0e-05 train=-4.0745 val=-4.3699 best=-4.3699@  9 wait=0/15 (24.6s) *
+[A2.4] f5 ep 10/75 lr=5.0e-05 train=-4.0783 val=-4.3697 best=-4.3699@  9 wait=1/15 (24.5s)  
+[A2.4] f5 ep 11/75 lr=4.9e-05 train=-4.0815 val=-4.3705 best=-4.3705@ 11 wait=0/15 (24.8s) *
+[A2.4] f5 ep 12/75 lr=4.9e-05 train=-4.0837 val=-4.3709 best=-4.3709@ 12 wait=0/15 (24.6s) *
+[A2.4] f5 ep 13/75 lr=4.9e-05 train=-4.0863 val=-4.3708 best=-4.3709@ 12 wait=1/15 (24.7s)  
+[A2.4] f5 ep 14/75 lr=4.8e-05 train=-4.0876 val=-4.3708 best=-4.3709@ 12 wait=2/15 (24.7s)  
+[A2.4] f5 ep 15/75 lr=4.8e-05 train=-4.0891 val=-4.3693 best=-4.3709@ 12 wait=3/15 (25.0s)  
+[A2.4] f5 ep 16/75 lr=4.8e-05 train=-4.0905 val=-4.3707 best=-4.3709@ 12 wait=4/15 (24.5s)  
+[A2.4] f5 ep 17/75 lr=4.7e-05 train=-4.0921 val=-4.3714 best=-4.3714@ 17 wait=0/15 (24.5s) *
+[A2.4] f5 ep 18/75 lr=4.6e-05 train=-4.0925 val=-4.3705 best=-4.3714@ 17 wait=1/15 (24.6s)  
+[A2.4] f5 ep 19/75 lr=4.6e-05 train=-4.0933 val=-4.3713 best=-4.3714@ 17 wait=2/15 (24.9s)  
+[A2.4] f5 ep 20/75 lr=4.5e-05 train=-4.0947 val=-4.3714 best=-4.3714@ 20 wait=0/15 (24.8s) *
+[A2.4] f5 ep 21/75 lr=4.5e-05 train=-4.0960 val=-4.3685 best=-4.3714@ 20 wait=1/15 (24.9s)  
+[A2.4] f5 ep 22/75 lr=4.4e-05 train=-4.0965 val=-4.3709 best=-4.3714@ 20 wait=2/15 (24.6s)  
+[A2.4] f5 ep 23/75 lr=4.3e-05 train=-4.0976 val=-4.3666 best=-4.3714@ 20 wait=3/15 (24.6s)  
+[A2.4] f5 ep 24/75 lr=4.2e-05 train=-4.0987 val=-4.3712 best=-4.3714@ 20 wait=4/15 (24.7s)  
+[A2.4] f5 ep 25/75 lr=4.1e-05 train=-4.0992 val=-4.3675 best=-4.3714@ 20 wait=5/15 (25.4s)  
+[A2.4] f5 ep 26/75 lr=4.1e-05 train=-4.1003 val=-4.3717 best=-4.3717@ 26 wait=0/15 (25.0s) *
+[A2.4] f5 ep 27/75 lr=4.0e-05 train=-4.1004 val=-4.3681 best=-4.3717@ 26 wait=1/15 (24.6s)  
+[A2.4] f5 ep 28/75 lr=3.9e-05 train=-4.1018 val=-4.3709 best=-4.3717@ 26 wait=2/15 (24.7s)  
+[A2.4] f5 ep 29/75 lr=3.8e-05 train=-4.1026 val=-4.3713 best=-4.3717@ 26 wait=3/15 (24.5s)  
+[A2.4] f5 ep 30/75 lr=3.7e-05 train=-4.1030 val=-4.3698 best=-4.3717@ 26 wait=4/15 (24.6s)  
+[A2.4] f5 ep 31/75 lr=3.6e-05 train=-4.1039 val=-4.3705 best=-4.3717@ 26 wait=5/15 (25.0s)  
+[A2.4] f5 ep 32/75 lr=3.5e-05 train=-4.1044 val=-4.3716 best=-4.3717@ 26 wait=6/15 (24.6s)  
+[A2.4] f5 ep 33/75 lr=3.4e-05 train=-4.1050 val=-4.3698 best=-4.3717@ 26 wait=7/15 (24.8s)  
+[A2.4] f5 ep 34/75 lr=3.3e-05 train=-4.1057 val=-4.3715 best=-4.3717@ 26 wait=8/15 (24.7s)  
+[A2.4] f5 ep 35/75 lr=3.2e-05 train=-4.1062 val=-4.3710 best=-4.3717@ 26 wait=9/15 (24.8s)  
+[A2.4] f5 ep 36/75 lr=3.1e-05 train=-4.1071 val=-4.3717 best=-4.3717@ 26 wait=10/15 (24.6s)  
+[A2.4] f5 ep 37/75 lr=2.9e-05 train=-4.1077 val=-4.3682 best=-4.3717@ 26 wait=11/15 (24.8s)  
+[A2.4] f5 ep 38/75 lr=2.8e-05 train=-4.1081 val=-4.3713 best=-4.3717@ 26 wait=12/15 (25.1s)  
+[A2.4] f5 ep 39/75 lr=2.7e-05 train=-4.1082 val=-4.3703 best=-4.3717@ 26 wait=13/15 (24.8s)  
+[A2.4] f5 ep 40/75 lr=2.6e-05 train=-4.1092 val=-4.3704 best=-4.3717@ 26 wait=14/15 (24.8s)  
+[A2.4] f5 ep 41/75 lr=2.5e-05 train=-4.1093 val=-4.3715 best=-4.3717@ 26 wait=15/15 (24.8s)  
+[A2.4] f5 early-stop at ep41 (best=-4.3717 @ ep26)
+[A2.4] fold 5 done | best_val=-4.3717 @ ep26 elapsed=1014.0s
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
 experiment_id     variant_name    model_type    har_mode    loss_type  loss_alpha  n_folds  elapsed_sec  n_features  n_params  r2_rv_3bar_fwd  mse_rv_3bar_fwd  mae_rv_3bar_fwd  qlike_rv_3bar_fwd  bias_rv_3bar_fwd  corr_rv_3bar_fwd  overpredict_ratio_rv_3bar_fwd  p95_abs_err_rv_3bar_fwd  r2_rv_12bar_fwd  mse_rv_12bar_fwd  mae_rv_12bar_fwd  qlike_rv_12bar_fwd  bias_rv_12bar_fwd  corr_rv_12bar_fwd  overpredict_ratio_rv_12bar_fwd  p95_abs_err_rv_12bar_fwd  r2_rv_48bar_fwd  mse_rv_48bar_fwd  mae_rv_48bar_fwd  qlike_rv_48bar_fwd  bias_rv_48bar_fwd  corr_rv_48bar_fwd  overpredict_ratio_rv_48bar_fwd  p95_abs_err_rv_48bar_fwd  r2_rv_288bar_fwd  mse_rv_288bar_fwd  mae_rv_288bar_fwd  qlike_rv_288bar_fwd  bias_rv_288bar_fwd  corr_rv_288bar_fwd  overpredict_ratio_rv_288bar_fwd  p95_abs_err_rv_288bar_fwd  r2_mean  mse_mean  mae_mean  qlike_mean  bias_mean  corr_mean  overpredict_ratio_mean  p95_abs_err_mean                                                                                                                                                                                                                 model_config                                                                                                                                                                                                                                                                                                                                                    train_config experiment_group
-         A2.3  har_weekly_only patch_encoder weekly_only rv_log_aware         0.0        5      2376.84          21    187332        0.703706     8.982749e-07         0.000466          -5.478717          0.000003          0.838898                       0.629163                 0.001381         0.564727          0.000005          0.001098           -4.679065          -0.000106           0.753098                        0.616220                  0.003398         0.520760          0.000017          0.002338           -3.895413          -0.000137           0.722034                        0.611553                  0.006891          0.444531           0.000077           0.005596            -2.862607            0.000139            0.670864                         0.620866                   0.015975 0.558431  0.000025  0.002375   -4.228950  -0.000025   0.746223                0.619451          0.006911 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'weekly_only'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
-         A2.2         har_none patch_encoder        none rv_log_aware         0.0        5      2258.57          21    183172        0.689755     9.405684e-07         0.000467          -5.477220          0.000011          0.831891                       0.656541                 0.001319         0.556175          0.000005          0.001090           -4.678869          -0.000131           0.749386                        0.621539                  0.003319         0.511072          0.000017          0.002383           -3.894278          -0.000046           0.715810                        0.641190                  0.006707          0.448877           0.000076           0.005623            -2.861390            0.000015            0.669991                         0.626187                   0.015619 0.551470  0.000025  0.002391   -4.227939  -0.000038   0.741770                0.636364          0.006741        {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'none'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
-         A2.1         har_full patch_encoder        full rv_log_aware         0.0        5      2324.21          21    187380        0.688866     9.432637e-07         0.000457          -5.480046         -0.000044          0.833030                       0.614416                 0.001364         0.554280          0.000005          0.001104           -4.679203          -0.000109           0.748751                        0.621204                  0.003363         0.496973          0.000018          0.002381           -3.893606          -0.000085           0.705110                        0.615283                  0.007134          0.402973           0.000083           0.005847            -2.857307            0.000202            0.642048                         0.612119                   0.017554 0.535773  0.000027  0.002447   -4.227540  -0.000009   0.732235                0.615755          0.007353        {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
-         A2.4 decoder_only_ref  decoder_only        none rv_log_aware         0.0        5      2324.48          21    106052        0.711858     8.735592e-07         0.000473          -5.477435          0.000053          0.844953                       0.662791                 0.001321         0.564629          0.000005          0.001152           -4.677432           0.000083           0.751903                        0.674941                  0.003234         0.503900          0.000017          0.002466           -3.892536           0.000105           0.710091                        0.653377                  0.006734          0.448114           0.000077           0.005810            -2.860724            0.000579            0.671368                         0.649009                   0.015235 0.557125  0.000025  0.002475   -4.227032   0.000205   0.744579                0.660029          0.006631         {'model_type': 'decoder_only', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'none'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
+         A2.3  har_weekly_only patch_encoder weekly_only rv_log_aware         0.0        5      1508.94          21    187332        0.684055     9.578496e-07         0.000465          -5.480487          0.000004          0.828235                       0.645642                 0.001353         0.550362          0.000005          0.001115           -4.679438          -0.000068           0.743319                        0.624801                  0.003419         0.514227          0.000017          0.002358           -3.896195          -0.000047           0.717468                        0.629852                  0.006872          0.459646           0.000075           0.005467            -2.863093           -0.000161            0.678111                         0.610582                   0.015905 0.552073  0.000024  0.002351   -4.229803  -0.000068   0.741783                0.627719          0.006887 {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'weekly_only'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
+         A2.2         har_none patch_encoder        none rv_log_aware         0.0        5      1426.76          21    183172        0.698190     9.149973e-07         0.000456          -5.478452         -0.000016          0.838083                       0.637624                 0.001297         0.562344          0.000005          0.001091           -4.678776          -0.000112           0.753647                        0.628004                  0.003261         0.512662          0.000017          0.002356           -3.894432          -0.000191           0.718512                        0.613496                  0.006736          0.455987           0.000075           0.005567            -2.861922           -0.000205            0.675699                         0.607818                   0.015817 0.557296  0.000025  0.002368   -4.228396  -0.000131   0.746486                0.621736          0.006778        {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'none'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
+         A2.1         har_full patch_encoder        full rv_log_aware         0.0        5      1430.47          21    187380        0.678480     9.747509e-07         0.000465          -5.477144         -0.000016          0.824422                       0.629800                 0.001350         0.559775          0.000005          0.001122           -4.678277          -0.000004           0.748823                        0.658450                  0.003265         0.511774          0.000017          0.002377           -3.893652          -0.000045           0.715453                        0.623522                  0.006946          0.419861           0.000081           0.005634            -2.857608           -0.000342            0.652044                         0.582455                   0.017253 0.542473  0.000026  0.002400   -4.226670  -0.000102   0.735185                0.623557          0.007204        {'model_type': 'patch_encoder', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'full'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
+         A2.4 decoder_only_ref  decoder_only        none rv_log_aware         0.0        5      2709.49          21    106052        0.711563     8.744540e-07         0.000485          -5.475752          0.000088          0.846432                       0.677557                 0.001361         0.561745          0.000005          0.001188           -4.676070           0.000182           0.753179                        0.689255                  0.003305         0.503156          0.000017          0.002520           -3.891919           0.000291           0.711905                        0.665051                  0.006787          0.434997           0.000078           0.005996            -2.859359            0.001129            0.670774                         0.669004                   0.015563 0.552865  0.000025  0.002547   -4.225775   0.000422   0.745573                0.675217          0.006754         {'model_type': 'decoder_only', 'seq_len': 240, 'patch_size': 12, 'd_model': 64, 'n_heads': 4, 'n_layers': 3, 'n_enc_layers': 3, 'n_dec_layers': 2, 'd_ff': 256, 'dropout': 0.2, 'n_horizons': 5, 'har_mode': 'none'} {'task': 'rv', 'target_columns': ('rv_3bar_fwd', 'rv_12bar_fwd', 'rv_48bar_fwd', 'rv_288bar_fwd'), 'batch_size': 128, 'lr': 5e-05, 'max_epochs': 75, 'patience': 15, 'warmup_epochs': 5, 'weight_decay': 0.0001, 'gradient_clip_norm': 1.0, 'loss_type': 'rv_log_aware', 'loss_alpha': 0.0, 'horizon_weights': (), 'n_splits': 5, 'seed': 42, 'num_workers': 0}               A2
 Saved: /workspace/Transformer_RV_Crypto/transformer/output/experiments/ablation_har.csv

@@ -1,0 +1,36 @@
+# Git metadata (often hundreds of MB to GB — not needed in the image)
+.git
+.gitignore
+.cursor
+venv
+.venv
+__pycache__
+*.py[cod]
+*.pyo
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Large local data (not needed inside image for workers)
+dataset/get_data/output
+dataset/report.csv
+target/output
+target/form_target/output
+target/btcusdt_5m_final_with_targets.csv
+target/btcusdt_5m_with_horizons.csv
+transformer/output
+feature_selection/output
+feature_selection/output_smoke/
+scripts/output
+strategy/output
+baselines/garch_models/data
+baselines/garch_models/output
+z_dialog
+logs
+catboost_info
+~deep_lom
+
+# Spike pipeline dumps (often large CSVs; mount bundle at runtime if needed)
+spike_warning/output/*.csv
+
+*.parquet

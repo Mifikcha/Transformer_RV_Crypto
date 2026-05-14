@@ -3,7 +3,7 @@
 [GROUP] C1
 [CMD  ] /venv/main/bin/python scripts/run_ablation_ensemble.py
 [CWD  ] /workspace/Transformer_RV_Crypto
-[TS   ] 2026-05-08 07:45:14
+[TS   ] 2026-05-10 11:54:30
 ==========================================================================================
 
 /workspace/Transformer_RV_Crypto/transformer/model.py:54: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True

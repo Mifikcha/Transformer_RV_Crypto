@@ -14,10 +14,11 @@
   predictions_walkforward_transformer_rv.csv;
   опционально multi_window_experiment.csv (fallback для кривой seq_len).
 
-Блок spike (рис. 12): spike_warning/output/test_predictions.csv или зеркало в scripts/output[graphs]/test_predictions.csv.
-METRICS/BUNDLE ищутся в spike_warning/output/.
+Блок spike (рис. 12): test_predictions.csv в scripts/output (или graphs/) — предпочтительно;
+иначе spike_warning/output/. METRICS/BUNDLE — spike_warning/output/.
 
-Переопределение каталога с CSV: переменная окружения FIGURES_SCRIPTS_OUTPUT (абсолютный путь).
+Блок рис. 13: плотность сырого RV и ln(RV) из ``target/*_final_with_targets.csv`` (или actual из predictions).
+Явный путь к test_predictions для рис. 12: FIGURES_SPIKE_PREDICTIONS.
 """
 
 from __future__ import annotations
@@ -112,13 +113,31 @@ def load_scripts_output_bundle(repo_root: Path) -> ScriptsOutputBundle:
         multi_window=_read_csv(_find_csv("multi_window_experiment.csv", dirs)),
         pred_rv=_read_csv(_find_csv("predictions_walkforward_transformer_rv.csv", dirs)),
     )
-    sp = SPIKE_DIR / "test_predictions.csv"
-    if sp.is_file():
-        bundle.spike_predictions = sp
-    else:
+    env_spike = os.environ.get("FIGURES_SPIKE_PREDICTIONS", "").strip()
+    chosen: Path | None = None
+    if env_spike:
+        ep = Path(env_spike).expanduser().resolve()
+        if ep.is_file():
+            chosen = ep
+        else:
+            print(f"[WARN] FIGURES_SPIKE_PREDICTIONS не найден: {ep}")
+
+    if chosen is None:
         alt = _find_csv("test_predictions.csv", dirs)
+        sp = SPIKE_DIR / "test_predictions.csv"
+        # Сначала зеркало в scripts/output — один источник с остальными CSV для графиков.
         if alt is not None:
-            bundle.spike_predictions = alt
+            chosen = alt
+            if sp.is_file() and abs(alt.stat().st_mtime - sp.stat().st_mtime) > 3.0:
+                older = "scripts/output" if alt.stat().st_mtime < sp.stat().st_mtime else "spike_warning/output"
+                print(
+                    "[WARN] test_predictions.csv: разное время модификации mirror vs spike_warning "
+                    f"(визуально можно получить «старое»; проверьте {older}). Рис. 12: {alt}"
+                )
+        elif sp.is_file():
+            chosen = sp
+
+    bundle.spike_predictions = chosen
     return bundle
 
 
@@ -195,9 +214,16 @@ plt.rcParams.update(
 )
 
 
-def _save(fig: plt.Figure, name: str) -> Path:
+def _save(fig: plt.Figure, name: str, *, png_metadata: dict[str, str] | None = None) -> Path:
     path = HERE / name
-    fig.savefig(path, bbox_inches="tight")
+    kwargs: dict = {"bbox_inches": "tight"}
+    if png_metadata:
+        kwargs["metadata"] = png_metadata
+    try:
+        fig.savefig(path, **kwargs)
+    except TypeError:
+        kwargs.pop("metadata", None)
+        fig.savefig(path, **kwargs)
     plt.close(fig)
     return path
 
@@ -344,9 +370,42 @@ R2_HORIZON = {
     "Patch Transformer": [0.683, 0.545, 0.479, 0.357],
 }
 
+# Рис. 9: цвета бейзлайнов (не основные три линии) — все с подписью в легенде.
+FIG9_BASELINE_COLORS: dict[str, str] = {
+    "Historical Mean": "#5d4037",
+    "HAR-RV-J": "#8e24aa",
+    "HAR-RV": "#00695c",
+    "Linear Ridge": "#0277bd",
+    "Persistence": "#6d4c41",
+}
+
 FOLD_R2_TRANS = [0.416, 0.425, 0.538, 0.643, 0.559]
 LSTM_OFFSET = 0.576 - 0.516
 LGB_OFFSET = 0.530 - 0.516
+
+# Горизонталь LSTM на рис. 4–5: значение из табл. 3.9 текста (−4.216), не из сырого CSV прогона.
+LSTM_QLIKE_REFERENCE = -4.216
+
+
+def _qlike_bar_xlim(vals: list[float], ref_line: float | None) -> tuple[float, float]:
+    """Узкий диапазон по оси QLIKE для barh, чтобы различимы были близкие значения (~−4.22 … −4.23)."""
+    finite = [float(v) for v in vals if np.isfinite(v)]
+    if not finite:
+        return -4.35, -4.2
+    lo, hi = min(finite), max(finite)
+    if ref_line is not None and np.isfinite(ref_line):
+        lo, hi = min(lo, ref_line), max(hi, ref_line)
+    span = hi - lo
+    pad = max(span * 0.25, 0.012)
+    left = lo - pad
+    right = hi + pad
+    # Типичный диапазон архитектур — как в рецензии [−4.35, −4.20]
+    left = max(left, -4.38)
+    right = min(right, -4.18)
+    if right - left < 0.06:
+        mid = 0.5 * (lo + hi)
+        left, right = mid - 0.04, mid + 0.04
+    return float(left), float(right)
 
 
 def fig04_arch_qlike(bundle: ScriptsOutputBundle) -> None:
@@ -354,50 +413,44 @@ def fig04_arch_qlike(bundle: ScriptsOutputBundle) -> None:
     if trans is not None and len(trans):
         names = trans["model_type"].astype(str).tolist()
         vals = pd.to_numeric(trans["qlike_mean"], errors="coerce").tolist()
-        best_idx = int(np.nanargmin(vals)) if len(vals) else 0
-        best_mt = names[best_idx]
-        colors = ["#2e7d32" if n == best_mt else "#1565c0" for n in names]
-        lstm_line = _baseline_metric(bundle.arch, "baseline:lstm", "qlike_mean")
-        lstm_label = f"LSTM baseline QLIKE = {lstm_line:.3f}" if lstm_line is not None else "LSTM baseline"
-        subtitle = "(данные: scripts/output/architecture_comparison.csv)"
+        # Зелёным — patch_encoder (основная архитектура текста), не «лучший по QLIKE» (DM может быть иначе).
+        colors = ["#2e7d32" if n == "patch_encoder" else "#1565c0" for n in names]
+        lstm_line = float(LSTM_QLIKE_REFERENCE)
+        lstm_label = "LSTM baseline = −4.216"
     else:
         names = list(ARCH_QLIKE.keys())
         vals = [ARCH_QLIKE[n] for n in names]
         colors = ["#2e7d32" if n == "patch_encoder" else "#1565c0" for n in names]
-        lstm_line = -4.216
-        lstm_label = "LSTM baseline QLIKE = −4.216"
-        subtitle = "(fallback: табличные константы)"
+        lstm_line = float(LSTM_QLIKE_REFERENCE)
+        lstm_label = "LSTM baseline = −4.216"
 
     fig, ax = plt.subplots(figsize=(7.5, 4.2))
     ax.barh(names, vals, color=colors, edgecolor="#222")
     if lstm_line is not None and np.isfinite(lstm_line):
         ax.axvline(lstm_line, color="#d32f2f", linestyle="--", lw=1.8, label=lstm_label)
-    ax.set_xlabel("QLIKE (ниже = лучше)")
-    ax.set_title(f"Табл. 3.1 — QLIKE по трансформерным архитектурам (BTCUSDT, WF)\n{subtitle}", fontsize=10)
+    ax.set_xlabel("QLIKE")
+    ax.set_title("QLIKE по трансформерным архитектурам", fontsize=11)
     ax.legend(loc="lower right")
     ax.invert_yaxis()
+    xl0, xl1 = _qlike_bar_xlim(vals, lstm_line)
+    ax.set_xlim(xl0, xl1)
     _save(fig, "04_qlike_architectures.png")
 
 
 def fig05_seq_len(bundle: ScriptsOutputBundle) -> None:
     curve_df, xcol = _seq_len_curve_df(bundle)
-    lstm_line = _baseline_metric(bundle.arch, "baseline:lstm", "qlike_mean")
+    lstm_line = float(LSTM_QLIKE_REFERENCE)
 
     if curve_df is not None and len(curve_df) and xcol:
         xs = pd.to_numeric(curve_df[xcol], errors="coerce").astype(int).tolist()
         ys = pd.to_numeric(curve_df["qlike_mean"], errors="coerce").tolist()
-        subtitle = "(данные: scripts/output/ablation_seq_len.csv или multi_window_experiment.csv)"
-        if lstm_line is None or not np.isfinite(lstm_line):
-            lstm_line = -4.216
     else:
         xs = sorted(SEQ_LEN.keys())
         ys = [SEQ_LEN[x] for x in xs]
-        lstm_line = lstm_line if lstm_line is not None and np.isfinite(lstm_line) else -4.216
-        subtitle = "(fallback: табличные константы)"
 
     fig, ax = plt.subplots(figsize=(7.2, 4.3))
     ax.plot(xs, ys, "o-", color="#1565c0", lw=2, markersize=9)
-    ax.axhline(float(lstm_line), color="#d32f2f", linestyle="--", lw=1.6, label="LSTM baseline")
+    ax.axhline(float(lstm_line), color="#d32f2f", linestyle="--", lw=1.6, label="LSTM baseline = −4.216")
     ax.axvline(240, color="#757575", linestyle=":", lw=1.2)
     if 240 in xs:
         y240 = ys[xs.index(240)]
@@ -410,13 +463,12 @@ def fig05_seq_len(bundle: ScriptsOutputBundle) -> None:
     ax.set_xticks(xs)
     ax.set_xlabel("seq_len (число 5m-баров)")
     ax.set_ylabel("QLIKE")
-    ax.set_title(f"Табл. 3.3 — QLIKE vs длина контекста\n{subtitle}", fontsize=10)
+    ax.set_title("QLIKE vs длина контекста", fontsize=11)
     ax.legend()
     _save(fig, "05_qlike_vs_seq_len.png")
 
 
 def fig06_alpha_dual(bundle: ScriptsOutputBundle) -> None:
-    subtitle = "(fallback: табличные константы)"
     alphas = [r[0] for r in ALPHA_ROWS]
     qlikes = [r[1] for r in ALPHA_ROWS]
     biases = [abs(r[2]) for r in ALPHA_ROWS]
@@ -430,7 +482,6 @@ def fig06_alpha_dual(bundle: ScriptsOutputBundle) -> None:
             qlikes = pd.to_numeric(sub["qlike_mean"], errors="coerce").tolist()
             bias_col = "bias_rv_3bar_fwd" if "bias_rv_3bar_fwd" in sub.columns else "bias_mean"
             biases = pd.to_numeric(sub[bias_col], errors="coerce").abs().tolist()
-            subtitle = "(данные: scripts/output/ablation_loss.csv)"
 
     fig, ax1 = plt.subplots(figsize=(7.5, 4.4))
     ax2 = ax1.twinx()
@@ -439,7 +490,7 @@ def fig06_alpha_dual(bundle: ScriptsOutputBundle) -> None:
     ax1.set_xlabel(r"$\alpha$ (доля Huber)")
     ax1.set_ylabel("QLIKE", color="#1565c0")
     ax2.set_ylabel("|bias| RV (15m)", color="#ef6c00")
-    ax1.set_title(f"Табл. 3.6 — Компромисс QLIKE vs |bias| при смешанном лоссе\n{subtitle}", fontsize=10)
+    ax1.set_title("Компромисс QLIKE vs |bias| при смешанном лоссе", fontsize=11)
     ax1.tick_params(axis="y", labelcolor="#1565c0")
     ax2.tick_params(axis="y", labelcolor="#ef6c00")
 
@@ -450,7 +501,6 @@ def fig06_alpha_dual(bundle: ScriptsOutputBundle) -> None:
 
 
 def fig07_feat_groups(bundle: ScriptsOutputBundle) -> None:
-    subtitle = "(fallback: табличные константы)"
     items = sorted(FEAT_DELTA.items(), key=lambda kv: kv[1])
     labels = [k for k, _ in items]
     vals = [v for _, v in items]
@@ -459,16 +509,22 @@ def fig07_feat_groups(bundle: ScriptsOutputBundle) -> None:
     df = bundle.ablation_features
     if df is not None and not df.empty and "variant_name" in df.columns and "qlike_mean" in df.columns:
         base_rows = df.loc[df["variant_name"].astype(str) == "none"]
+        if "experiment_id" in df.columns and not base_rows.empty:
+            d10 = base_rows.loc[base_rows["experiment_id"].astype(str) == "D1.0"]
+            if not d10.empty:
+                base_rows = d10
         if not base_rows.empty:
-            base_q = float(pd.to_numeric(base_rows.iloc[0]["qlike_mean"], errors="coerce"))
+            base_q = float(pd.to_numeric(base_rows["qlike_mean"], errors="coerce").min())
             deltas: list[tuple[str, float]] = []
             for _, row in df.iterrows():
                 vn = str(row["variant_name"])
                 if vn == "none" or not vn.startswith("drop_"):
                     continue
                 g = vn.removeprefix("drop_")
+                # Подпись как в GROUP_MAP (volume), не «volume_std» — путаница со знаком в тексте.
                 if g == "volume":
-                    g = "volume_std"
+                    g = "volume"
+                # ΔQLIKE = QLIKE(модель без группы) − QLIKE(полная); >0 — без группы хуже (выше QLIKE).
                 dq = float(pd.to_numeric(row["qlike_mean"], errors="coerce")) - base_q
                 deltas.append((g, dq))
             if deltas:
@@ -476,13 +532,14 @@ def fig07_feat_groups(bundle: ScriptsOutputBundle) -> None:
                 labels = [k for k, _ in items]
                 vals = [v for _, v in items]
                 colors = ["#c62828" if v > 0 else "#1565c0" for v in vals]
-                subtitle = "(данные: scripts/output/ablation_features.csv)"
 
     fig, ax = plt.subplots(figsize=(7.8, 4.5))
     ax.barh(labels, vals, color=colors, edgecolor="#222")
     ax.axvline(0, color="#333", lw=1)
-    ax.set_xlabel("ΔQLIKE (положительное — ухудшение при удалении группы)")
-    ax.set_title(f"Табл. 3.7 — Ablation групп признаков (BTCUSDT, K=3)\n{subtitle}", fontsize=10)
+    ax.set_xlabel(
+        "ΔQLIKE = QLIKE(без группы) − QLIKE(полная); >0 — ухудшение при удалении (выше QLIKE хуже)"
+    )
+    ax.set_title("Ablation групп признаков", fontsize=11)
     ax.invert_yaxis()
 
     red = mpatches.Patch(color="#c62828", label="ухудшение (+ΔQLIKE)")
@@ -492,7 +549,6 @@ def fig07_feat_groups(bundle: ScriptsOutputBundle) -> None:
 
 
 def fig08_models_dual_bar(bundle: ScriptsOutputBundle) -> None:
-    subtitle = "(fallback: табличные константы)"
     names = [m[0] for m in MODELS_TAB39]
     r2 = [m[1] for m in MODELS_TAB39]
     ql = [m[2] for m in MODELS_TAB39]
@@ -513,7 +569,6 @@ def fig08_models_dual_bar(bundle: ScriptsOutputBundle) -> None:
         if ok:
             names = list(FIG8_ORDER)
             r2, ql = r2_c, ql_c
-            subtitle = "(данные: scripts/output/architecture_comparison.csv)"
 
     colors = ["#6a1b9a" if "Transformer" in n else "#78909c" for n in names]
 
@@ -523,23 +578,39 @@ def fig08_models_dual_bar(bundle: ScriptsOutputBundle) -> None:
     ax1.set_xticks(x)
     ax1.set_xticklabels(names, rotation=35, ha="right")
     ax1.set_ylabel(r"$R^2_{\mathrm{mean}}$")
-    ax1.set_title("Табл. 3.9 — среднее $R^2$ по горизонтам")
+    ax1.set_title(r"Среднее $R^2$ по горизонтам")
 
     ax2.bar(x, ql, color=colors, edgecolor="#222")
     ax2.set_xticks(x)
     ax2.set_xticklabels(names, rotation=35, ha="right")
     ax2.set_ylabel("QLIKE")
-    ax2.set_title("Табл. 3.9 — QLIKE (меньше = лучше)")
-    fig.suptitle(f"Сравнение моделей на BTCUSDT (walk-forward)\n{subtitle}", fontsize=11, weight="bold")
+    ax2.set_title("QLIKE")
+    # Узкий диапазон по оси QLIKE, иначе все столбцы визуально «одинаковые».
+    if ql and all(np.isfinite(ql)):
+        y_lo = float(min(min(ql) - 0.04, -4.35))
+        y_hi = float(max(max(ql) + 0.04, -3.7))
+        ax2.set_ylim(y_lo, y_hi)
+    fig.suptitle("Сравнение моделей на BTCUSDT (walk-forward)", fontsize=12, weight="bold")
     fig.tight_layout()
     _save(fig, "08_models_r2_qlike.png")
+
+
+def _fig09_series_order(series_src: dict[str, list[float]]) -> list[str]:
+    """Порядок линий как в табл. 3.9 / FIG8_ORDER, затем любые дополнительные ключи."""
+    out: list[str] = []
+    for k in FIG8_ORDER:
+        if k in series_src:
+            out.append(k)
+    for k in series_src:
+        if k not in out:
+            out.append(k)
+    return out
 
 
 def fig09_r2_horizons(bundle: ScriptsOutputBundle) -> None:
     labs = ["15m", "1h", "4h", "24h"]
     x = np.arange(len(labs))
     highlight = {"Patch Transformer": "#6a1b9a", "LSTM": "#1565c0", "LightGBM": "#ef6c00"}
-    subtitle = "(fallback: табличные константы)"
     series_src: dict[str, list[float]] = {k: list(v) for k, v in R2_HORIZON.items()}
 
     arch = bundle.arch
@@ -555,21 +626,38 @@ def fig09_r2_horizons(bundle: ScriptsOutputBundle) -> None:
         # Полный прогон сравнения даёт 8 моделей; при явном неполном наборе остаёмся на fallback.
         if len(built) >= 6:
             series_src = built
-            subtitle = "(данные: scripts/output/architecture_comparison.csv)"
 
     fig, ax = plt.subplots(figsize=(9.5, 5))
-    for name, series in series_src.items():
-        style = dict(lw=2.2, marker="o", markersize=5)
+    for name in _fig09_series_order(series_src):
+        series = series_src[name]
         if name in highlight:
-            ax.plot(x, series, label=name, color=highlight[name], **style)
+            ax.plot(
+                x,
+                series,
+                label=name,
+                color=highlight[name],
+                lw=2.2,
+                marker="o",
+                markersize=5,
+            )
         else:
-            ax.plot(x, series, alpha=0.35, lw=1.2)
+            c = FIG9_BASELINE_COLORS.get(name, "#78909c")
+            ax.plot(
+                x,
+                series,
+                label=name,
+                color=c,
+                alpha=0.88,
+                lw=1.45,
+                marker="o",
+                markersize=4,
+            )
 
     ax.set_xticks(x)
     ax.set_xticklabels(labs)
     ax.set_ylabel(r"$R^2$")
-    ax.set_title(f"Табл. 3.10 — $R^2$ по горизонтам (BTCUSDT)\n{subtitle}", fontsize=10)
-    ax.legend(loc="best")
+    ax.set_title(r"$R^2$ по горизонтам", fontsize=11)
+    ax.legend(loc="best", fontsize=8, ncol=2, framealpha=0.95)
     if "LightGBM" in series_src and len(series_src["LightGBM"]) >= 4:
         v = series_src["LightGBM"][3]
         if np.isfinite(v) and v < 0.25:
@@ -607,11 +695,7 @@ def fig10_pred_vs_actual(bundle: ScriptsOutputBundle) -> None:
                 break
 
     fig, axes = plt.subplots(2, 2, figsize=(10, 9))
-    subtitle = (
-        "Predicted vs actual RV (лог-масштаб; данные: scripts/output/predictions_walkforward_transformer_rv.csv)"
-        if cols_ok
-        else "Predicted vs actual RV (лог-масштаб; модельные облака по corr/bias/MAE из табл. 3.11 — fallback)"
-    )
+    supt = "Predicted vs actual RV (лог-масштаб)"
 
     if cols_ok:
         rng = np.random.default_rng(42)
@@ -669,7 +753,7 @@ def fig10_pred_vs_actual(bundle: ScriptsOutputBundle) -> None:
             ax.legend(loc="upper left", fontsize=8)
             plt.colorbar(scatter, ax=ax, label="квантиль факта", shrink=0.65)
 
-    fig.suptitle(subtitle, fontsize=11)
+    fig.suptitle(supt, fontsize=11)
     fig.tight_layout()
     _save(fig, "10_pred_vs_actual_log_four_panel.png")
 
@@ -703,16 +787,11 @@ def fig11_boxplot_folds(bundle: ScriptsOutputBundle) -> None:
 
     if use_csv and trans is not None and lstm is not None and lgb is not None:
         data = [trans, lstm, lgb]
-        subtitle = "(данные: scripts/output/architecture_comparison_folds.csv)"
     else:
         trans = np.array(FOLD_R2_TRANS, dtype=float)
         lstm = trans + LSTM_OFFSET
         lgb = trans + LGB_OFFSET
         data = [trans, lstm, lgb]
-        subtitle = (
-            "Межфолдовое распределение $R^2$: fallback по табл. 3.12;\n"
-            "LSTM/LightGBM — синтетический параллельный сдвиг (+0.060 / +0.014 к среднему)"
-        )
         if folds is None or folds.empty:
             print("[WARN] Нет architecture_comparison_folds.csv — рис. 11 из констант.")
 
@@ -725,7 +804,7 @@ def fig11_boxplot_folds(bundle: ScriptsOutputBundle) -> None:
     ys_sc = np.concatenate(data)
     ax.scatter(xs_sc, ys_sc, alpha=0.35, color="#333", s=22)
     ax.set_ylabel(r"$R^2_{\mathrm{mean}}$ по фолдам")
-    ax.set_title(f"Межфолдовое распределение $R^2$\n{subtitle}", fontsize=9)
+    ax.set_title(r"Межфолдовое распределение $R^2$", fontsize=11)
     ax.grid(axis="y")
     _save(fig, "11_boxplot_r2_by_fold.png")
 
@@ -733,6 +812,12 @@ def fig11_boxplot_folds(bundle: ScriptsOutputBundle) -> None:
 # -----------------------------------------------------------------------------
 # Spike block (12)
 # -----------------------------------------------------------------------------
+# Подписи легенды на временной шкале: истина = разметка y_true, прогноз = порог по proba.
+SPIKE_LEGEND_TP = "TP: истина «спайк», прогноз «спайк» (верно)"
+SPIKE_LEGEND_FP = "FP: истина «не спайк», прогноз «спайк» (ложная тревога)"
+SPIKE_LEGEND_FN = "FN: истина «спайк», прогноз «не спайк» (пропуск события)"
+
+
 def _draw_spike_pr_ax(ax, df: pd.DataFrame, y: pd.Series) -> None:
     from sklearn.metrics import average_precision_score, precision_recall_curve
 
@@ -759,6 +844,13 @@ def fig12_spike_panel(bundle: ScriptsOutputBundle) -> None:
         print("[WARN] Нет test_predictions.csv (spike_warning/output или scripts/output) — блок spike пропущен.")
         return
 
+    pred_path = pred_path.resolve()
+    meta12: dict[str, str] = {"input": pred_path.name}
+    try:
+        meta12["src_mtime"] = str(int(pred_path.stat().st_mtime))
+    except OSError:
+        pass
+
     df = pd.read_csv(pred_path)
     df["ts"] = pd.to_datetime(df["ts"], utc=True)
     y = df["y_true"].astype(int)
@@ -770,10 +862,10 @@ def fig12_spike_panel(bundle: ScriptsOutputBundle) -> None:
     try:
         import joblib
 
-        bundle = joblib.load(SPIKE_BUNDLE)
-        model_name = bundle.get("model_name", "lgb")
-        feat_cols = bundle.get("feature_columns", [])
-        model = bundle["model"]
+        spike_bundle = joblib.load(SPIKE_BUNDLE)
+        model_name = spike_bundle.get("model_name", "lgb")
+        feat_cols = spike_bundle.get("feature_columns", [])
+        model = spike_bundle["model"]
     except Exception as e:
         print("[WARN] bundle не загружен:", e)
         model_name = "lgb"
@@ -787,7 +879,7 @@ def fig12_spike_panel(bundle: ScriptsOutputBundle) -> None:
     fig_a, ax_a = plt.subplots(figsize=(6.5, 5))
     _draw_spike_pr_ax(ax_a, df, y)
     fig_a.tight_layout()
-    _save(fig_a, "12a_spike_pr_curves.png")
+    _save(fig_a, "12a_spike_pr_curves.png", png_metadata=meta12)
 
     # --- 12b ---
     fig_b, ax_cm = plt.subplots(figsize=(5.2, 4.8))
@@ -806,7 +898,7 @@ def fig12_spike_panel(bundle: ScriptsOutputBundle) -> None:
     ax_cm.set_title(f"Матрица ошибок LightGBM (thr={thr_lgb:.3f})")
     plt.colorbar(im, ax=ax_cm, shrink=0.82)
     fig_b.tight_layout()
-    _save(fig_b, "12b_spike_confusion_matrix.png")
+    _save(fig_b, "12b_spike_confusion_matrix.png", png_metadata=meta12)
 
     # --- 12c ---
     fig_c, ax_fi = plt.subplots(figsize=(7.2, 6))
@@ -821,7 +913,7 @@ def fig12_spike_panel(bundle: ScriptsOutputBundle) -> None:
         ax_fi.text(0.5, 0.5, "Нет feature_importances_", ha="center")
         ax_fi.axis("off")
     fig_c.tight_layout()
-    _save(fig_c, "12c_spike_feature_importance.png")
+    _save(fig_c, "12c_spike_feature_importance.png", png_metadata=meta12)
 
     # --- 12d ---
     fig_d, ax_tl = plt.subplots(figsize=(9.5, 4.5))
@@ -845,15 +937,15 @@ def fig12_spike_panel(bundle: ScriptsOutputBundle) -> None:
             sub = plot_df.loc[mask]
             ax_tl.scatter(sub["ts"], sub[close_col], s=z, c=color, label=label, alpha=0.85, edgecolors="none")
 
-        scatter_mask(plot_df["_k"] == "TP", "#2e7d32", "TP", 28)
-        scatter_mask(plot_df["_k"] == "FP", "#fbc02d", "FP", 22)
-        scatter_mask(plot_df["_k"] == "FN", "#c62828", "FN", 26)
+        scatter_mask(plot_df["_k"] == "TP", "#2e7d32", SPIKE_LEGEND_TP, 28)
+        scatter_mask(plot_df["_k"] == "FP", "#fbc02d", SPIKE_LEGEND_FP, 22)
+        scatter_mask(plot_df["_k"] == "FN", "#c62828", SPIKE_LEGEND_FN, 26)
 
-        ax_tl.legend(loc="upper left", fontsize=8)
-        ax_tl.set_title("Цена и TP / FP / FN (LightGBM, порог из classifier_metrics)")
+        ax_tl.legend(loc="upper left", fontsize=7)
+        ax_tl.set_title("Цена и исходы классификации (LightGBM)")
         ax_tl.tick_params(axis="x", rotation=22)
     fig_d.tight_layout()
-    _save(fig_d, "12d_spike_timeline_price_markers.png")
+    _save(fig_d, "12d_spike_timeline_price_markers.png", png_metadata=meta12)
 
     # --- сводная 12 ---
     fig = plt.figure(figsize=(12.5, 10))
@@ -891,16 +983,114 @@ def fig12_spike_panel(bundle: ScriptsOutputBundle) -> None:
             plot_df.loc[mask, close_col],
             s=z, c=color, label=label, alpha=0.85, edgecolors="none",
         )
-        scatter_mask(plot_df["_k"] == "TP", "#2e7d32", "TP", 28)
-        scatter_mask(plot_df["_k"] == "FP", "#fbc02d", "FP", 22)
-        scatter_mask(plot_df["_k"] == "FN", "#c62828", "FN", 26)
-        ax_tl2.legend(loc="upper left", fontsize=8)
+        scatter_mask(plot_df["_k"] == "TP", "#2e7d32", SPIKE_LEGEND_TP, 28)
+        scatter_mask(plot_df["_k"] == "FP", "#fbc02d", SPIKE_LEGEND_FP, 22)
+        scatter_mask(plot_df["_k"] == "FN", "#c62828", SPIKE_LEGEND_FN, 26)
+        ax_tl2.legend(loc="upper left", fontsize=7)
         ax_tl2.set_title("(d) Цена и исходы классификации")
         ax_tl2.tick_params(axis="x", rotation=25)
 
-    fig.suptitle("Spike-классификатор: сводная фигура (spike_warning/output/)", fontsize=12, weight="bold")
+    fig.suptitle("Spike-классификатор: сводная фигура", fontsize=12, weight="bold")
     fig.tight_layout()
-    _save(fig, "12_spike_classifier_panel.png")
+    _save(fig, "12_spike_classifier_panel.png", png_metadata=meta12)
+    print(f"[fig12] сохранено из {pred_path} (mtime={meta12.get('src_mtime', '?')}) -> {HERE / '12_spike_classifier_panel.png'}")
+
+
+def fig13_log_rv_density(repo_root: Path, bundle: ScriptsOutputBundle) -> None:
+    """Рис. 13: плотность сырого RV и log(RV) из реального датасета (или OOS actual из predictions)."""
+    import sys
+
+    col = "rv_3bar_fwd"
+    max_rows = 900_000
+    values: np.ndarray | None = None
+    source = ""
+
+    rs = str(repo_root)
+    if rs not in sys.path:
+        sys.path.insert(0, rs)
+
+    try:
+        from transformer.config import AppConfig
+
+        data_path = Path(AppConfig().data_path).resolve()
+        if data_path.is_file() and col:
+            df = pd.read_csv(data_path, usecols=[col], nrows=max_rows)
+            raw = pd.to_numeric(df[col], errors="coerce").to_numpy(dtype=np.float64)
+            raw = raw[np.isfinite(raw) & (raw > 0)]
+            if raw.size >= 5000:
+                values = raw
+                source = str(data_path)
+    except Exception as exc:
+        print(f"[WARN] fig13: не удалось прочитать датасет: {exc}")
+
+    if values is None or values.size < 5000:
+        pred = bundle.pred_rv
+        ac = f"actual_{col}"
+        if pred is not None and not pred.empty and ac in pred.columns:
+            raw = pd.to_numeric(pred[ac], errors="coerce").to_numpy(dtype=np.float64)
+            raw = raw[np.isfinite(raw) & (raw > 0)]
+            if raw.size >= 1000:
+                values = raw
+                source = "predictions_walkforward_transformer_rv.csv (actual)"
+        if values is None or values.size < 1000:
+            print("[WARN] fig13: недостаточно точек RV — пропуск.")
+            return
+
+    log_rv = np.log(values)
+
+    def _skew_pearson_kurtosis(x: np.ndarray) -> tuple[float, float]:
+        x = x[np.isfinite(x)]
+        if x.size < 8:
+            return float("nan"), float("nan")
+        m = float(np.mean(x))
+        c = x - m
+        v = float(np.mean(c**2))
+        if v < 1e-30:
+            return float("nan"), float("nan")
+        s = float(np.sqrt(v))
+        sk = float(np.mean(c**3) / (s**3))
+        ku = float(np.mean(c**4) / (v**2))  # Pearson (нормальное ≈ 3)
+        return sk, ku
+
+    sk0, ku0 = _skew_pearson_kurtosis(values)
+    sk1, ku1 = _skew_pearson_kurtosis(log_rv)
+
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(11.0, 4.6), sharey=False)
+    bins0 = min(80, max(40, int(np.sqrt(values.size))))
+    bins1 = min(80, max(40, int(np.sqrt(log_rv.size))))
+
+    ax0.hist(values, bins=bins0, density=True, color="#1565c0", alpha=0.75, edgecolor="white", linewidth=0.3)
+    ax0.set_xlabel("RV (15m forward, rv_3bar_fwd)")
+    ax0.set_ylabel("Плотность")
+    t0 = "Сырая RV"
+    if np.isfinite(sk0) and np.isfinite(ku0):
+        t0 += f"\n(skew ≈ {sk0:.2f}, kurtosis ≈ {ku0:.1f})"
+    ax0.set_title(t0, fontsize=10)
+
+    ax1.hist(log_rv, bins=bins1, density=True, color="#2e7d32", alpha=0.75, edgecolor="white", linewidth=0.3)
+    ax1.set_xlabel(r"$\ln(\mathrm{RV})$")
+    ax1.set_ylabel("Плотность")
+    t1 = r"$\ln(\mathrm{RV})$"
+    if np.isfinite(sk1) and np.isfinite(ku1):
+        t1 += f"\n(skew ≈ {sk1:.2f}, kurtosis ≈ {ku1:.1f})"
+    ax1.set_title(t1, fontsize=10)
+
+    fig.suptitle(
+        "Лог-преобразование целевой RV: от правого хвоста к почти нормальной шкале",
+        fontsize=11,
+        weight="bold",
+        y=1.02,
+    )
+    fig.text(
+        0.5,
+        0.03,
+        r"Обучение: $\hat{y} = \ln(\mathrm{RV})$; инференс: $\mathrm{RV} = \exp(\hat{y})$.",
+        ha="center",
+        fontsize=10,
+    )
+    fig.tight_layout(rect=[0, 0.08, 1, 0.96])
+    _save(fig, "13_rv_raw_vs_log_density.png")
+    print(f"[fig13] n={len(values):,} | {source}")
 
 
 def main() -> None:
@@ -911,7 +1101,7 @@ def main() -> None:
     def _csv_ok(df: pd.DataFrame | None) -> str:
         return "ok" if df is not None and not df.empty else "—"
 
-    spike_note = bundle.spike_predictions.name if bundle.spike_predictions else "—"
+    spike_note = str(bundle.spike_predictions) if bundle.spike_predictions else "—"
     print(
         "  architecture_comparison:", _csv_ok(bundle.arch),
         "| folds:", _csv_ok(bundle.folds),
@@ -932,6 +1122,7 @@ def main() -> None:
     fig10_pred_vs_actual(bundle)
     fig11_boxplot_folds(bundle)
     fig12_spike_panel(bundle)
+    fig13_log_rv_density(ROOT, bundle)
     print("Готово. PNG сохранены в", HERE)
 
 

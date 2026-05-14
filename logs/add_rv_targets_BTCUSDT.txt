@@ -1,11 +1,11 @@
 [CMD] /venv/main/bin/python scripts/add_rv_targets.py --input /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv
 [CWD] /workspace/Transformer_RV_Crypto
-[TS ] 2026-05-07 09:17:55
+[TS ] 2026-05-09 17:47:10
 
-[09:17:55] [1/5] ( 20%) Parsed CLI arguments
-[09:17:55] [2/5] ( 40%) Loading CSV: /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv
-[09:17:59] [3/5] ( 60%) Computing forward-looking RV targets
-[09:17:59] [4/5] ( 80%) Saving output CSV: /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv
-[09:18:28] [5/5] (100%) Done
+[17:47:11] [1/5] ( 20%) Parsed CLI arguments
+[17:47:11] [2/5] ( 40%) Loading CSV: /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv
+[17:47:14] [3/5] ( 60%) Computing forward-looking RV targets
+[17:48:02] [4/5] ( 80%) Saving output CSV: /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv
+[17:48:26] [5/5] (100%) Done
 Saved: /workspace/Transformer_RV_Crypto/target/btcusdt_5m_final_with_targets.csv
 Shape: (390323, 95)

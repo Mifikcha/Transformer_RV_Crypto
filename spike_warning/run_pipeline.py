@@ -18,6 +18,13 @@ def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         description="Orchestrate spike_warning: define_spikes → extract_features → "
         "analyze_pre_spike → train_classifier → evaluate",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "Data source: by default load_base_frame() queries PostgreSQL (bars_5m). "
+            "If the DB has no bars_5m, it falls back to target/<SYMBOL>_5m_final_with_targets.csv "
+            "(SYMBOL default BTCUSDT). Force CSV: set SPIKE_USE_LOCAL_CSV=1. "
+            "Override path: SPIKE_DATA_CSV=/path/to/file.csv"
+        ),
     )
     p.add_argument(
         "--limit-rows",
